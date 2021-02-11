@@ -8,7 +8,6 @@ function auditoria($dias){
     LEFT JOIN (SELECT MAIL, COUNT(*)CANT FROM SJ_AUDITORIA_ECOMMERCE_APROBADOS WHERE AUTORIZA = 'no' AND NO_AUTORIZA = 'no' GROUP BY MAIL) B
     ON A.E_MAIL = B.MAIL
     ORDER BY CANT DESC, E_MAIL
-
     ";
 
     $result=odbc_exec($cid,$sql)or die(exit("Error en odbc_exec"));

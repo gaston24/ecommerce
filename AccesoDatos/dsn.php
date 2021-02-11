@@ -5,6 +5,7 @@ $dsn = '1 - CENTRAL';
 $user = 'sa';
 $pass = 'Axoft1988';
 
+
 $cid=odbc_connect($dsn, $user, $pass);
 
 if (!$cid){
