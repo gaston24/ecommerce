@@ -86,9 +86,11 @@ try {
 
 new_actua_local_entrega();
 new_envio_local();
-cancelados_ml();
 cancelados_vtex();
 retiroTienda();
 new_pedidos_pendientes_aprobar();
+
+
+cancelados_ml();
 
 ?>

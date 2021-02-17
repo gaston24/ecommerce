@@ -13,11 +13,11 @@ include 'nuevo_actua_local.php';
 include 'nuevo_envio_local.php';
 include 'nc_pend.php';
 include 'envio_remitos_once.php';
+include 'retiro_tienda/retiro.php';
 include 'meli_cancelados.php';
 include 'vtex_cancelados.php';
 include 'nuevos_aprobados.php';
 
-include 'retiro_tienda/retiro.php';
 
 
 ?>
