@@ -16,7 +16,7 @@ include 'envio_remitos_once.php';
 include 'retiro_tienda/retiro.php';
 include 'meli_cancelados.php';
 include 'vtex_cancelados.php';
-include 'nuevos_aprobados.php';
+// include 'nuevos_aprobados.php';
 
 
 
