@@ -72,7 +72,7 @@ function new_ml_rt($a){
 		AND NRO_PEDIDO = '$ordenEcommerce'
 		";
 	
-
+		// echo $sqlAuditoria;
 		odbc_exec($cid,$sqlAuditoria)or die(exit("Error en odbc_exec"));
 		
 	}

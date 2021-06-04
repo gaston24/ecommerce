@@ -14,7 +14,7 @@ function cancelados_ml(){
 	EXEC SJ_CANCELAR_PEDIDOS_MELI
 	";
 
-	odbc_exec($cid,$sqlPedidosCancelados)or die(exit("Error en odbc_exec"));
+	odbc_exec($cid, $sqlPedidosCancelados)or die(exit("Error en odbc_exec"));
 	
 
 }
