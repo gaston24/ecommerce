@@ -18,7 +18,7 @@ if(!isset($_GET['desde'])){
 <head>
 <title>XL Extralarge - Inicio</title>	
 <meta charset="UTF-8"></meta>
-<link rel="shortcut icon" href="assets/css/icono.ico" />
+<link rel="shortcut icon" href="assets/icono.ico" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css" >
 		<link rel="stylesheet" href="Vista/style.css">
