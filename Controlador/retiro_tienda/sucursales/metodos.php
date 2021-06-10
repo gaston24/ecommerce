@@ -1,7 +1,8 @@
 <?php
 
+
 function locales(){
-    include '../../AccesoDatos/dsn.php';
+    include '../../../AccesoDatos/dsn.php';
 
     $sql = "
     SELECT A.NRO_SUCURSAL, A.DESC_SUCURSAL, CASE WHEN B.NRO_SUCURS IS NOT NULL THEN 1 ELSE 0 END HABILITADO
@@ -29,7 +30,7 @@ function locales(){
 }
 
 function comprobarLocales($locales){
-    include '../../AccesoDatos/dsn.php';
+    include '../../../AccesoDatos/dsn.php';
 
     $sql = "
     TRUNCATE TABLE SJ_LOCALES_ML_ECOMMERCE
