@@ -20,16 +20,16 @@ if(!isset($_GET['desde'])){
 <meta charset="UTF-8"></meta>
 <link rel="shortcut icon" href="assets/icono.ico" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css" >
-		<link rel="stylesheet" href="Vista/style.css">
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-		<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"/>
-		<link rel="stylesheet" href="style/style.css">
-
+<link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css" >
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"/>
+<!-- Including Font Awesome CSS from CDN to show icons -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<link rel="stylesheet" href="vista/style.css">
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -132,19 +132,23 @@ $pedido_nuevo = '';
 <thead>
 	<tr>
 		<th width="4%" class="h6">TIENDA</th>
-		<th width="9%" class="h6">NRO<BR>ORDEN</th>
+		<th width="7%" class="h6">NRO<BR>ORDEN</th>
 		<th width="9%" class="h6">FECHA<BR>PEDIDO</th>
 		<th width="9%" class="h6">PEDIDO</th>
 		<th width="12%" class="h6">NOMBRE</th>
 		<th width="9%" class="h6">COD<BR>ARTICU</th>
-		<th width="12%" class="h6">DESC<BR>ARTICULO</th>
-		<th width="4%" class="h6">CANT</th>
-		<th width="3%" class="h6">SEL</th>
-		<th width="6%" class="h6">IMPORTE</th>
-		<th width="6%" class="h6">MEDIO<BR>PAGO</th>
-		<th width="6%" class="h6">NRO<BR>FACT</th>
-		<th width="6%" class="h6">LOCAL /<BR>FEC GUIA</th>
-		<th width="6%" class="h6">ESTADO</th>
+		<th width="13%" class="h6">DESC<BR>ARTICULO</th>
+		<th width="1%" class="h6">CANT</th>
+		<th width="1%" class="h6">SEL</th>
+		<th width="4%" class="h6">IMPORTE</th>
+		<th width="4%" class="h6">MEDIO<BR>PAGO</th>
+		<th width="4%" class="h6">NRO<BR>FACT</th>
+		<th width="3%" class="h6">METODO<BR>ENVIO</th>
+		<th width="4%" class="h6">LOCAL /<BR>FEC GUIA</th>
+		<th width="1%" class="h6" style="color: white;">F</th>
+		<th width="1%" class="h6" style="color: white;">C</th>
+		<th width="1%" class="h6" style="color: white;">I</th>
+		<th width="1%" class="h6" style="color: white;">D</th>
 	</tr>
 </thead>
 <tbody id="table">
@@ -180,7 +184,7 @@ while($v=odbc_fetch_array($result)){
 		?>
 
 			<td width="4%"><?= $v['ORIGEN']?></td>
-			<td width="9%"> 
+			<td width="7%"> 
 			<?php if($v['ORIGEN']=='VTEX' ){
 				?>
 					<a href="https://xlshop.myvtex.com/admin/checkout/#/orders/<?= $v['NRO_ORDEN_ECOMMERCE']; ?>" target="_blank">
@@ -198,15 +202,45 @@ while($v=odbc_fetch_array($result)){
 			<td width="9%"><?= $v['NRO_PEDIDO']?></td>
 			<td width="12%" name="orden_<?php ?>"><small><?= $v['RAZON_SOCIAL']?></small></td>
 			<td width="9%"><?= $v['COD_ARTICULO'];?></td>
-			<td width="12%"><small><?= $v['DESCRIPCION'];?></small></td>
-			<td width="4%"><?= $v['CANTIDAD_A_FACTURAR'];?></td>
-			<td width="3%"> <input type="checkbox" name="nro_pedido[]" id="nro_orden_<?= $id?>" value="<?= $v['NRO_PEDIDO']?>"> </td>
-			<td width="6%"><?= '$ '.number_format($v['IMPORTE_PAGO'] , 0, '', '.')?></td>
-			<td width="6%"><?= $v['MEDIO_PAGO'];?></td>
-			<td width="6%"><small><?= $v['NRO_COMP']?></small></td>
-			<td width="6%"><small><?= $v['LOCAL_ENTREGA']?></small></td>
-			<td width="6%"><small><?= $v['ESTADO']?></small></td>
-			
+			<td width="13%"><small><?= $v['DESCRIPCION'];?></small></td>
+			<td width="1%" style="text-align: center;"><?= $v['CANTIDAD_A_FACTURAR'];?></td>
+			<td width="1%" style="text-align: center;"> <input type="checkbox" name="nro_pedido[]" id="nro_orden_<?= $id?>" value="<?= $v['NRO_PEDIDO']?>"> </td>
+			<td width="4%" style="text-align: center;"><?= '$ '.number_format($v['IMPORTE_PAGO'] , 0, '', '.')?></td>
+			<td width="4%" style="text-align: center;"><?= $v['MEDIO_PAGO'];?></td>
+			<td width="4%" style="text-align: center;"><small><?= $v['NRO_COMP']?></small></td>
+			<td width="3%" style="text-align: center;"><small><?= $v['METODO_ENVIO']?></small></td>
+			<td width="4%" style="text-align: center;"><small><?= $v['LOCAL_ENTREGA']?></small></td>
+			<td width="1%">
+			<?php if($v['FACTURADO']== 1){ ?>
+				<i class="fas fa-receipt" style="color: #007bff; font-size: 20px;"></i>
+					<?php }else if($v['FACTURADO']== 0){?>
+						<i class="fas fa-square" style="color: white; font-size: 20px;">
+						<?php } ?>
+			</td>
+			<td width="1%">
+			<?php if($v['CONTROLADO']== 1){ ?>
+				<i class="fa fa-clipboard-check" style="color: green; font-size: 20px;"></i>
+					<?php }else if($v['CONTROLADO']== 0){?>
+						<i class="fas fa-square" style="color: white; font-size: 20px;">
+						<?php } ?>
+			</td>
+			<td width="1%">
+			<?php if($v['PREPARADO']== 1){ ?>
+				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart-x-fill" style="color: #dc3545; font-size: 20px;" viewBox="0 0 16 16">
+				<path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7.354 5.646 8.5 6.793l1.146-1.147a.5.5 0 0 1 .708.708L9.207 7.5l1.147 1.146a.5.5 0 0 1-.708.708L8.5 8.207 7.354 9.354a.5.5 0 1 1-.708-.708L7.793 7.5 6.646 6.354a.5.5 0 1 1 .708-.708z"/>
+				</svg>
+				<?php }else if($v['PREPARADO']== 0){?>
+					<i class="fas fa-square" style="color: white; font-size: 20px;">
+					<?php } ?>
+			</td>
+			<td width="1%">
+			<?php if($v['DESPACHADO']== 1){ ?>
+				<i class="fas fa-truck" style="color: #17a2b8; font-size: 17px;"></i>
+					<?php }else if($v['DESPACHADO']== 0){?>
+						<i class="fas fa-square" style="color: white; font-size: 20px;">
+						<?php } ?>
+			</td>
+
 		</tr>
 		</div>
 <?php
