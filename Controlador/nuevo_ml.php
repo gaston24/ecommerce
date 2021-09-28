@@ -52,6 +52,8 @@ function new_ml(){
 		$nro_sucurs = $v['NRO_SUCURS'];
 		$full_filment = $v['mercado_envio_full'];
 		
+		$transporte = ($v['LOGISTIC_TYPE'] == 'self_service') ? $transporte = '0135' : $transporte = '0136';
+		
 		$direccion_completa = $direccion.' '.$codPostal.' '.$localidad;
 		
 		//////////////MODIFICA NUMERACION
@@ -94,7 +96,7 @@ function new_ml(){
 		TOTAL_DESC_TIENDA, TIENDA_QUE_VENDE, PORCEN_DESC_TIENDA, USUARIO_TIENDA_VENDEDOR, ID_NEXO_PEDIDOS_ORDEN
 		)
 			SELECT 
-			'', '', 1, '000000', '$depo', '**', 'ZZ', '', 1, 1, 1, 2, 0, '1800-01-01', '1800-01-01', CAST(GETDATE() AS DATE), '', '$ordenEcommerce', 
+			'', '', 1, '000000', '$depo', '$transporte', 'ZZ', '', 1, 1, 1, 2, 0, '1800-01-01', '1800-01-01', CAST(GETDATE() AS DATE), '', '$ordenEcommerce', 
 			'', '$cliente', 'ML - CARGADO DESDE APP', '$sucursal_ml', '', 1, 20, ' 0000000000000', '', '$numPedido', 0, 'E', 0, 'A', 'A', 'A', 0, 98,
 			$totalPedi, 'FD', '', '', '', 3, 0, '', '1800-01-01', '', '', '', '1800-01-01',
 			'', '', '', '', 0, '1800-01-01', '', NULL, 
