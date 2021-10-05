@@ -155,6 +155,9 @@ $pedido_nuevo = '';
 <?php
 $id = 0;
 while($v=odbc_fetch_array($result)){
+
+	$date = date_create($v['FECHA_PEDIDO']);
+	$date = date_format($date,"Y/m/d H:i");
 ?>
 		<div class="row" >
 		
@@ -198,7 +201,7 @@ while($v=odbc_fetch_array($result)){
 			</td>
 
 
-			<td width="9%"><?= $v['FECHA_PEDIDO']?></td>
+			<td width="9%"><?= $date?></td>
 			<td width="9%"><?= $v['NRO_PEDIDO']?></td>
 			<td width="12%" name="orden_<?php ?>"><small><?= $v['RAZON_SOCIAL']?></small></td>
 			<td width="9%"><?= $v['COD_ARTICULO'];?></td>
