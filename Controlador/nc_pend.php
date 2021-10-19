@@ -19,10 +19,10 @@ function nc_pendientes(){
     ini_set('max_execution_time', 300);
     $result=odbc_exec($cid,$sqlNc)or die(exit("Error en odbc_exec"));
     $cont = 0;
-    $fecha_array;
-    $promo_array;
-    $importe_array;
-    $cod_articu;
+    $fecha_array = [];
+    $promo_array = [];
+    $importe_array = [];
+    $cod_articu = [];
     while($v=odbc_fetch_array($result)){
         if($v['NUM_NC'] == 'NO'){
             $fecha_array[$cont] = $v['FECHA'];
