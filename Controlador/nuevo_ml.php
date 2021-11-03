@@ -29,8 +29,8 @@ function new_ml(){
 	)
 	";
 
-	// echo $sqlPedidosNuevos.'<hr>';
 	
+	// echo '1'.$sqlPedidosNuevos.'<br>';
 
 
 	ini_set('max_execution_time', 300);
@@ -56,6 +56,8 @@ function new_ml(){
 		$transporte = ($v['LOGISTIC_TYPE'] == 'self_service') ? $transporte = '0135' : $transporte = '0136';
 		
 		$direccion_completa = $direccion.' '.$codPostal.' '.$localidad;
+
+		// echo '2 - '.$direccion_completa.'<br>';
 		
 		//////////////MODIFICA NUMERACION
 		$sqlProxNumero =
@@ -81,6 +83,8 @@ function new_ml(){
 		}else{
 			$depo = '01';
 		}
+
+		// echo '3 - '.$depo.'<br>';
 
 
 		//////////////INSERTAR ENCABEZADO GVA21
@@ -111,6 +115,8 @@ function new_ml(){
 
 		odbc_exec($cid,$sqlPedEncabezado)or die(exit("Error en odbc_exec"));
 		// echo $sqlPedEncabezado.'<hr>';
+
+		// echo '4 - '.$sqlPedEncabezado.'<br>';
 		
 		
 		
@@ -130,12 +136,14 @@ function new_ml(){
 		
 		
 		";
+
+		// echo '5 - '.$sqlPedidoDetalle.'<br>';
 		$resultPedidoDetalle=odbc_exec($cid,$sqlPedidoDetalle)or die(exit("Error en odbc_exec"));
 		
 		$renglonPedido = 1;
 		
 		while($v=odbc_fetch_array($resultPedidoDetalle)){
-			$codArt = $v['CODIGO'];
+			$codArt = substr($v['CODIGO'],0, 15);
 			$cantArt = $v['Quantity'];
 			$precioArt = $v['Unit_Price'];
 			
@@ -159,6 +167,7 @@ function new_ml(){
 			'', NULL
 			)
 			";
+			// echo '6 - '.$sqlDetalle.'<br>';
 			odbc_exec($cid,$sqlDetalle)or die(exit("Error en odbc_exec"));
 			// echo $sqlDetalle.'<hr>';
 			$renglonPedido++;
@@ -185,6 +194,7 @@ function new_ml(){
 		'$direccion', '$localidad', '02', '$localidad', '$codPostal', '$telefono', '', 2, 'N', 'N', NULL, '1800-01-01', NULL
 		)
 		";
+		// echo '7 - '.$sqlDatosCliente.'<br>';
 		odbc_exec($cid,$sqlDatosCliente)or die(exit("Error en odbc_exec"));
 		// echo $sqlDatosCliente.'<hr>';
 		
@@ -212,6 +222,8 @@ function new_ml(){
 		odbc_exec($cid,$sqlAuditoria)or die(exit("Error en odbc_exec"));
 		
 	}
+
+	// echo '8 - '.$sqlAuditoria.'<br>';
 
 	$sqlActuaDeposito = "EXEC SJ_ML_PEDIDOS_CAMBIA_DEPOSITO";
 	odbc_exec($cid,$sqlActuaDeposito)or die(exit("Error en odbc_exec"));
