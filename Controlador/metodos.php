@@ -1,7 +1,5 @@
 <?php
 
-
-
 include 'actua_comprobante.php';
 include 'actua_despacho.php';
 include 'nuevo_vtex.php';
@@ -17,7 +15,5 @@ include 'retiro_tienda/retiro.php';
 include 'meli_cancelados.php';
 include 'vtex_cancelados.php';
 // include 'nuevos_aprobados.php';
-
-
 
 ?>

@@ -34,6 +34,44 @@ function busquedaRapida() {
   }
 }
 
+function filterIncompletos(){
+  var input, filter, table, tr, td, td2, i, txtValue;
+	table = document.getElementById("table");
+	tr = table.getElementsByTagName('tr');
+	
+	 for (i = 0; i < tr.length; i++) {
+    visible = false;
+    td = tr[i].querySelectorAll("td#incompleto");
+
+    // console.log($('#buttonIncompletos').css("color"));
+
+    if($('#buttonIncompletos').css("color") == 'rgb(220, 53, 69)'){
+      for (j = 0; j < td.length; j++) {
+        if (td[0].querySelector("svg") ) {
+          visible = true;
+        }
+      }
+    }else{
+      for (j = 0; j < td.length; j++) {
+        visible = true;
+      }
+    }
+	
+
+    if (visible === true) {
+      tr[i].style.display = "";
+    } else {
+      tr[i].style.display = "none";
+    }
+  }
+
+  if($('#buttonIncompletos').css("color") == 'rgb(220, 53, 69)'){
+    $('#buttonIncompletos').css("color", '#000000');
+  }else{
+    $('#buttonIncompletos').css("color", '#dc3545');
+  }
+}
+
 var	valores = [];
 //usuario = document.getElementById("usuario").value;
 
