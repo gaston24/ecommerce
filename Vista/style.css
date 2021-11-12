@@ -103,3 +103,16 @@ td{
 	padding:0px;
 	margin-left:1%;
 }
+
+#buttonIncompletos{
+    color: #f7f7f7;
+    background-color: #dc3545;
+    border-color: #dc3545;
+    border-radius: 5px;
+    height: 40px;
+    width: 100px;
+}
+
+#buttonIncompletos:focus{
+    outline: none;
+}

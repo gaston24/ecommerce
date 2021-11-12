@@ -45,7 +45,8 @@ function filterIncompletos(){
 
     // console.log($('#buttonIncompletos').css("color"));
 
-    if($('#buttonIncompletos').css("color") == 'rgb(220, 53, 69)'){
+    if($('#buttonIncompletos').css("color") == 'rgb(247, 247, 247)'){
+     
       for (j = 0; j < td.length; j++) {
         if (td[0].querySelector("svg") ) {
           visible = true;
@@ -64,12 +65,14 @@ function filterIncompletos(){
       tr[i].style.display = "none";
     }
   }
-
-  if($('#buttonIncompletos').css("color") == 'rgb(220, 53, 69)'){
-    $('#buttonIncompletos').css("color", '#000000');
+ 
+  if($('#buttonIncompletos').css("color") == 'rgb(247, 247, 247)'){
+    $('#buttonIncompletos').css("color", '#d9534f').css("background-color",'#f7f7f7').css("border-style",'#d9534f').css("width",'100px').css("hover:outline",'none');
+    $('#buttonIncompletos').text("Todos");
   }else{
-    $('#buttonIncompletos').css("color", '#dc3545');
-  }
+    $('#buttonIncompletos').css("color", '#f7f7f7').css("background-color",'#dc3545').css("border-style",'#dc3545');
+    $('#buttonIncompletos').text("Incompletos");
+  } 
 }
 
 var	valores = [];
