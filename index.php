@@ -213,11 +213,18 @@ foreach($arrayPedidos as $key => $value){
 			<td width="3%" style="text-align: center;"><small><?= $value[0]->METODO_ENVIO?></small></td>
 			<td width="4%" style="text-align: center;"><small><?= $value[0]->LOCAL_ENTREGA?></small></td>
 			<td width="1%">
-			<?php if($value[0]->FACTURADO== 1){ ?>
+			<?php if( strpos( strtoupper($value[0]->NRO_COMP), 'CANCELADO') <> 0 ){
+			?>
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-x-fill" viewBox="0 0 16 16" style="color: red" >
+				<title>Pedido cancelado</title>
+					<path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7.354 5.646 8.5 6.793l1.146-1.147a.5.5 0 0 1 .708.708L9.207 7.5l1.147 1.146a.5.5 0 0 1-.708.708L8.5 8.207 7.354 9.354a.5.5 0 1 1-.708-.708L7.793 7.5 6.646 6.354a.5.5 0 1 1 .708-.708z"/>
+				</svg>
+			<?php
+			}else if($value[0]->FACTURADO== 1){ ?>
 				<i class="fas fa-receipt"  title="Pedido facturado" style="color: #007bff; font-size: 20px;"></i>
 					<?php }else if($value[0]->FACTURADO== 0){?>
 						<i class="fas fa-square" style="color: white; font-size: 20px;">
-						<?php } ?>
+					<?php } ?>
 			</td>
 			<td width="1%">
 			<?php if($value[0]->CONTROLADO== 1){ ?>
@@ -228,9 +235,9 @@ foreach($arrayPedidos as $key => $value){
 			</td>
 			<td width="1%" id="incompleto">
 			<?php if($value[0]->PREPARADO== 1){ ?>
-				<svg xmlns="http://www.w3.org/2000/svg"  width="20" height="20" fill="currentColor" class="bi bi-cart-x-fill" style="color: #dc3545; font-size: 20px;" viewBox="0 0 16 16">
-				<title>Pedido incompleto</title>
-				<path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7.354 5.646 8.5 6.793l1.146-1.147a.5.5 0 0 1 .708.708L9.207 7.5l1.147 1.146a.5.5 0 0 1-.708.708L8.5 8.207 7.354 9.354a.5.5 0 1 1-.708-.708L7.793 7.5 6.646 6.354a.5.5 0 1 1 .708-.708z"/>
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-dash-fill" viewBox="0 0 16 16" style="color: orange">
+					<title>Pedido incompleto</title>
+				<path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM6.5 7h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1 0-1z"/>
 				</svg>
 				<?php }else if($value[0]->PREPARADO== 0){?>
 					<i class="fas fa-square" style="color: white; font-size: 20px;">
