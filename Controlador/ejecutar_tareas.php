@@ -20,12 +20,12 @@ try {
 	$estado = 'OK';
 	$detalle = '';
 	new_vtex();
-	insert_log($app, $estado, $detalle);
+	// insert_log($app, $estado, $detalle);
 	
 } catch (\Throwable $th) {
 	$detalle = $th;
 	$estado = 'ERROR';
-	insert_log($app, $estado, $detalle);
+	// insert_log($app, $estado, $detalle);
 }
 
 //ML
@@ -34,12 +34,12 @@ try {
 	$estado = 'OK';
 	$detalle = '';
 	new_ml();
-	insert_log($app, $estado, $detalle);
+	// insert_log($app, $estado, $detalle);
 	
 } catch (\Throwable $th) {
 	$detalle = $th;
 	$estado = 'ERROR';
-	insert_log($app, $estado, $detalle);
+	// insert_log($app, $estado, $detalle);
 }
 
 //DAFITI PRODUCTECA
