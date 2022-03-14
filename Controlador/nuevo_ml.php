@@ -122,17 +122,17 @@ function new_ml(){
 		
 		// ////////////// RECORRER DETALLE DE PEDIDO PARA INSERTAR DETALLE
 
-		// $sqlPedidoDetalle =
-		// "
-		// SELECT * FROM
-		// (
-		// 	SELECT NRO_PEDIDO, Date_Created, First_Name+Last_Name RAZON_SOCIAL, CODIGO, Item_Title, Quantity, Unit_Price 
-		// 	FROM [192.168.0.143].emsys_XLEXTRALARGE.DBO.SOF_DETALLE_PEDIDO 
-		// 	WHERE CAST(NRO_PEDIDO COLLATE Latin1_General_BIN AS VARCHAR) NOT IN
-		// 	(SELECT DISTINCT NRO_ORDEN_ECOMMERCE FROM SOF_AUDITORIA)
-		// 	AND (CODIGO IS NOT NULL OR CODIGO != '')
-		// )A
-		// WHERE NRO_PEDIDO = '$ordenEcommerce'
+		$sqlPedidoDetalle =
+		"
+		SELECT * FROM
+		(
+			SELECT NRO_PEDIDO, Date_Created, First_Name+Last_Name RAZON_SOCIAL, CODIGO, Item_Title, Quantity, Unit_Price 
+			FROM [192.168.0.143].emsys_XLEXTRALARGE.DBO.SOF_DETALLE_PEDIDO 
+			WHERE CAST(NRO_PEDIDO COLLATE Latin1_General_BIN AS VARCHAR) NOT IN
+			(SELECT DISTINCT NRO_ORDEN_ECOMMERCE FROM SOF_AUDITORIA)
+			AND (CODIGO IS NOT NULL OR CODIGO != '')
+		)A
+		WHERE NRO_PEDIDO = '$ordenEcommerce'
 		
 		
 		// ";
@@ -211,7 +211,7 @@ function new_ml(){
 		NRO_COMP, NRO_TRACKING, OBSERV_TRACKING, ID_MERCADOPAGO, LOCAL_ENTREGA, LOCAL_ML, FULL_FILMENT, LOGISTIC_TYPE
 		)
 		SELECT 
-		'ML', NRO_PEDIDO, '$numPedido', Date_Created, '$cliente', CODIGO, LEFT(Item_Title, 30), Quantity, Unit_Price, 
+		'ML', NRO_PEDIDO, '$ordenEcommerce', Date_Created, '$cliente', CODIGO, LEFT(Item_Title, 30), Quantity, Unit_Price, 
 		'MERCADOPAGO', Unit_Price, 'MERCADOPAGO', NULL, 0, NULL, NULL, '$sucursal_ml', '$nro_sucurs', MERCADO_ENVIO_FULL, LOGISTIC_TYPE
 		FROM [192.168.0.143].emsys_XLEXTRALARGE.DBO.SOF_DETALLE_PEDIDO 
 		WHERE CAST(NRO_PEDIDO COLLATE Latin1_General_BIN AS VARCHAR) 
