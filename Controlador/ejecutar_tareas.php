@@ -71,18 +71,18 @@ try {
 }
 
 //FOTTER
-try {
-	$app = 'FOTT';
-	$estado = 'OK';
-	$detalle = '';
-	new_fotter();
-	insert_log($app, $estado, $detalle);
+// try {
+// 	$app = 'FOTT';
+// 	$estado = 'OK';
+// 	$detalle = '';
+// 	new_fotter();
+// 	insert_log($app, $estado, $detalle);
 	
-} catch (\Throwable $th) {
-	$detalle = $th;
-	$estado = 'ERROR';
-	insert_log($app, $estado, $detalle);
-}
+// } catch (\Throwable $th) {
+// 	$detalle = $th;
+// 	$estado = 'ERROR';
+// 	insert_log($app, $estado, $detalle);
+// }
 
 new_actua_local_entrega();
 new_envio_local();
