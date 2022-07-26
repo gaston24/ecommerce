@@ -22,3 +22,10 @@ thead tr th {
 .table th{
     background-color: white;
 }
+
+#btnExport
+{
+    position: absolute;
+    margin-left: 75%;
+    margin-top: 1.5%;
+}

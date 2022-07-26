@@ -20,6 +20,9 @@ $auditoria = auditoria(10);
 
 <h2 id="title">Auditoria de Prisma </h2>
 
+<div>
+    <button class="btn btn-success" id="btnExport">Exportar <i class="fa fa-file-excel-o"></i></button>
+</div>
 
 <table id="table" class="table table-striped" style="width:66%">
         <thead>
@@ -53,3 +56,27 @@ $auditoria = auditoria(10);
 </body>
 
 </html>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!-- Plugin to export Excel -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
+
+<script>
+
+    $(document).ready(() => {
+        $("#btnExport").click(function() {
+            $("#table").table2excel({
+                // exclude CSS class
+                exclude: ".noExl",
+                name: "Detalle Prisma",
+                filename: "Detalle auditora Prisma", //do not include extension
+                fileext: ".xls" // file extension
+            });
+        });
+
+    });
+</script>

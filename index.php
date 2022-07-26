@@ -66,7 +66,6 @@ $hasta = (!isset($_GET['hasta'])) ? $hoy : $_GET['hasta'];
 			<option value="vtex">VTEX</option>
 			<option value="ml">MERCADO LIBRE</option>
 			<option value="d">DAFITI</option>
-			<option value="fot">FOTTER</option>
 			</select >
 		</div>
 		<?php 
@@ -140,9 +139,9 @@ $pedido_nuevo = '';
 		<th width="9%" class="h6">COD<BR>ARTICU</th>
 		<th width="13%" class="h6">DESC<BR>ARTICULO</th>
 		<th width="1%" class="h6">CANT</th>
-		<th width="1%" class="h6">SEL</th>
+		<!-- <th width="1%" class="h6">SEL</th> -->
 		<th width="4%" class="h6">IMPORTE</th>
-		<th width="4%" class="h6">MEDIO<BR>PAGO</th>
+		<!-- <th width="4%" class="h6">MEDIO<BR>PAGO</th> -->
 		<th width="4%" class="h6">NRO<BR>FACT</th>
 		<th width="3%" class="h6">METODO<BR>ENVIO</th>
 		<th width="4%" class="h6">LOCAL /<BR>FEC GUIA</th>
@@ -206,9 +205,9 @@ foreach($arrayPedidos as $key => $value){
 			<td width="9%"><?= $value[0]->COD_ARTICULO;?></td>
 			<td width="13%"><small><?= $value[0]->DESCRIPCION;?></small></td>
 			<td width="1%" style="text-align: center;"><?= $value[0]->CANTIDAD_A_FACTURAR;?></td>
-			<td width="1%" style="text-align: center;"> <input type="checkbox" name="nro_pedido[]" id="nro_orden_<?= $id?>" value="<?= $value[0]->NRO_PEDIDO?>"> </td>
+			<!-- <td width="1%" style="text-align: center;"> <input type="checkbox" name="nro_pedido[]" id="nro_orden_<?= $id?>" value="<?= $value[0]->NRO_PEDIDO?>"> </td> -->
 			<td width="4%" style="text-align: center;"><?= '$ '.number_format($value[0]->IMPORTE_PAGO , 0, '', '.')?></td>
-			<td width="4%" style="text-align: center;"><?= $value[0]->MEDIO_PAGO;?></td>
+			<!-- <td width="4%" style="text-align: center;"><?= $value[0]->MEDIO_PAGO;?></td> -->
 			<td width="4%" style="text-align: center;"><small><?= $value[0]->NRO_COMP?></small></td>
 			<td width="3%" style="text-align: center;"><small><?= $value[0]->METODO_ENVIO?></small></td>
 			<td width="4%" style="text-align: center;"><small><?= $value[0]->LOCAL_ENTREGA?></small></td>
