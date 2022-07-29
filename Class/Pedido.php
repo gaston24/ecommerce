@@ -26,7 +26,7 @@ class Pedido{
 
         $sql = "
         SET DATEFORMAT YMD
-        EXEC SJ_ECOMMERCE_PEDIDOS '$desde', '$hasta', '$tienda'
+        EXEC RO_ECOMMERCE_PEDIDOS '$desde', '$hasta', '$tienda'
         ";
 
         $array = $this->getDatos($sql);    

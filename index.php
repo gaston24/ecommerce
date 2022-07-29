@@ -34,6 +34,7 @@ $hasta = (!isset($_GET['hasta'])) ? $hoy : $_GET['hasta'];
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"/>
 <!-- Including Font Awesome CSS from CDN to show icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 <link rel="stylesheet" href="vista/style.css">
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -72,7 +73,7 @@ $hasta = (!isset($_GET['hasta'])) ? $hoy : $_GET['hasta'];
 		if(isset($_GET['desde'])){			
 		?>
 		<div class="col-sm-2" id="busqueda" style="display:none">
-		<label class="col-sm col-form-label">Busqueda Rapida:</label>
+		<label class="col-sm col-form-label">Busqueda:</label>
 			<input type="text" class="form-control form-control-sm" onkeyup="busquedaRapida()" onkeypress = "return pulsar(event)" id="textBox" name="factura" placeholder="Sobre cualquier campo.." autofocus>
 		</div>
 		<?php 
@@ -104,9 +105,18 @@ $pedido_nuevo = '';
 	
 	</div>
 
-	<div class="col-1 mt-4 mr-4">
+	<div class="col-1 mt-4 mr-1">
+		<button onclick="filterPendientes()" id="buttonPendientes">Pendientes</button>
+		</svg>
+	</div>
+
+	<div class="col-1 mt-4 mr-1">
+		<button onclick="filterCancelados()" id="buttonCancelados">Sin NC</button>
+		</svg>
+	</div>
+
+	<div class="col-1 mt-4 mr-1">
 		<button onclick="filterIncompletos()" id="buttonIncompletos">Incompletos</button>
-			<title>Seleccionar todos los pedidos incompletos</title>
 		</svg>
 	</div>
 	
@@ -128,27 +138,28 @@ $pedido_nuevo = '';
 </a>
 </div>
 
-<table class="table table-hover table-condensed table-fh table-14c" id="id_tabla">
+<table class="table table-hover table-condensed table-fh table-15c" id="id_tabla">
 <thead>
 	<tr>
-		<th width="4%" class="h6">TIENDA</th>
-		<th width="7%" class="h6">NRO<BR>ORDEN</th>
-		<th width="9%" class="h6">FECHA<BR>PEDIDO</th>
-		<th width="9%" class="h6">PEDIDO</th>
-		<th width="12%" class="h6">NOMBRE</th>
-		<th width="9%" class="h6">COD<BR>ARTICU</th>
-		<th width="13%" class="h6">DESC<BR>ARTICULO</th>
-		<th width="1%" class="h6">CANT</th>
-		<!-- <th width="1%" class="h6">SEL</th> -->
-		<th width="4%" class="h6">IMPORTE</th>
-		<!-- <th width="4%" class="h6">MEDIO<BR>PAGO</th> -->
-		<th width="4%" class="h6">NRO<BR>FACT</th>
-		<th width="3%" class="h6">METODO<BR>ENVIO</th>
-		<th width="4%" class="h6">LOCAL /<BR>FEC GUIA</th>
-		<th width="1%" class="h6" style="color: white;">F</th>
-		<th width="1%" class="h6" style="color: white;">C</th>
-		<th width="1%" class="h6" style="color: white;">I</th>
-		<th width="1%" class="h6" style="color: white;">D</th>
+		<th style="width: 2%;" class="headerTitle">TIENDA</th>
+		<th style="width: 9%;" class="headerTitle">NRO<BR>ORDEN</th>
+		<th style="width: 6%;" class="headerTitle">FECHA<BR>PEDIDO</th>
+		<th style="width: 6%;" class="headerTitle">HORA<BR>PEDIDO</th>
+		<th style="width: 5%;" class="headerTitle">PEDIDO</th>
+		<th style="width: 12%;" class="headerTitle">NOMBRE</th>
+		<th style="width: 8%;" class="headerTitle">COD<BR>ARTICULO</th>
+		<th style="width: 8%;" class="headerTitle">DESC<BR>ARTICULO</th>
+		<th style="width: 4%; text-align: left; padding-left: 0px" class="headerTitle">CANT</th>
+		<th style="width: 5%;" class="headerTitle">IMPORTE</th>
+		<th style="width: 5.5%;" class="headerTitle">NRO<BR>FACT</th>
+		<th style="width: 5%;" class="headerTitle">DEPOSITO</th>
+		<th style="width: 5%;" class="headerTitle">METODO<BR>ENVIO</th>
+		<th style="width: 5%;" class="headerTitle">TIENDA</th>
+		<th style="width: 5%;" class="headerTitle">FECHA<BR>GUIA</th>
+		<th style="width: 5%; color: white;" class="headerTitle">F</th>
+		<th style="width: 5%; color: white;" class="headerTitle">C</th>
+		<th style="width: 5%; color: white;" class="headerTitle">I</th>
+		<th style="width: 5%; color: white;" class="headerTitle">D</th>
 	</tr>
 </thead>
 <tbody id="table">
@@ -157,17 +168,15 @@ $id = 0;
 foreach($arrayPedidos as $key => $value){
 
 	$date = date_create($value[0]->FECHA_PEDIDO);
-	$date = date_format($date,"Y/m/d H:i");
+	$date = date_format($date,"Y/m/d");
 ?>
 		<div class="row" >
 		
 
 		<?php
 			echo '<tr id="tr" style="';
-			if($value[0]->FULL_FILMENT==1 ){
-				echo 'font-weight:bold;color:#1380ED;';
-			}elseif($value[0]->NRO_COMP == ''){
-				echo 'font-weight:bold;color:#FE2E2E;';
+			if($value[0]->NRO_COMP == ''){
+				echo 'font-weight:bold; color:#FE2E2E;';
 			}else{
 				echo '';
 			}
@@ -184,8 +193,8 @@ foreach($arrayPedidos as $key => $value){
 			echo '">';
 		?>
 
-			<td width="4%"><?= $value[0]->ORIGEN?></td>
-			<td width="7%"> 
+			<td style="width: 2%;"><?= $value[0]->ORIGEN?></td>
+			<td style="width: 9%;"> 
 			<?php if($value[0]->ORIGEN=='VTEX' ){
 				?>
 					<a href="https://xlshop.myvtex.com/admin/checkout/#/orders/<?= $value[0]->NRO_ORDEN_ECOMMERCE; ?>" target="_blank">
@@ -199,52 +208,53 @@ foreach($arrayPedidos as $key => $value){
 			</td>
 
 
-			<td width="9%"><?= $date?></td>
-			<td width="9%"><?= $value[0]->NRO_PEDIDO?></td>
-			<td width="12%" name="orden_<?php ?>"><small><?= $value[0]->RAZON_SOCIAL?></small></td>
-			<td width="9%"><?= $value[0]->COD_ARTICULO;?></td>
-			<td width="13%"><small><?= $value[0]->DESCRIPCION;?></small></td>
-			<td width="1%" style="text-align: center;"><?= $value[0]->CANTIDAD_A_FACTURAR;?></td>
-			<!-- <td width="1%" style="text-align: center;"> <input type="checkbox" name="nro_pedido[]" id="nro_orden_<?= $id?>" value="<?= $value[0]->NRO_PEDIDO?>"> </td> -->
-			<td width="4%" style="text-align: center;"><?= '$ '.number_format($value[0]->IMPORTE_PAGO , 0, '', '.')?></td>
-			<!-- <td width="4%" style="text-align: center;"><?= $value[0]->MEDIO_PAGO;?></td> -->
-			<td width="4%" style="text-align: center;"><small><?= $value[0]->NRO_COMP?></small></td>
-			<td width="3%" style="text-align: center;"><small><?= $value[0]->METODO_ENVIO?></small></td>
-			<td width="4%" style="text-align: center;"><small><?= $value[0]->LOCAL_ENTREGA?></small></td>
-			<td width="1%">
-			<?php if( strpos( strtoupper($value[0]->NRO_COMP), 'CANCELADO') <> 0 ){
+			<td style="width: 6%;"><?= $date?></td>
+			<td style="width: 5%;"><?= $value[0]->HORA?></td>
+			<td style="width: 5%;"><?= $value[0]->NRO_PEDIDO?></td>
+			<td style="width: 12%;" name="orden_<?php ?>"><small><?= $value[0]->RAZON_SOCIAL?></small></td>
+			<td style="width: 8%;"><?= $value[0]->COD_ARTICULO;?></td>
+			<td style="width: 11%;"><small><?= $value[0]->DESCRIPCION;?></small></td>
+			<td style="width: 4%;" style="text-align: left;"><?= $value[0]->CANTIDAD_A_FACTURAR;?></td>
+			<td style="width: 5%;" ><?= '$ '.number_format($value[0]->IMPORTE_PAGO , 0, '', '.')?></td>
+			<td style="width: 5%;" style="text-align: center;"><small><?= $value[0]->NRO_COMP?></small></td>
+			<td style="width: 5%;" style="text-align: center;"><small><?= $value[0]->WAREHOUSE?></small></td>
+			<td style="width: 5%;" style="text-align: center;"><small><?= $value[0]->METODO_ENVIO?></small></td>
+			<td style="width: 5%;" style="text-align: center;"><small><?= $value[0]->DESC_SUCURSAL?></small></td>
+			<td style="width: 5%;" style="text-align: center;"><small><?= $value[0]->FECHA_DESPACHO?></small></td>
+			<td style="width: 5%;" id="cancelado">
+			<?php if($value[0]->CANCELADO == 1 && $value[0]->FACTURADO == 1 && !isset($value[0]->NCR)){?>
+				<i class="bi bi-clipboard-x-fill cancelado" data-toggle="tooltip" data-placement="left" title="Pedido cancelado sin NC" style="color: #6610f2; font-size: 20px; padding: 0;"></i>
+				<?php
+			}else if($value[0]->CANCELADO == 1 && isset($value[0]->NCR)){?>
+				<i class="bi bi-clipboard-x-fill" data-toggle="tooltip" data-placement="left" title="Pedido cancelado <?php if(isset($value[0]->NCR)){echo 'NCR '.$value[0]->NCR;}?>" style="color: green; font-size: 20px; padding: 0;"></i>
+				<?php
+			}else if($value[0]->CANCELADO == 1 ){
 			?>
-				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-x-fill" viewBox="0 0 16 16" style="color: red" >
-				<title>Pedido cancelado</title>
-					<path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7.354 5.646 8.5 6.793l1.146-1.147a.5.5 0 0 1 .708.708L9.207 7.5l1.147 1.146a.5.5 0 0 1-.708.708L8.5 8.207 7.354 9.354a.5.5 0 1 1-.708-.708L7.793 7.5 6.646 6.354a.5.5 0 1 1 .708-.708z"/>
-				</svg>
+				<i class="bi bi-cart-x-fill" data-toggle="tooltip" data-placement="left" title="Pedido cancelado" style="color: red; font-size: 20px; padding: 0;"></i>
 			<?php
-			}else if($value[0]->FACTURADO== 1){ ?>
-				<i class="fas fa-receipt"  title="Pedido facturado" style="color: #007bff; font-size: 20px;"></i>
-					<?php }else if($value[0]->FACTURADO== 0){?>
-						<i class="fas fa-square" style="color: white; font-size: 20px;">
+			}else if($value[0]->FACTURADO == 1){ ?>
+				<i class="fas fa-receipt" data-toggle="tooltip" data-placement="left"  title="Pedido facturado" style="color: #007bff; font-size: 20px;"></i>
+					<?php }else if($value[0]->FACTURADO == 0){?>
+						<i class="fas fa-square pendiente" style="color: white; font-size: 20px;">
 					<?php } ?>
 			</td>
-			<td width="1%">
+			<td width="0.2rem">
 			<?php if($value[0]->CONTROLADO== 1){ ?>
-				<i class="fa fa-clipboard-check"  title="Pedido controlado" style="color: green; font-size: 20px;"></i>
+				<i class="fa fa-clipboard-check"  data-toggle="tooltip" data-placement="left" title="Pedido controlado" style="color: green; font-size: 20px;"></i>
 					<?php }else if($value[0]->CONTROLADO== 0){?>
 						<i class="fas fa-square" style="color: white; font-size: 20px;">
 						<?php } ?>
 			</td>
-			<td width="1%" id="incompleto">
-			<?php if($value[0]->PREPARADO== 1){ ?>
-				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-dash-fill" viewBox="0 0 16 16" style="color: orange">
-					<title>Pedido incompleto</title>
-				<path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM6.5 7h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1 0-1z"/>
-				</svg>
-				<?php }else if($value[0]->PREPARADO== 0){?>
+			<td width="0.2rem" id="incompleto">
+			<?php if($value[0]->FALTANTE== 1){ ?>
+				<i title="Pedido incompleto" data-toggle="tooltip" data-placement="left" class="bi bi-cart-dash-fill incompleto" style="color: orange; font-size: 20px;"></i>	
+				<?php }else if($value[0]->FALTANTE== 0){?>
 					<i class="fas fa-square" style="color: white; font-size: 20px;">
 					<?php } ?>
 			</td>
-			<td width="1%">
+			<td width="0.2rem">
 			<?php if($value[0]->DESPACHADO== 1){ ?>
-				<i class="fas fa-truck"  title="Pedido entregado" style="color: #17a2b8; font-size: 17px;"></i>
+				<i class="fas fa-truck"  data-toggle="tooltip" data-placement="left" title="Pedido entregado" style="color: #17a2b8; font-size: 17px;"></i>
 					<?php }else if($value[0]->DESPACHADO== 0){?>
 						<i class="fas fa-square" style="color: white; font-size: 20px;">
 						<?php } ?>
@@ -277,6 +287,14 @@ $id++;
 <script src="assets/bootstrap/popper.min.js" ></script>
 <script src="assets/bootstrap/bootstrap.min.js" ></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+</script>
 
 </body>
 

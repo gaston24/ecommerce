@@ -3,13 +3,18 @@ table.table-fh {
     width: 100%;
 	
 }
+
+table.table-fh.table-15c > thead > tr >th, table.table-fh.table-15c > tbody > tr > td {
+    width: calc(100% / 15);
+}
+
 table.table-fh, table.table-fh > tbody > tr > td {
     border-collapse: collapse;
     border: 1px solid #000;
 }
 table.table-fh > thead {
     display: table;
-    width: calc(100% - 17px);
+    /* width: calc(100% - 17px); */
 }
 table.table-fh > tbody {
     display: block;
@@ -17,49 +22,6 @@ table.table-fh > tbody {
     overflow-y: scroll;
 }
 
-table.table-fh.table-4c > thead > tr >th, table.table-fh.table-4c > tbody > tr > td {
-    width: calc(100% / 4);
-}
-table.table-fh.table-5c > thead > tr >th, table.table-fh.table-5c > tbody > tr > td {
-    width: calc(100% / 5);
-}
-table.table-fh.table-6c > thead > tr >th, table.table-fh.table-6c > tbody > tr > td {
-    width: calc(100% / 6);
-}
-table.table-fh.table-7c > thead > tr >th, table.table-fh.table-7c > tbody > tr > td {
-    width: calc(100% / 7);
-}
-table.table-fh.table-8c > thead > tr >th, table.table-fh.table-8c > tbody > tr > td {
-    width: calc(100% / 8);
-}
-table.table-fh.table-9c > thead > tr >th, table.table-fh.table-9c > tbody > tr > td {
-    width: calc(100% / 9);
-}
-table.table-fh.table-10c > thead > tr >th, table.table-fh.table-10c > tbody > tr > td {
-    width: calc(100% / 10);
-}
-table.table-fh.table-11c > thead > tr >th, table.table-fh.table-11c > tbody > tr > td {
-    width: calc(100% / 11);
-}
-table.table-fh.table-12c > thead > tr >th, table.table-fh.table-12c > tbody > tr > td {
-    width: calc(100% / 12);
-}
-table.table-fh.table-13c > thead > tr >th, table.table-fh.table-13c > tbody > tr > td {
-    width: calc(100% / 13);
-}
-table.table-fh.table-14c > thead > tr >th, table.table-fh.table-14c > tbody > tr > td {
-    width: calc(100% / 14);
-}
-table.table-fh.table-15c > thead > tr >th, table.table-fh.table-15c > tbody > tr > td {
-    width: calc(100% / 15);
-}
-
-
-table.table-fh > thead > tr >th, table.table-fh > tbody > tr > td {
-    padding: 5px;
-    word-break: break-all;
-    text-align: left;
-}
 table.table-fh > tbody > tr {
     display: table;
     width: 100%;
@@ -70,16 +32,20 @@ table.table-fh > tbody > tr > td {
 body {
 	overflow-y: hidden;
 }
+
 td{
 	font-size:11px;
+    justify-content: center;
 }
+
 #columnita{
 	font-size:9px;
 	padding: 0px;
 	margin-top: 2px;
 }
+
 #botones{
-	padding-left: 3%;
+	padding-left: 2%;
 	
 }
 #formulario{
@@ -90,11 +56,7 @@ td{
 td{
 	font-size:11px;
 }
-#columnita{
-	font-size:9px;
-	padding: 0px;
-	margin-top: 2px;
-}
+
 #botones{
 	padding-left: 3%;
 	
@@ -113,6 +75,37 @@ td{
     width: 100px;
 }
 
+#buttonCancelados{
+    color: #f7f7f7;
+    background-color: #007bff;
+    border-color: #007bff;
+    border-radius: 5px;
+    height: 40px;
+    width: 100px;
+}
+
+#buttonPendientes{
+    color: #f7f7f7;
+    background-color: #ffc107;
+    border-color: #ffc107;
+    border-radius: 5px;
+    height: 40px;
+    width: 100px;
+}
+
 #buttonIncompletos:focus{
     outline: none;
+}
+
+#buttonCancelados:focus{
+    outline: none;
+}
+
+#buttonPendientes:focus{
+    outline: none;
+}
+
+.headerTitle
+{
+    font-size: 11px;
 }
