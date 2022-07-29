@@ -45,10 +45,10 @@ function filterIncompletos(){
 
     // console.log($('#buttonIncompletos').css("color"));
 
-    if($('#buttonIncompletos').css("color") == 'rgb(247, 247, 247)'){
+    if($('#buttonIncompletos').css("background-color") == 'rgb(220, 53, 69)'){
      
       for (j = 0; j < td.length; j++) {
-        if (td[0].querySelector("svg") ) {
+        if (td[0].querySelector(".incompleto") ) {
           visible = true;
         }
       }
@@ -66,12 +66,102 @@ function filterIncompletos(){
     }
   }
  
-  if($('#buttonIncompletos').css("color") == 'rgb(247, 247, 247)'){
-    $('#buttonIncompletos').css("color", '#d9534f').css("background-color",'#f7f7f7').css("border-style",'#d9534f').css("width",'100px').css("hover:outline",'none');
+  if($('#buttonIncompletos').css("background-color") == 'rgb(220, 53, 69)'){
+    $('#buttonIncompletos').css("color", '#dc3545').css("background-color",'#f7f7f7').css("border-style",'#dc3545').css("width",'100px').css("hover:outline",'none');
     $('#buttonIncompletos').text("Todos");
   }else{
     $('#buttonIncompletos').css("color", '#f7f7f7').css("background-color",'#dc3545').css("border-style",'#dc3545');
     $('#buttonIncompletos').text("Incompletos");
+  } 
+}
+
+function filterCancelados(){
+  var input, filter, table, tr, td, td2, i, txtValue;
+	table = document.getElementById("table");
+	tr = table.getElementsByTagName('tr');
+	//console.log(1);
+	 for (i = 0; i < tr.length; i++) {
+    //console.log(2);
+    visible = false;
+    td = tr[i].querySelectorAll("td#cancelado");
+
+    //console.log($('#buttonCancelados').css("color"));
+
+    if($('#buttonCancelados').css("background-color") == 'rgb(0, 123, 255)'){
+      //console.log(3);
+      for (j = 0; j < td.length; j++) {
+        if (td[0].querySelector(".cancelado") ) {
+          visible = true;
+          //console.log(6);
+        }
+      }
+    }else{
+     
+      for (j = 0; j < td.length; j++) {
+        visible = true;
+        //console.log(4);
+      }
+    }
+	
+
+    if (visible === true) {
+      tr[i].style.display = "";
+    } else {
+      tr[i].style.display = "none";
+    }
+  }
+ 
+  if($('#buttonCancelados').css("background-color") == 'rgb(0, 123, 255)'){
+    $('#buttonCancelados').css("color", '#007bff').css("background-color",'#f7f7f7').css("border-style",'#007bff').css("width",'100px').css("hover:outline",'none');
+    $('#buttonCancelados').text("Todos");
+  }else{
+    $('#buttonCancelados').css("color", '#f7f7f7').css("background-color",'#007bff').css("border-style",'#007bff');
+    $('#buttonCancelados').text("Sin NC");
+  } 
+}
+
+function filterPendientes(){
+  var input, filter, table, tr, td, td2, i, txtValue;
+	table = document.getElementById("table");
+	tr = table.getElementsByTagName('tr');
+	//console.log(1);
+	 for (i = 0; i < tr.length; i++) {
+    //console.log(2);
+    visible = false;
+    td = tr[i].querySelectorAll("td#cancelado");
+
+    console.log($('#buttonPendientes').css("background-color"));
+
+    if($('#buttonPendientes').css("background-color") == 'rgb(255, 193, 7)'){
+      //console.log(3);
+      for (j = 0; j < td.length; j++) {
+        if (td[0].querySelector(".pendiente") ) {
+          visible = true;
+          //console.log(6);
+        }
+      }
+    }else{
+     
+      for (j = 0; j < td.length; j++) {
+        visible = true;
+        //console.log(4);
+      }
+    }
+	
+
+    if (visible === true) {
+      tr[i].style.display = "";
+    } else {
+      tr[i].style.display = "none";
+    }
+  }
+ 
+  if($('#buttonPendientes').css("background-color") == 'rgb(255, 193, 7)'){
+    $('#buttonPendientes').css("color", '#ffc107').css("background-color",'#f7f7f7').css("border-style",'#ffc107').css("width",'100px').css("hover:outline",'none');
+    $('#buttonPendientes').text("Todos");
+  }else{
+    $('#buttonPendientes').css("color", '#f7f7f7').css("background-color",'#ffc107').css("border-style",'#ffc107');
+    $('#buttonPendientes').text("Pendientes");
   } 
 }
 
