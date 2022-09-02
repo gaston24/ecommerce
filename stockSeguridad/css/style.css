@@ -1,0 +1,58 @@
+
+/*Fijar encabezado de tabla*/ 
+body
+{
+    overflow: hidden;
+    max-width: 90%;
+    margin-top: 1rem;
+}
+
+.thead-dark{ 
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.table .thead-dark th {
+    color: white;
+    background-color: #343a40;
+}
+
+.table-responsive { 
+    height:75vh;
+    max-width: fit-content;
+    margin-left: 0.5%;
+    font-size: small;
+}
+
+h3
+{
+    display: flex;
+    justify-content: center;
+}
+
+.contenedor{
+    margin-left: 2rem;
+}
+
+.form-control
+{
+    width: 20rem;
+}
+
+th, td
+{
+    font-size: 12px;
+}
+
+.inputNumber
+{
+    width: 40px;
+}
+
+.btn-warning
+{
+    position: relative;
+    margin-top: 1.8rem;
+    margin-left: 60rem;
+}
