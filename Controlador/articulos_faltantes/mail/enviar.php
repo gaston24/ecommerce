@@ -14,13 +14,14 @@ function enviarMail($string){
     $mensaje = 'Total de articulos pendientes de los ultimos 60 dias';
     // $destinatario = 'gaston.marcilio@xl.com.ar';
     $destinatario = array(
-        "facundo.biagi@xl.com.ar",
+        "agustina.taboada@xl.com.ar",
         "info@xl.com.ar",
-        "daniel.amaya@xl.com.ar",
+        "lucas.navarro@xl.com.ar",
         "romina.ramirez@xl.com.ar",
         "claudia.otero@xl.com.ar",
-        "juliana.vanina@xl.com.ar",
+        "montana.caset@xl.com.ar",
         "pamela.puertas@xl.com.ar",
+        //"ramiro.orozco@xl.com.ar",
         // Dani, Romi, Clau y a Juli.
     );
     

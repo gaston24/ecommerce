@@ -1,4 +1,5 @@
 <?php
+
 require_once 'Class/Pedido.php';
 
 $pedidos = new Pedido();
@@ -64,9 +65,9 @@ $hasta = (!isset($_GET['hasta'])) ? $hoy : $_GET['hasta'];
 		<label class="col-sm col-form-label">Tienda:</label>
 			<select class="form-control form-control-sm" name="tienda">
 			<option selected></option>
-			<option value="vtex">VTEX</option>
-			<option value="ml">MERCADO LIBRE</option>
-			<option value="d">DAFITI</option>
+			<option value="VTEX">VTEX</option>
+			<option value="ML">MERCADO LIBRE</option>
+			<option value="DAA">DAFITI</option>
 			</select >
 		</div>
 		<?php 
@@ -138,7 +139,7 @@ $pedido_nuevo = '';
 </a>
 </div>
 
-<table class="table table-hover table-condensed table-fh table-15c" id="id_tabla">
+<table class="table table-hover table-condensed table-fh" id="id_tabla">
 <thead>
 	<tr>
 		<th style="width: 2%;" class="headerTitle">TIENDA</th>
@@ -155,11 +156,11 @@ $pedido_nuevo = '';
 		<th style="width: 5%;" class="headerTitle">DEPOSITO</th>
 		<th style="width: 5%;" class="headerTitle">METODO<BR>ENVIO</th>
 		<th style="width: 5%;" class="headerTitle">TIENDA</th>
-		<th style="width: 5%;" class="headerTitle">FECHA<BR>GUIA</th>
-		<th style="width: 5%; color: white;" class="headerTitle">F</th>
-		<th style="width: 5%; color: white;" class="headerTitle">C</th>
-		<th style="width: 5%; color: white;" class="headerTitle">I</th>
-		<th style="width: 5%; color: white;" class="headerTitle">D</th>
+		<th style="width: 1%; color: white;" class="headerTitle">F</th>
+		<th style="width: 1%; color: white;" class="headerTitle">C</th>
+		<th style="width: 1%; color: white;" class="headerTitle">I</th>
+		<th style="width: 1%; color: white;" class="headerTitle">D</th>
+		<th style="width: 1%; color: white;" class="headerTitle">E</th>
 	</tr>
 </thead>
 <tbody id="table">
@@ -210,7 +211,7 @@ foreach($arrayPedidos as $key => $value){
 
 			<td style="width: 6%;"><?= $date?></td>
 			<td style="width: 5%;"><?= $value[0]->HORA?></td>
-			<td style="width: 5%;"><?= $value[0]->NRO_PEDIDO?></td>
+			<td style="width: 7%;"><?= $value[0]->NRO_PEDIDO?></td>
 			<td style="width: 12%;" name="orden_<?php ?>"><small><?= $value[0]->RAZON_SOCIAL?></small></td>
 			<td style="width: 8%;"><?= $value[0]->COD_ARTICULO;?></td>
 			<td style="width: 11%;"><small><?= $value[0]->DESCRIPCION;?></small></td>
@@ -220,8 +221,7 @@ foreach($arrayPedidos as $key => $value){
 			<td style="width: 5%;" style="text-align: center;"><small><?= $value[0]->WAREHOUSE?></small></td>
 			<td style="width: 5%;" style="text-align: center;"><small><?= $value[0]->METODO_ENVIO?></small></td>
 			<td style="width: 5%;" style="text-align: center;"><small><?= $value[0]->DESC_SUCURSAL?></small></td>
-			<td style="width: 5%;" style="text-align: center;"><small><?= $value[0]->FECHA_DESPACHO?></small></td>
-			<td style="width: 5%;" id="cancelado">
+			<td style="width: 0.1rem;" id="cancelado">
 			<?php if($value[0]->CANCELADO == 1 && $value[0]->FACTURADO == 1 && !isset($value[0]->NCR)){?>
 				<i class="bi bi-clipboard-x-fill cancelado" data-toggle="tooltip" data-placement="left" title="Pedido cancelado sin NC" style="color: #6610f2; font-size: 20px; padding: 0;"></i>
 				<?php
@@ -230,32 +230,39 @@ foreach($arrayPedidos as $key => $value){
 				<?php
 			}else if($value[0]->CANCELADO == 1 ){
 			?>
-				<i class="bi bi-cart-x-fill" data-toggle="tooltip" data-placement="left" title="Pedido cancelado" style="color: red; font-size: 20px; padding: 0;"></i>
+				<i class="bi bi-cart-x-fill" data-toggle="tooltip" data-placement="left" title="Cancelado" style="color: red; font-size: 20px; padding: 0;"></i>
 			<?php
 			}else if($value[0]->FACTURADO == 1){ ?>
-				<i class="fas fa-receipt" data-toggle="tooltip" data-placement="left"  title="Pedido facturado" style="color: #007bff; font-size: 20px;"></i>
+				<i class="bi bi-file-earmark-text-fill" data-toggle="tooltip" data-placement="left"  title="Facturado" style="color: #6c757d; font-size: 20px;"></i>
 					<?php }else if($value[0]->FACTURADO == 0){?>
 						<i class="fas fa-square pendiente" style="color: white; font-size: 20px;">
 					<?php } ?>
 			</td>
-			<td width="0.2rem">
+			<td width="0.1rem">
 			<?php if($value[0]->CONTROLADO== 1){ ?>
-				<i class="fa fa-clipboard-check"  data-toggle="tooltip" data-placement="left" title="Pedido controlado" style="color: green; font-size: 20px;"></i>
+				<i class="bi bi-clipboard2-check-fill"  data-toggle="tooltip" data-placement="left" title="Controlado" style="color: green; font-size: 20px;"></i>
 					<?php }else if($value[0]->CONTROLADO== 0){?>
 						<i class="fas fa-square" style="color: white; font-size: 20px;">
 						<?php } ?>
 			</td>
-			<td width="0.2rem" id="incompleto">
+			<td width="0.1rem" id="incompleto">
 			<?php if($value[0]->FALTANTE== 1){ ?>
 				<i title="Pedido incompleto" data-toggle="tooltip" data-placement="left" class="bi bi-cart-dash-fill incompleto" style="color: orange; font-size: 20px;"></i>	
 				<?php }else if($value[0]->FALTANTE== 0){?>
 					<i class="fas fa-square" style="color: white; font-size: 20px;">
 					<?php } ?>
 			</td>
-			<td width="0.2rem">
+			<td width="0.1rem">
 			<?php if($value[0]->DESPACHADO== 1){ ?>
-				<i class="fas fa-truck"  data-toggle="tooltip" data-placement="left" title="Pedido entregado" style="color: #17a2b8; font-size: 17px;"></i>
+				<i class="fas fa-truck"  data-toggle="tooltip" data-placement="left" title="Despachado <?= $value[0]->FECHA_DESPACHO?>" style="color: #17a2b8; font-size: 17px;"></i>
 					<?php }else if($value[0]->DESPACHADO== 0){?>
+						<i class="fas fa-square" style="color: white; font-size: 20px;">
+						<?php } ?>
+			</td>
+			<td width="0.1rem">
+				<?php if($value[0]->ENTREGADO == 1){ ?>
+					<i class="bi bi-box-seam-fill" data-toggle="tooltip" data-placement="left" title="Entregado <?= $value[0]->FECHA_ENTREGADO?>" style="color: #007bff; font-size: 17px;"></i>
+						<?php }else if($value[0]->ENTREGADO == 0){?>
 						<i class="fas fa-square" style="color: white; font-size: 20px;">
 						<?php } ?>
 			</td>

@@ -21,12 +21,16 @@ class Pedido{
         return $data;
 
     }
+
+    
     
     public function traerPedidos($desde, $hasta, $tienda){
 
+        $tienda = $_GET['tienda'];
+
         $sql = "
         SET DATEFORMAT YMD
-        EXEC RO_ECOMMERCE_PEDIDOS '$desde', '$hasta', '$tienda'
+        EXEC RO_ECOMMERCE_PEDIDOS '$desde', '$hasta', '%$tienda'
         ";
 
         $array = $this->getDatos($sql);    

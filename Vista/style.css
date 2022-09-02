@@ -8,6 +8,10 @@ table.table-fh.table-15c > thead > tr >th, table.table-fh.table-15c > tbody > tr
     width: calc(100% / 15);
 }
 
+table.table-fh.table-19c > thead > tr >th, table.table-fh.table-19c > tbody > tr > td {
+    width: calc(100% / 19);
+}
+
 table.table-fh, table.table-fh > tbody > tr > td {
     border-collapse: collapse;
     border: 1px solid #000;
@@ -28,9 +32,6 @@ table.table-fh > tbody > tr {
 }
 table.table-fh > tbody > tr > td {
     border: none;
-}
-body {
-	overflow-y: hidden;
 }
 
 td{
