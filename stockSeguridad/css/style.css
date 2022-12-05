@@ -1,13 +1,11 @@
-
-/*Fijar encabezado de tabla*/ 
-body
-{
-    overflow: hidden;
+/*Fijar encabezado de tabla*/
+body {
+    overflow-y: hidden;
     max-width: 90%;
     margin-top: 1rem;
 }
 
-.thead-dark{ 
+.thead-dark {
     position: sticky;
     top: 0;
     z-index: 10;
@@ -18,41 +16,92 @@ body
     background-color: #343a40;
 }
 
-.table-responsive { 
-    height:75vh;
+.table-responsive {
+    height: 75vh;
     max-width: fit-content;
     margin-left: 0.5%;
     font-size: small;
 }
 
-h3
-{
+h3 {
     display: flex;
     justify-content: center;
 }
 
-.contenedor{
+.contenedor {
     margin-left: 2rem;
 }
 
-.form-control
-{
+.form-control {
     width: 20rem;
 }
 
-th, td
-{
-    font-size: 12px;
-}
-
-.inputNumber
-{
+.inputNumber {
     width: 40px;
 }
 
-.btn-warning
-{
-    position: relative;
+.form-button {
+    display: inline-flex;
+    margin-left: 60%;
     margin-top: 1.8rem;
-    margin-left: 60rem;
+}
+
+.btn {
+    margin-left: 1rem;
+}
+
+.btn {
+    width: 7.5rem;
+}
+
+.swal2-icon.swal2-info.swal2-icon-show {
+    -webkit-animation: swal2-animate-error-icon .5s;
+    animation: swal2-animate-error-icon .5s;
+    font-size: medium;
+}
+
+.swal2-container.swal2-center>.swal2-popup {
+    zoom: 1;
+}
+
+/*parametrizar.php*/
+.contRubro {
+    display: flex;
+}
+
+.fa-plus {
+    display: inline-block;
+    margin-top: 0.5rem;
+    margin-left: 1rem;
+    /* border: 1px solid; */
+    font-weight: bold;
+}
+
+#tablaRubroStockSeguridad {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    border-bottom: 1px solid rgb(116, 116, 116);
+}
+
+thead th:nth-child(1) {
+    width: 10%;
+}
+
+thead th:nth-child(2) {
+    width: 10%;
+}
+
+thead th:nth-child(3) {
+    width: 15%;
+}
+
+thead th:nth-child(4) {
+    width: 35%;
+}
+
+th,
+td {
+    padding: 20px;
+    font-size: 12px;
 }

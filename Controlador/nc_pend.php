@@ -35,7 +35,7 @@ function nc_pendientes(){
     
     if($cont != 0){
         for($x=0;$x<$cont;$x++){
-            echo '<script>alert("Esta pendiente la NC del dia '.$fecha_array[$x].' por la promo '. $promo_array[$x].' por un importe de '.$importe_array[$x].' (ARTICULO: '.$cod_articu[$x].' )")</script>';
+            echo '<script>alert("Esta pendiente la NC del dia '.$fecha_array[$x].' por la promo '. $promo_array[$x].' por un importe de $'.$importe_array[$x].' (ARTICULO: '.$cod_articu[$x].' )")</script>';
         }
     }
     

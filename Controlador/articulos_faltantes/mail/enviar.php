@@ -19,8 +19,6 @@ function enviarMail($string){
         "lucas.navarro@xl.com.ar",
         "romina.ramirez@xl.com.ar",
         "claudia.otero@xl.com.ar",
-        "montana.caset@xl.com.ar",
-        "pamela.puertas@xl.com.ar",
         //"ramiro.orozco@xl.com.ar",
         // Dani, Romi, Clau y a Juli.
     );

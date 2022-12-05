@@ -1,7 +1,8 @@
 
 <?php
-
 require 'Class/matriz.php';
+require 'Class/cuenta.php';
+require_once 'Class/rubro.php';
 
 $matrizStockSeguridad = new Matriz();
 
@@ -39,11 +40,18 @@ $matrizStockSeguridad = new Matriz();
                 <label id="textBusqueda">Busqueda rapida:</label>
                 <input type="text" id="textBox" placeholder="Sobre cualquier campo..." onkeyup="myFunction()" class="form-control form-control-sm"></input>
             </div>
-            <div>
-                <button type="button" class="btn btn-warning" id="btn_edit">Editar <i class="bi bi-pencil-square"></i></button>
+            <div class="form-button">
+                <div>
+                    <button type="button" class="btn btn-primary" id="btn_active" data-toggle="modal" data-target="#modalActive">Activar <i class="bi bi-check-circle-fill"></i></button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-warning" id="btn_edit" data-toggle="modal" data-target="#modalParameters">Editar <i class="bi bi-pencil-square"></i></button>
+                </div>
             </div>
         </div>
            
+    <input  type="text" value="<?=$todasLasCuentas ?>" hidden>
+    <textarea name="" id='todasLasCuentas' cols="30" rows="10" hidden></textarea>
 
     </form>
 
@@ -105,10 +113,15 @@ $matrizStockSeguridad = new Matriz();
             </table>
         </div>
 
+        
+        <?php
+include 'activar.php';
+include 'parametrizar.php';
+
+?>
 </body>
 <script src="js/main.js" charset="utf-8"></script>
 </html>
-
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -117,10 +130,4 @@ $matrizStockSeguridad = new Matriz();
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
-
-<script>
-  
-  $("#myModal").modal('show.bs.modal');
-  
-</script>
+<script src="https://kit.fontawesome.com/222ca0945e.js" crossorigin="anonymous"></script>
