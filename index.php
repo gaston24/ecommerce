@@ -198,7 +198,7 @@ foreach($arrayPedidos as $key => $value){
 			<td style="width: 9%;"> 
 			<?php if($value[0]->ORIGEN=='VTEX' ){
 				?>
-					<a href="https://xlshop.myvtex.com/admin/checkout/#/orders/<?= $value[0]->NRO_ORDEN_ECOMMERCE; ?>" target="_blank">
+					<a href="https://xlshop.myvtex.com/admin/orders/<?= $value[0]->NRO_ORDEN_ECOMMERCE; ?>" target="_blank">
 					<?= $value[0]->NRO_ORDEN_ECOMMERCE?>
 					</a>
 				<?php
