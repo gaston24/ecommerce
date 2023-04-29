@@ -21,7 +21,6 @@ class Cuenta
             $rows[] = $v;
         }
 
-
         return $rows;
     }
 

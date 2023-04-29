@@ -141,7 +141,8 @@ function completarModal(e) {
   conexion1.onreadystatechange = () => {
     if (conexion1.readyState == 4 && conexion1.status == 200) {
       cuentas = JSON.parse(conexion1.responseText);
-      cuenta = cuentas.find((cuenta) => {return cuenta["WAREHOUSE_ID"] == warehouse && cuenta["DESCRIPCION"].includes(descripcionWarehouse)});
+      console.log(cuentas);
+      cuenta = cuentas.find((cuenta) => {return cuenta["WAREHOUSE_ID"] == warehouse /* && cuenta["DESCRIPCION"].includes(descripcionWarehouse) */});
      console.log('cuenta: '+cuenta)
       warehouse += cuenta["DESCRIPCION"];
       inputCuenta.value = cuenta["VTEX_CUENTA"];

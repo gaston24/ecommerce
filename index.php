@@ -7,6 +7,7 @@ $pedidos = new Pedido();
 actua_comprobante();
 actua_despacho();
 remitos_buscar_once();
+new_ml();
 
 if(!isset($_GET['desde'])){
 	nc_pendientes();
