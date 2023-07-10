@@ -1,13 +1,12 @@
 <?php
 
 function nc_pendientes(){
-    $dsn = '1 - CENTRAL';
-	$user = 'sa';
-	$pass = 'Axoft1988';
 
-	$cid=odbc_connect($dsn, $user, $pass);
+    require_once 'Class/Conexion.php';
+    $cid = new Conexion();
+    $cid_central = $cid->conectarSql('central');
 
-	if (!$cid){exit("<strong>Ha ocurrido un error tratando de conectarse con el origen de datos.</strong>");}
+	if (!$cid_central){exit("<strong>Ha ocurrido un error tratando de conectarse con el origen de datos.</strong>");}
 
     
     $sqlNc = 
@@ -17,13 +16,13 @@ function nc_pendientes(){
     ;
     
     ini_set('max_execution_time', 300);
-    $result=odbc_exec($cid,$sqlNc)or die(exit("Error en odbc_exec"));
+    $result=sqlsrv_query($cid_central,$sqlNc)or die(exit("Error en odbc_exec"));
     $cont = 0;
     $fecha_array = [];
     $promo_array = [];
     $importe_array = [];
     $cod_articu = [];
-    while($v=odbc_fetch_array($result)){
+    while($v=sqlsrv_fetch_array($result)){
         if($v['NUM_NC'] == 'NO'){
             $fecha_array[$cont] = $v['FECHA'];
             $promo_array[$cont] = $v['DESC_PROMOCION_TARJETA'];

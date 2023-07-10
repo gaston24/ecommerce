@@ -1,12 +1,11 @@
 <?php
 function new_ml_rt($a){
-	$dsn = '1 - CENTRAL';
-	$user = 'sa';
-	$pass = 'Axoft1988';
 
-	$cid=odbc_connect($dsn, $user, $pass);
+	require_once 'Class/Conexion.php';
+	$cid = new Conexion();
+	$cid_central = $cid->conectarSql('central');
 
-	if (!$cid){exit("<strong>Ha ocurrido un error tratando de conectarse con el origen de datos.</strong>");}
+	if (!$cid_central){exit("<strong>Ha ocurrido un error tratando de conectarse con el origen de datos.</strong>");}
 	
 	
 	//////////////TOMA CADA UNO DE LOS PEDIDOS QUE NO ESTAN EN AUDITORIA
@@ -32,9 +31,9 @@ function new_ml_rt($a){
 
 
 	ini_set('max_execution_time', 300);
-	$result=odbc_exec($cid,$sqlPedidosNuevos)or die(exit("Error en odbc_exec"));
+	$result=sqlsrv_query($cid_central,$sqlPedidosNuevos)or die(exit("Error en odbc_exec"));
 		
-	while($v=odbc_fetch_array($result)){
+	while($v=sqlsrv_fetch_array($result)){
 		$ordenEcommerce = $v['NRO_PEDIDO'];
 		$cliente = $v['First_Name'].' '.$v['Last_Name'];
 		$cliente = str_replace("'","''", $cliente);
@@ -73,7 +72,7 @@ function new_ml_rt($a){
 		";
 	
 		// echo $sqlAuditoria;
-		odbc_exec($cid,$sqlAuditoria)or die(exit("Error en odbc_exec"));
+		sqlsrv_query($cid_central,$sqlAuditoria)or die(exit("Error en odbc_exec"));
 		
 	}
 

@@ -3,17 +3,16 @@
 $desde = $_GET['desde'];
 $hasta = $_GET['hasta'];
 
-$dsn = '1 - CENTRAL';
-$user = 'sa';
-$pass = 'Axoft1988';
+require_once 'Class/Conexion.php';
+$cid = new Conexion();
+$cid_central = $cid->conectarSql('central');
 
 $sqlCero = "
 UPDATE SOF_AUDITORIA SET NRO_TRACKING = 0 WHERE NRO_TRACKING = 1
 ";
 
-$cid=odbc_connect($dsn, $user, $pass);
 
-odbc_exec($cid, $sqlCero);
+sqlsrv_query($cid_central, $sqlCero);
 
 
 
@@ -23,7 +22,7 @@ for($x=0; $x<count($_POST['nro_pedido']); $x++){
 		$pedido = $_POST['nro_pedido'][$x];
 	
 		$sqlUno = "UPDATE SOF_AUDITORIA SET NRO_TRACKING = 1 WHERE NRO_PEDIDO = '$pedido'";
-		odbc_exec($cid, $sqlUno);
+		sqlsrv_query($cid_central, $sqlUno);
 }
 $location= 'location:../index.php?desde='.$desde.'&hasta='.$hasta;
 

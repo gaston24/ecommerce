@@ -1,13 +1,12 @@
 <?php
 
 function actua_despacho(){
-	$dsn = '1 - CENTRAL';
-	$user = 'sa';
-	$pass = 'Axoft1988';
 
-	$cid=odbc_connect($dsn, $user, $pass);
+	require_once 'Class/Conexion.php';
+	$cid = new Conexion();
+	$cid_central = $cid->conectarSql('central');
 
-	if (!$cid){exit("<strong>Ha ocurrido un error tratando de conectarse con el origen de datos.</strong>");}
+	if (!$cid_central){exit("<strong>Ha ocurrido un error tratando de conectarse con el origen de datos.</strong>");}
 	
 	
 	//////////////TOMA CADA UNO DE LOS PEDIDOS QUE NO ESTAN EN AUDITORIA
@@ -28,7 +27,7 @@ function actua_despacho(){
 	";
 
 	ini_set('max_execution_time', 300);
-	odbc_exec($cid,$sqlAcutaComprobantes)or die(exit("Error en odbc_exec"));
+	sqlsrv_query($cid_central,$sqlAcutaComprobantes)or die(exit("Error en odbc_exec"));
 }
 
 ?>

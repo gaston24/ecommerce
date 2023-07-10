@@ -1,21 +1,19 @@
 <?php
 
 include 'Controlador/metodos.php';
+require_once 'Conexion.php';
 
 class Pedido{
-    
-    private $dsn = '1 - CENTRAL';
-    private $usuario = "sa";
-    private $clave="Axoft1988";
 
     private function getDatos($sql){
 
-        $cid = odbc_connect($this->dsn, $this->usuario, $this->clave);
+        $cid = new Conexion();
+        $cid_central = $cid->conectarSql('central');
 
         ini_set('max_execution_time', 300);
-        $result=odbc_exec($cid,$sql)or die(exit("Error en odbc_exec"));
+        $result=sqlsrv_query($cid_central,$sql)or die(exit("Error en odbc_exec"));
         $data = [];
-        while($v=odbc_fetch_object($result)){
+        while($v=sqlsrv_fetch_object($result)){
             $data[] = array($v);
         };
         return $data;
