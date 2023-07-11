@@ -1,18 +1,8 @@
 <?php
 require_once "Class/Cliente.php";
-
-
-$cliente = new Cliente();
-$rubros = $cliente->traerRubros();
-$categorias = $cliente->traerCategorias();
-$bancos = $cliente->traerBancos();
-
-
-$desde = (isset($_GET['desde'])) ? $_GET['desde'] : null;
-$hasta = (isset($_GET['hasta'])) ? $_GET['hasta'] : null;
-
-$selectBanco = (isset($_GET['selectBanco'])) ? $_GET['selectBanco'] : [];
-$selectRubro = (isset($_GET['selectRubro'])) ? $_GET['selectRubro'] : [];
+require_once '../vendor/autoload.php';
+include "dataSegmentacionDeClientes.php";
+// var_dump($clientes);
 
 ?>
 
@@ -126,11 +116,32 @@ $selectRubro = (isset($_GET['selectRubro'])) ? $_GET['selectRubro'] : [];
 
                                         <label style="margin-left:20px"><i class="bi bi-briefcase"></i> Categoria</label>
 
-                                        <select id="selectCategoria" style="width:100%;margin-left:20px" class="js-states form-control select2-hidden-accessible" multiple="" data-select2-id="selectCategoria" tabindex="-1" aria-hidden="true">
+                                        <select id="selectCategoria" name="selectCategoria[]" style="width:100%;margin-left:20px" class="js-states form-control select2-hidden-accessible" multiple="" data-select2-id="selectCategoria" tabindex="-1" aria-hidden="true">
                                            
                                             <?php 
                                                 foreach ($categorias as  $categoria) {
-                                                    echo '<option value="'.$categoria['RUBRO'].'">'.$categoria['CATEGORIA'].'</option>';
+                                     
+                                                    $text = '<option value="'.$categoria['RUBRO'].'-'.$categoria['CATEGORIA'].'"';
+
+                                                    if(count($selectCategoria) > 0){
+
+                                                        foreach ($selectCategoria as $caregoria) {
+
+                                                            $rubro = explode("-",$caregoria)[0];
+                                                            $descCategoria = explode("-",$caregoria)[1];
+
+                                                            if($categoria['RUBRO'] == $rubro && $categoria['CATEGORIA'] == $descCategoria){
+
+                                                                $text = $text.'selected="selected"';
+                                                                
+                                                            }
+                                                            
+                                                        }
+
+                                                    }
+
+                                                    $text = $text.'>'.$categoria['CATEGORIA'].'</option>';
+                                                    echo $text;
                                                 }
                                             ?>
 
@@ -141,25 +152,25 @@ $selectRubro = (isset($_GET['selectRubro'])) ? $_GET['selectRubro'] : [];
 
                                         <label style="margin-left:20px"><i class="bi bi-person"></i> Rango Etario</label>
 
-                                        <select id="selectRangoEtario" style="width:100%;margin-left:20px" class="js-states form-control select2-hidden-accessible" multiple="" data-select2-id="selectRangoEtario" tabindex="-1" aria-hidden="true">
+                                        <select id="selectRangoEtario"  name="selectRangoEtario[]" style="width:100%;margin-left:20px" class="js-states form-control select2-hidden-accessible" multiple="" data-select2-id="selectRangoEtario" tabindex="-1" aria-hidden="true">
                                            
-                                            <option value="10-14" >10-14</option>
-                                            <option value="15-19" >15-19</option>
-                                            <option value="20-24" >20-24</option>
-                                            <option value="25-29" >25-29</option>
-                                            <option value="30-34" >30-34</option>
-                                            <option value="35-39" >35-39</option>
-                                            <option value="40-44" >40-44</option>
-                                            <option value="45-49" >45-49</option>
-                                            <option value="50-54" >50-54</option>
-                                            <option value="55-59" >55-59</option>
-                                            <option value="60-64" >60-64</option>
-                                            <option value="65-69" >65-69</option>
-                                            <option value="70-74" >70-74</option>
-                                            <option value="75-79" >75-79</option>
-                                            <option value="80-84" >80-84</option>
-                                            <option value="85-89" >85-89</option>
-                                            <option value="90-94" >90-94</option>
+                                            <option value="10-14" <?php if(in_array("10-14",$selectRangoEtario)) echo "selected" ?> >10-14</option>
+                                            <option value="15-19" <?php if(in_array("15-19",$selectRangoEtario)) echo "selected" ?> >15-19</option>
+                                            <option value="20-24" <?php if(in_array("20-24",$selectRangoEtario)) echo "selected" ?> >20-24</option>
+                                            <option value="25-29" <?php if(in_array("25-29",$selectRangoEtario)) echo "selected" ?> >25-29</option>
+                                            <option value="30-34" <?php if(in_array("30-34",$selectRangoEtario)) echo "selected" ?> >30-34</option>
+                                            <option value="35-39" <?php if(in_array("35-39",$selectRangoEtario)) echo "selected" ?> >35-39</option>
+                                            <option value="40-44" <?php if(in_array("40-44",$selectRangoEtario)) echo "selected" ?> >40-44</option>
+                                            <option value="45-49" <?php if(in_array("45-49",$selectRangoEtario)) echo "selected" ?> >45-49</option>
+                                            <option value="50-54" <?php if(in_array("50-54",$selectRangoEtario)) echo "selected" ?> >50-54</option>
+                                            <option value="55-59" <?php if(in_array("55-59",$selectRangoEtario)) echo "selected" ?> >55-59</option>
+                                            <option value="60-64" <?php if(in_array("60-64",$selectRangoEtario)) echo "selected" ?> >60-64</option>
+                                            <option value="65-69" <?php if(in_array("65-69",$selectRangoEtario)) echo "selected" ?> >65-69</option>
+                                            <option value="70-74" <?php if(in_array("70-74",$selectRangoEtario)) echo "selected" ?> >70-74</option>
+                                            <option value="75-79" <?php if(in_array("75-79",$selectRangoEtario)) echo "selected" ?> >75-79</option>
+                                            <option value="80-84" <?php if(in_array("80-84",$selectRangoEtario)) echo "selected" ?> >80-84</option>
+                                            <option value="85-89" <?php if(in_array("85-89",$selectRangoEtario)) echo "selected" ?> >85-89</option>
+                                            <option value="90-94" <?php if(in_array("90-94",$selectRangoEtario)) echo "selected" ?> >90-94</option>
 
                                         </select>
                                     </div>
@@ -176,20 +187,35 @@ $selectRubro = (isset($_GET['selectRubro'])) ? $_GET['selectRubro'] : [];
                                     <div class="row" style="margin-left:5px;margin-right:30px;;margin-top:30px">
 
                                         <div class="table-responsive" id="tableIndex">
-                                            <table class="table table-hover table-condensed table-striped text-center" style="width: 100%;" cellspacing="0" data-page-length="100">
-                                                <thead class="thead-dark" style="font-size: small;">
-                                                    <th scope="col" style="width: 6%">SUCURSAL</th>
-                                                    <th scope="col" style="width: 15%">NOMBRE</th>
-                                                    <th scope="col" style="width: 8%">PORCENTAJE</th>
-                                                    <th scope="col" style="width: 8%"></th>
+                                            <div class="table-wrapper" id="tableIndex">
+                                                <table class="table table-hover table-condensed table-striped text-center" id="tablaClientes" style="width: 100%;" cellspacing="0" data-page-length="100">
+                                                    
+                                                    <thead class="thead-dark" style="font-size: small;">
+                                                        <th scope="col" style="width: 6%">NOMBRE Y APELLIDO</th>
+                                                        <th scope="col" style="width: 15%">DNI</th>
+                                                        <th scope="col" style="width: 8%">RANGO ETARIO</th>
+                                                        <th scope="col" style="width: 8%">EMAIL</th>
+                                                        <th scope="col" style="width: 8%">CANT.COMPRAS</th>
 
-                                                </thead>
+                                                    </thead>
 
-                                                <tbody id="tableVb" style="font-size: small;">
+                                                    <tbody id="tableVb" style="font-size: small;">
+                                                        <?php 
+                                                            foreach ($clientes as $key => $value) {
+                                                                
+                                                                echo '<tr>';
+                                                                    echo '<td>'.$value['NOMBRE_CLI'].'</td>';
+                                                                    echo '<td>'.$value['DNI'].'</td>';
+                                                                    echo '<td>'.$value['RANGO_ETARIO'].'</td>';
+                                                                    echo '<td>'.$value['E_MAIL'].'</td>';
+                                                                    echo '<td>'.$value['CANTIDAD'].'</td>';
+                                                                echo '</tr>';
+                                                            }
+                                                        ?>
+                                                    </tbody>
 
-                                                </tbody>
-
-                                            </table>
+                                                </table>
+                                            </div>
                                         </div>
 
                                     </div>
@@ -208,7 +234,7 @@ $selectRubro = (isset($_GET['selectRubro'])) ? $_GET['selectRubro'] : [];
         <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
         <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-        
+        <script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -219,10 +245,42 @@ $selectRubro = (isset($_GET['selectRubro'])) ? $_GET['selectRubro'] : [];
     </html>
     <script>    
 
+        $(document).ready( function () {
 
-   
+        $('#tablaClientes').DataTable({
+            "bLengthChange": false,
+            "bInfo": false,
+            "aaSorting": false,
+            'columnDefs': [
+                {
+                    "targets": "_all", 
+                    "className": "text-center",
+                    "sortable": false,
+             
+                },
+            ],
+            "oLanguage": {
+  
+                "sSearch": "Busqueda rapida:",
+                "sSearchPlaceholder" : "Sobre cualquier campo"
+                
+
+            },
+        });
+        $("#tablaClientes_filter").append('<button class="btn btn-success btn_exportar" style="margin-bottom:4px;margin-left:10px;height:40px;margin-right:5px" onclick ="exportTable()"> Exportar<i class="bi bi-file-earmark-excel"></i></button>');
+        $('.dataTables_filter input[type="search"]').css(
+            {'height':'40px'}
+        );
 
 
+        let newdiv2 = document.createElement( "strong" );
+        let newdiv1 =  "<?= $total ?> Registros Encontrado" ;
+        newdiv2.append(newdiv1)
+
+        $("#tablaClientes_filter").parent().parent().children()[0].appendChild(newdiv2);
+
+    
+    } );
 
     // document.querySelector("#selectBanco").selectedOptions[0].value
     </script>

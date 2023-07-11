@@ -56,7 +56,7 @@ const filtrarCategoria = () =>{
             success: function (data) {
                 let html = '';
                 data.forEach(element => {
-                    html += `<option value="${element.CATEGORIA}">${element.CATEGORIA}</option>`;
+                    html += `<option value="${element.RUBRO}-${element.CATEGORIA}">${element.CATEGORIA}</option>`;
                 });
                 $('#selectCategoria').html("");
                 $('#selectCategoria').html(html);
@@ -66,3 +66,15 @@ const filtrarCategoria = () =>{
         })
 
 }
+
+const exportTable = () =>{
+
+    $(`#tablaClientes`).table2excel({
+    // exclude CSS class
+    exclude: ".noE  xl",
+    name: "excel Document ",
+    filename: "Excel", //do not include extension
+    fileext: ".xlsx" // file extension
+    });
+
+    }

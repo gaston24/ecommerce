@@ -17,10 +17,11 @@ switch ($accion) {
 function traerCategorias () {
 
     require_once "../Class/Cliente.php";
-
-    $cliente = new Cliente();
+    require_once '../../vendor/autoload.php';
 
     $rubros = $_POST['rubros'];
+
+    $cliente = new Cliente();
 
     $categorias = $cliente->traerCategorias($rubros);
 
