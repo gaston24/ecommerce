@@ -72,7 +72,7 @@ class Cliente{
         return $array;
     }
 
-    public function traerClientes($desde,$hasta,$selectBanco,$selectRubro,$selectCategoria,$selectRangoEtario){
+    public function traerClientes($desde, $hasta, $selectBanco, $selectRubro, $selectCategoria, $selectRangoEtario){
       
 
         $mongoCollection = $this->cid_mongo->selectCollection("Ventas");
@@ -82,12 +82,19 @@ class Cliente{
         if($selectBanco != null){
             $filter["BANCO"] = array('$in' => $selectBanco);
         }
-        if($selectRubro != null){
-            $filter["RUBRO"] = array('$in' => $selectRubro);
+        
+        if($selectRubro != null || $selectCategoria != null){
+            $articulosFilter = [];
+            if($selectRubro != null){
+                $articulosFilter["RUBRO"] = array('$in' => $selectRubro);
+            }
+            if($selectCategoria != null){
+                $articulosFilter["CATEGORIA"] = array('$in' => $selectCategoria);
+            }
+            $filter["ARTICULOS"] = ['$elemMatch' => $articulosFilter];
         }
-        if($selectCategoria != null){
-            $filter["CATEGORIA"] = array('$in' => $selectCategoria);
-        }
+
+        
         if($selectRangoEtario != null){
             $filter["RANGO_ETARIO"] = array('$in' => $selectRangoEtario);
         }
@@ -101,10 +108,25 @@ class Cliente{
 
         }
  
-
         $options = [
-        'projection' => []
-        ]; // Opciones adicionales, como ordenar los resultados, limitarlos, etc.
+            'projection' => [
+                'NOMBRE_CLI' => 1,
+                'DNI' => 1,
+                'RANGO_ETARIO' => 1,
+                'E_MAIL' => 1,
+                'ARTICULOS' => 1
+            ],
+            'sort' => ['NOMBRE_CLI' => 1],
+            'collation' => ['locale' => 'es'],
+            'group' => [
+                '_id' => '$NOMBRE_CLI',
+                'nombre' => '$NOMBRE_CLI',
+                'dni' => ['$first' => '$DNI'],
+                'rango etario' => ['$first' => '$RANGO_ETARIO'],
+                'articulos' => ['$push' => '$ARTICULOS']
+            ]
+        ];
+
 
         $result = $mongoCollection->find($filter, $options);
         $newArray = [];

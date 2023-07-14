@@ -202,13 +202,21 @@ include "dataSegmentacionDeClientes.php";
                                                     <tbody id="tableVb" style="font-size: small;">
                                                         <?php 
                                                             foreach ($clientes as $key => $value) {
-                                                                
+                                           
+                                                                $dataArray = (array) $value;
+                                                                $cantidad = 0;
+
+                                                                foreach ($dataArray['ARTICULOS'] as $v) {
+                                                                    $cantidad += $v['CANTIDAD'];
+                                                                } 
+
+                                                            
                                                                 echo '<tr>';
                                                                     echo '<td>'.$value['NOMBRE_CLI'].'</td>';
                                                                     echo '<td>'.$value['DNI'].'</td>';
                                                                     echo '<td>'.$value['RANGO_ETARIO'].'</td>';
                                                                     echo '<td>'.$value['E_MAIL'].'</td>';
-                                                                    echo '<td>'.$value['CANTIDAD'].'</td>';
+                                                                    echo '<td>'.$cantidad.'</td>';
                                                                 echo '</tr>';
                                                             }
                                                         ?>
