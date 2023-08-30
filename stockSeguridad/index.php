@@ -77,6 +77,7 @@ $matrizStockSeguridad = new Matriz();
                     <th scope="col" style="width: 1%">CHALINAS</th>
                     <th scope="col" style="width: 1%">CINTOS<BR>DE CUERO</th>
                     <th scope="col" style="width: 1%">CINTOS<BR>DE VINILICO</th>
+                    <th scope="col" style="width: 1%">INDUMENTARIA</th>
                     <th scope="col" style="width: 1%">LENTES</th>
                     <th scope="col" style="width: 1%">RELOJES</th>
                 </thead>
@@ -101,6 +102,7 @@ $matrizStockSeguridad = new Matriz();
                             <td><input type="number" class="inputNumber" name="CHALINAS" value="<?= $value->CHALINAS ?>" disabled></td>
                             <td><input type="number" class="inputNumber" name="CINTOS_DE_CUERO" value="<?= $value->CINTOS_DE_CUERO ?>" disabled></td>
                             <td><input type="number" class="inputNumber" name="CINTOS_DE_VINILICO" value="<?= $value->CINTOS_DE_VINILICO ?>" disabled></td>
+                            <td><input type="number" class="inputNumber" name="INDUMENTARIA" value="<?= $value->INDUMENTARIA ?>" disabled></td>
                             <td><input type="number" class="inputNumber" name="LENTES" value="<?= $value->LENTES ?>" disabled></td>
                             <td><input type="number" class="inputNumber" name="RELOJES" value="<?= $value->RELOJES ?>" disabled></td>
                         </tr>
