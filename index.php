@@ -83,8 +83,10 @@ $hasta = (!isset($_GET['hasta'])) ? $hoy : $_GET['hasta'];
 		?>
 		
 		<div class="col-sm-1 pt-4">
-			<input type="submit" class="btn btn-primary" value="Buscar">
+			<input type="submit" class="btn btn-primary btn-buscar" value="Buscar">
 		</div>
+		<!-- spinner -->
+		<div id="boxLoading"></div> 
 	  
 	  </div>
 	  
@@ -297,6 +299,12 @@ $id++;
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <script>
+
+//Spinner listOrdenesActivas.php//
+var btn = document.querySelectorAll('.btn-buscar');
+    btn.forEach(el => {
+        el.addEventListener("click", ()=>{$("#boxLoading").addClass("loading")});
+    })
 
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
