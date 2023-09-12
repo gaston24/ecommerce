@@ -15,8 +15,12 @@ if(!isset($_GET['desde'])){
 
 $hoy = date("Y-m-d");
 $tienda = (!isset($_GET['tienda'])) ? '%' : '%'.$_GET['tienda'].'%';
+$warehouse = (!isset($_GET['warehouse'])) ? '%' : '%'.$_GET['warehouse'].'%';
 $desde = (!isset($_GET['desde'])) ? $hoy : $_GET['desde'];
 $hasta = (!isset($_GET['hasta'])) ? $hoy : $_GET['hasta'];
+$todosLosWarehouse = $pedidos->traerWarehouse();
+							
+
 
 ?>
 
@@ -45,59 +49,64 @@ $hasta = (!isset($_GET['hasta'])) ? $hoy : $_GET['hasta'];
 <body>
 <div class="container-fluid">
 
-<div class="row mb-2"  id="render">
+<div class="alert alert-primary" role="alert">
+	<h3 class="mt-2"><i class="bi bi-handbag"></i> Estado Pedidos Ecommerce</h3>
 
-	<div class="col" id="formulario">
 
-	<form method="GET" action="">
-		<div class="row mb-1">
-		
-		<div class="col-sm-2">
-		<label class="col-sm col-form-label">Desde:</label>
-			<input type="date" class="form-control form-control-sm" name="desde" value="<?=$desde?>">
-		</div>
-	  
-		<div class="col-sm-2">
-		<label class="col-sm col-form-label">Hasta:</label>
-			<input type="date" class="form-control form-control-sm" name="hasta" value="<?=$hasta?>">
-		</div>
+<div class="row"  id="render">
+
+	<div id="formulario" class="mt-2">
+
+	<form class="form-inline" method="GET" action="">		
+
+		<label>Desde:</label>
+		<input type="date" class="form-control form-control-sm ml-1" name="desde" value="<?=$desde?>">
+		<label class="ml-2">Hasta:</label>
+		<input type="date" class="form-control form-control-sm ml-1" name="hasta" value="<?=$hasta?>">
 				
-		<div class="col-sm-2" id="gaston">
-		<label class="col-sm col-form-label">Tienda:</label>
-			<select class="form-control form-control-sm" name="tienda">
+		<label class="ml-2">Tienda:</label>
+		<select class="form-control form-control-sm ml-1" name="tienda">
 			<option selected></option>
+			<option value="APPER">APPER</option>
 			<option value="VTEX">VTEX</option>
 			<option value="ML">MERCADO LIBRE</option>
 			<option value="DAA">DAFITI</option>
-			</select >
-		</div>
-		<?php 
-		if(isset($_GET['desde'])){			
-		?>
-		<div class="col-sm-2" id="busqueda" style="display:none">
-		<label class="col-sm col-form-label">Busqueda:</label>
-			<input type="text" class="form-control form-control-sm" onkeyup="busquedaRapida()" onkeypress = "return pulsar(event)" id="textBox" name="factura" placeholder="Sobre cualquier campo.." autofocus>
-		</div>
-		<?php 
-		}
-		?>
+		</select >
+
+		<label class="ml-2">Origen:</label>
+		<select class="form-control form-control-sm ml-1" name="warehouse">
+				<option selected></option>
+                        <?php
+						
+                    foreach($todosLosWarehouse as $warehouse => $key){
+					
+                    ?>
+					
+                <option value="<?= $key[0]->WAREHOUSE ?>"><?= $key[0]->WAREHOUSE ?></option>
+                    <?php   
+                    }
+                    ?>
+		</select >
 		
-		<div class="col-sm-1 pt-4">
-			<input type="submit" class="btn btn-primary btn-buscar" value="Buscar">
+		<div class="ml-2">
+			<button type="submit" class="btn btn-primary btn-buscar">Buscar <i class="bi bi-search"></i></button>
 		</div>
 		<!-- spinner -->
 		<div id="boxLoading"></div> 
-	  
-	  </div>
-	  
-	  
-	  
 
+		<?php 
+		if(isset($_GET['desde'])){			
+		?>
+		<label class="ml-2">Busqueda:</label>
+			<input type="text" class="form-control form-control-sm ml-1" onkeyup="busquedaRapida()" onkeypress = "return pulsar(event)" id="textBox" name="factura" placeholder="Sobre cualquier campo.." autofocus>
+		<?php 
+		}
+		?>
 
 <?php
 if(isset($_GET['desde'])){
 
-$arrayPedidos = $pedidos->traerPedidos($desde, $hasta, $tienda);
+$arrayPedidos = $pedidos->traerPedidos($desde, $hasta, $tienda, $warehouse);
 
 $bandera = 0;
 $pedido_viejo = '';
@@ -109,33 +118,27 @@ $pedido_nuevo = '';
 	
 	</div>
 
-	<div class="col-1 mt-4 mr-1">
+	<div class="mt-2" style="margin-left: 1.5rem;">
 		<button onclick="filterPendientes()" id="buttonPendientes">Pendientes</button>
 		</svg>
 	</div>
 
-	<div class="col-1 mt-4 mr-1">
+	<div class="ml-1 mt-2">
 		<button onclick="filterCancelados()" id="buttonCancelados">Sin NC</button>
 		</svg>
 	</div>
 
-	<div class="col-1 mt-4 mr-1">
+	<div class="ml-1 mt-2">
 		<button onclick="filterIncompletos()" id="buttonIncompletos">Incompletos</button>
 		</svg>
 	</div>
-	
-	<!-- <div class="col-2 col-auto mr-auto" id="botones">
-		<div class="col mt-4" id="columnita">
-			<button class="btn btn-info" onClick="total()">Marcar Imprimir </button>
-		</div>
-	</div> -->
 
-	
+</div>
+
 </div>
 
 
-
-<div style="width:100%; padding-bottom:5%; margin-bottom:5%" >
+<div style="width:100%;" >
 <div >
 <a id="prueba">
 

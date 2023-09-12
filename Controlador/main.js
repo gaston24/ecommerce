@@ -67,7 +67,7 @@ function filterIncompletos(){
   }
  
   if($('#buttonIncompletos').css("background-color") == 'rgb(220, 53, 69)'){
-    $('#buttonIncompletos').css("color", '#dc3545').css("background-color",'#f7f7f7').css("border-style",'#dc3545').css("width",'100px').css("hover:outline",'none');
+    $('#buttonIncompletos').css("color", '#dc3545').css("background-color",'#f7f7f7').css("border-style",'#dc3545').css("width",'10vh').css("hover:outline",'none');
     $('#buttonIncompletos').text("Todos");
   }else{
     $('#buttonIncompletos').css("color", '#f7f7f7').css("background-color",'#dc3545').css("border-style",'#dc3545');
@@ -112,7 +112,7 @@ function filterCancelados(){
   }
  
   if($('#buttonCancelados').css("background-color") == 'rgb(0, 123, 255)'){
-    $('#buttonCancelados').css("color", '#007bff').css("background-color",'#f7f7f7').css("border-style",'#007bff').css("width",'100px').css("hover:outline",'none');
+    $('#buttonCancelados').css("color", '#007bff').css("background-color",'#f7f7f7').css("border-style",'#007bff').css("width",'10vh').css("hover:outline",'none');
     $('#buttonCancelados').text("Todos");
   }else{
     $('#buttonCancelados').css("color", '#f7f7f7').css("background-color",'#007bff').css("border-style",'#007bff');
@@ -157,7 +157,7 @@ function filterPendientes(){
   }
  
   if($('#buttonPendientes').css("background-color") == 'rgb(255, 193, 7)'){
-    $('#buttonPendientes').css("color", '#ffc107').css("background-color",'#f7f7f7').css("border-style",'#ffc107').css("width",'100px').css("hover:outline",'none');
+    $('#buttonPendientes').css("color", '#ffc107').css("background-color",'#f7f7f7').css("border-style",'#ffc107').css("width",'10vh').css("hover:outline",'none');
     $('#buttonPendientes').text("Todos");
   }else{
     $('#buttonPendientes').css("color", '#f7f7f7').css("background-color",'#ffc107').css("border-style",'#ffc107');

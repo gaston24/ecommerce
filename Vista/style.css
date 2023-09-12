@@ -22,7 +22,7 @@ table.table-fh > thead {
 }
 table.table-fh > tbody {
     display: block;
-    max-height: 75vh;
+    max-height: 70vh;
     overflow-y: scroll;
 }
 
@@ -73,7 +73,8 @@ td{
     border-color: #dc3545;
     border-radius: 5px;
     height: 40px;
-    width: 100px;
+    width: 10vh;
+    font-size: 12px;
 }
 
 #buttonCancelados{
@@ -82,7 +83,8 @@ td{
     border-color: #007bff;
     border-radius: 5px;
     height: 40px;
-    width: 100px;
+    width: 10vh;
+    font-size: 12px;
 }
 
 #buttonPendientes{
@@ -91,7 +93,8 @@ td{
     border-color: #ffc107;
     border-radius: 5px;
     height: 40px;
-    width: 100px;
+    width: 10vh;
+    font-size: 12px;
 }
 
 #buttonIncompletos:focus{
