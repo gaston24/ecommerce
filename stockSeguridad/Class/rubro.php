@@ -7,10 +7,10 @@ class Rubro
     private function retornarArray($sqlEnviado)
     {
 
-        require_once 'conexion.php';
+        require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/Class/Conexion.php';
 
         $cid = new Conexion();
-        $cid_central = $cid->conectar();
+        $cid_central = $cid->conectarSql('central');
         $sql = $sqlEnviado;
 
         $stmt = sqlsrv_query($cid_central, $sql);

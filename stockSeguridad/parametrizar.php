@@ -1,6 +1,6 @@
 <?php
 
-/* require_once 'Class/cuenta.php'; */
+require_once 'Class/cuenta.php'; 
 
 $cuenta2 = new Cuenta();
 $todasLasCuentas = $cuenta2->traerCuentas3();
