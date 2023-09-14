@@ -18,7 +18,6 @@ while($v=sqlsrv_fetch_object($result)){
 	$cliente[] = $v -> COD_PRO_CL;
 }
 
-//odbc_close($cdn);
 
 
 function insertarRemitosOnce($remito){

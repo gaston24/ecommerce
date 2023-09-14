@@ -1,14 +1,10 @@
 <?php
 function new_daf(){
-	// $dsn = '1 - CENTRAL';
-	// $user = 'sa';
-	// $pass = 'Axoft1988';
 
 	require_once 'Class/Conexion.php';
 	$cid = new Conexion();
 	$cid_central = $cid->conectarSql('central');
 
-	// $cid=odbc_connect($dsn, $user, $pass);
 
 	if (!$cid_central){exit("<strong>Ha ocurrido un error tratando de conectarse con el origen de datos.</strong>");}
 	
