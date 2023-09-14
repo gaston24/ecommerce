@@ -1,17 +1,20 @@
 <?php
 
-include 'Controlador/metodos.php';
-require_once 'Conexion.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/Class/Conexion.php';
+
+
+
+
 
 class Pedido{
+    
 
     private function getDatos($sql){
-
         $cid = new Conexion();
         $cid_central = $cid->conectarSql('central');
 
         ini_set('max_execution_time', 300);
-        $result=sqlsrv_query($cid_central,$sql)or die(exit("Error en odbc_exec"));
+        $result=sqlsrv_query($cid_central,$sql)or die(exit("Error en sqlsrv_query"));
         $data = [];
         while($v=sqlsrv_fetch_object($result)){
             $data[] = array($v);
@@ -22,13 +25,32 @@ class Pedido{
 
     
     
-    public function traerPedidos($desde, $hasta, $tienda){
+    public function traerPedidos($desde, $hasta, $tienda, $warehouse){
 
         $tienda = $_GET['tienda'];
+        $warehouse = $_GET['warehouse'];
             
         $sql = "
         SET DATEFORMAT YMD
-        EXEC RO_ECOMMERCE_PEDIDOS '$desde', '$hasta', '%$tienda'
+        EXEC RO_ECOMMERCE_PEDIDOS '$desde', '$hasta', '%$tienda', '%$warehouse'
+        ";
+
+        $array = $this->getDatos($sql);    
+
+        return $array;
+    }
+
+    public function traerWarehouse(){
+
+            
+        $sql = "SELECT * FROM
+                (
+                SELECT REPLACE(NOMBRE_SUC, 'RT - SUC - ', '') WAREHOUSE FROM STA22
+                WHERE NOMBRE_SUC LIKE 'RT%'
+                    UNION ALL
+                SELECT 'CENTRAL'
+                ) A
+                ORDER BY 1
         ";
 
         $array = $this->getDatos($sql);    

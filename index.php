@@ -3,11 +3,11 @@
 require_once 'Class/Pedido.php';
 
 $pedidos = new Pedido();
+
 actua_comprobante();
 actua_despacho();
 remitos_buscar_once();
 new_ml();
-
 
 if(!isset($_GET['desde'])){
 	nc_pendientes();
@@ -15,8 +15,12 @@ if(!isset($_GET['desde'])){
 
 $hoy = date("Y-m-d");
 $tienda = (!isset($_GET['tienda'])) ? '%' : '%'.$_GET['tienda'].'%';
+$warehouse = (!isset($_GET['warehouse'])) ? '%' : '%'.$_GET['warehouse'].'%';
 $desde = (!isset($_GET['desde'])) ? $hoy : $_GET['desde'];
 $hasta = (!isset($_GET['hasta'])) ? $hoy : $_GET['hasta'];
+$todosLosWarehouse = $pedidos->traerWarehouse();
+							
+
 
 ?>
 
@@ -28,20 +32,16 @@ $hasta = (!isset($_GET['hasta'])) ? $hoy : $_GET['hasta'];
 <meta charset="UTF-8"></meta>
 <link rel="shortcut icon" href="assets/icono.ico" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css" > -->
-<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
-<!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script> -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script> -->
+<link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css" >
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"/> -->
-<!-- Including Font Awesome CSS from CDN to show icons
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"/>
+<!-- Including Font Awesome CSS from CDN to show icons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-<?php 
-	require_once $_SERVER['DOCUMENT_ROOT'] . '/ecommerce/assets/css/css.php';
-?>
-
 <link rel="stylesheet" href="vista/style.css">
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 </head>
@@ -49,57 +49,64 @@ $hasta = (!isset($_GET['hasta'])) ? $hoy : $_GET['hasta'];
 <body>
 <div class="container-fluid">
 
-<div class="row mb-2"  id="render">
+<div class="alert alert-primary" role="alert">
+	<h3 class="mt-2"><i class="bi bi-handbag"></i> Estado Pedidos Ecommerce</h3>
 
-	<div class="col" id="formulario">
 
-	<form method="GET" action="">
-		<div class="row mb-1">
-		
-		<div class="col-sm-2">
-		<label class="col-sm col-form-label">Desde:</label>
-			<input type="date" class="form-control form-control-sm" name="desde" value="<?=$desde?>">
-		</div>
-	  
-		<div class="col-sm-2">
-		<label class="col-sm col-form-label">Hasta:</label>
-			<input type="date" class="form-control form-control-sm" name="hasta" value="<?=$hasta?>">
-		</div>
+<div class="row"  id="render">
+
+	<div id="formulario" class="mt-2">
+
+	<form class="form-inline" method="GET" action="">		
+
+		<label>Desde:</label>
+		<input type="date" class="form-control form-control-sm ml-1" name="desde" value="<?=$desde?>">
+		<label class="ml-2">Hasta:</label>
+		<input type="date" class="form-control form-control-sm ml-1" name="hasta" value="<?=$hasta?>">
 				
-		<div class="col-sm-2" id="gaston">
-		<label class="col-sm col-form-label">Tienda:</label>
-			<select class="form-control form-control-sm" name="tienda">
+		<label class="ml-2">Tienda:</label>
+		<select class="form-control form-control-sm ml-1" name="tienda">
 			<option selected></option>
+			<option value="APPER">APPER</option>
 			<option value="VTEX">VTEX</option>
 			<option value="ML">MERCADO LIBRE</option>
 			<option value="DAA">DAFITI</option>
-			</select >
+		</select >
+
+		<label class="ml-2">Origen:</label>
+		<select class="form-control form-control-sm ml-1" name="warehouse">
+				<option selected></option>
+                        <?php
+						
+                    foreach($todosLosWarehouse as $warehouse => $key){
+					
+                    ?>
+					
+                <option value="<?= $key[0]->WAREHOUSE ?>"><?= $key[0]->WAREHOUSE ?></option>
+                    <?php   
+                    }
+                    ?>
+		</select >
+		
+		<div class="ml-2">
+			<button type="submit" class="btn btn-primary btn-buscar">Buscar <i class="bi bi-search"></i></button>
 		</div>
+		<!-- spinner -->
+		<div id="boxLoading"></div> 
+
 		<?php 
 		if(isset($_GET['desde'])){			
 		?>
-		<div class="col-sm-2" id="busqueda" style="display:none">
-		<label class="col-sm col-form-label">Busqueda:</label>
-			<input type="text" class="form-control form-control-sm" onkeyup="busquedaRapida()" onkeypress = "return pulsar(event)" id="textBox" name="factura" placeholder="Sobre cualquier campo.." autofocus>
-		</div>
+		<label class="ml-2">Busqueda:</label>
+			<input type="text" class="form-control form-control-sm ml-1" onkeyup="busquedaRapida()" onkeypress = "return pulsar(event)" id="textBox" name="factura" placeholder="Sobre cualquier campo.." autofocus>
 		<?php 
 		}
 		?>
-		
-		<div class="col-sm-1 pt-4">
-			<input type="submit" class="btn btn-primary" value="Buscar">
-		</div>
-	  
-	  </div>
-	  
-	  
-	  
-
 
 <?php
 if(isset($_GET['desde'])){
 
-$arrayPedidos = $pedidos->traerPedidos($desde, $hasta, $tienda);
+$arrayPedidos = $pedidos->traerPedidos($desde, $hasta, $tienda, $warehouse);
 
 $bandera = 0;
 $pedido_viejo = '';
@@ -111,33 +118,27 @@ $pedido_nuevo = '';
 	
 	</div>
 
-	<div class="col-1 mt-4 mr-1">
+	<div class="mt-2" style="margin-left: 1.5rem;">
 		<button onclick="filterPendientes()" id="buttonPendientes">Pendientes</button>
 		</svg>
 	</div>
 
-	<div class="col-1 mt-4 mr-1">
+	<div class="ml-1 mt-2">
 		<button onclick="filterCancelados()" id="buttonCancelados">Sin NC</button>
 		</svg>
 	</div>
 
-	<div class="col-1 mt-4 mr-1">
+	<div class="ml-1 mt-2">
 		<button onclick="filterIncompletos()" id="buttonIncompletos">Incompletos</button>
 		</svg>
 	</div>
-	
-	<!-- <div class="col-2 col-auto mr-auto" id="botones">
-		<div class="col mt-4" id="columnita">
-			<button class="btn btn-info" onClick="total()">Marcar Imprimir </button>
-		</div>
-	</div> -->
 
-	
+</div>
+
 </div>
 
 
-
-<div style="width:100%; padding-bottom:5%; margin-bottom:5%" >
+<div style="width:100%;" >
 <div >
 <a id="prueba">
 
@@ -173,8 +174,8 @@ $pedido_nuevo = '';
 $id = 0;
 foreach($arrayPedidos as $key => $value){
 
-	// $date = date_create($value[0]->FECHA_PEDIDO);
-	// $date = date_format($date,"Y/m/d");
+	$date = date_create($value[0]->FECHA_PEDIDO);
+	$date = date_format($date,"Y/m/d");
 ?>
 		<div class="row" >
 		
@@ -214,7 +215,7 @@ foreach($arrayPedidos as $key => $value){
 			</td>
 
 
-			<td style="width: 6%;"><?= $value[0]->FECHA_PEDIDO->format("Y-m-d") ?></td>
+			<td style="width: 6%;"><?= $date?></td>
 			<td style="width: 5%;"><?= $value[0]->HORA?></td>
 			<td style="width: 7%;"><?= $value[0]->NRO_PEDIDO?></td>
 			<td style="width: 12%;" name="orden_<?php ?>"><small><?= $value[0]->RAZON_SOCIAL?></small></td>
@@ -293,14 +294,20 @@ $id++;
 
   
 </div>
-<script type="text/javascript" src="assets/js/js.php"></script>
+<script type="text/javascript" src="Controlador/main.js"></script>
 
 
-<!-- <script src="assets/bootstrap/popper.min.js" ></script>
+<script src="assets/bootstrap/popper.min.js" ></script>
 <script src="assets/bootstrap/bootstrap.min.js" ></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-<!-- <script> -->
+<script>
+
+//Spinner listOrdenesActivas.php//
+var btn = document.querySelectorAll('.btn-buscar');
+    btn.forEach(el => {
+        el.addEventListener("click", ()=>{$("#boxLoading").addClass("loading")});
+    })
 
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
