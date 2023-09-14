@@ -1,7 +1,11 @@
 <?php
 
 require_once 'Class/Pedido.php';
-
+require_once 'Controlador/actua_comprobante.php';
+require_once 'Controlador/actua_despacho.php';
+require_once 'Controlador/envio_remitos_once.php';
+require_once 'Controlador/nuevo_ml.php';
+require_once 'Controlador/nc_pend.php';
 $pedidos = new Pedido();
 
 actua_comprobante();
@@ -174,8 +178,8 @@ $pedido_nuevo = '';
 $id = 0;
 foreach($arrayPedidos as $key => $value){
 
-	$date = date_create($value[0]->FECHA_PEDIDO);
-	$date = date_format($date,"Y/m/d");
+	// $date = date_create($value[0]->FECHA_PEDIDO);
+	// $date = date_format($date,"Y/m/d");
 ?>
 		<div class="row" >
 		
@@ -215,7 +219,7 @@ foreach($arrayPedidos as $key => $value){
 			</td>
 
 
-			<td style="width: 6%;"><?= $date?></td>
+			<td style="width: 6%;"><?= $value[0]->FECHA_PEDIDO->format("Y-m-d"); ?></td>
 			<td style="width: 5%;"><?= $value[0]->HORA?></td>
 			<td style="width: 7%;"><?= $value[0]->NRO_PEDIDO?></td>
 			<td style="width: 12%;" name="orden_<?php ?>"><small><?= $value[0]->RAZON_SOCIAL?></small></td>
@@ -294,7 +298,10 @@ $id++;
 
   
 </div>
-<script type="text/javascript" src="Controlador/main.js"></script>
+<?php 
+	require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/assets/css/css.php';
+?>
+<!-- <script type="text/javascript" src="Controlador/main.js"></script> -->
 
 
 <script src="assets/bootstrap/popper.min.js" ></script>
