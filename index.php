@@ -158,7 +158,7 @@ $pedido_nuevo = '';
 		<th style="width: 8%;" class="headerTitle">COD<BR>ARTICULO</th>
 		<th style="width: 8%;" class="headerTitle">DESC<BR>ARTICULO</th>
 		<th style="width: 4%; text-align: left; padding-left: 0px" class="headerTitle">CANT</th>
-		<th style="width: 5%;" class="headerTitle">IMPORTE</th>
+		<th style="width: 7%;" class="headerTitle">IMPORTE</th>
 		<th style="width: 5.5%;" class="headerTitle">NRO<BR>FACT</th>
 		<th style="width: 5%;" class="headerTitle">DEPOSITO</th>
 		<th style="width: 5%;" class="headerTitle">METODO<BR>ENVIO</th>
@@ -217,16 +217,16 @@ foreach($arrayPedidos as $key => $value){
 
 
 			<td style="width: 6%;"><?= $value[0]->FECHA_PEDIDO->format("Y-m-d"); ?></td>
-			<td style="width: 5%;"><?= $value[0]->HORA?></td>
-			<td style="width: 7%;"><?= $value[0]->NRO_PEDIDO?></td>
-			<td style="width: 12%;" name="orden_<?php ?>"><small><?= $value[0]->RAZON_SOCIAL?></small></td>
-			<td style="width: 8%;"><?= $value[0]->COD_ARTICULO;?></td>
-			<td style="width: 11%;"><small><?= $value[0]->DESCRIPCION;?></small></td>
-			<td style="width: 4%;" style="text-align: left;"><?= $value[0]->CANTIDAD_A_FACTURAR;?></td>
-			<td style="width: 5%;" ><?= '$ '.number_format($value[0]->IMPORTE_PAGO , 0, '', '.')?></td>
-			<td style="width: 5%;" style="text-align: center;"><small><?= $value[0]->NRO_COMP?></small></td>
-			<td style="width: 5%;" style="text-align: center;"><small><?= $value[0]->WAREHOUSE?></small></td>
-			<td style="width: 5%;" style="text-align: center;"><small><?= $value[0]->METODO_ENVIO?></small></td>
+			<td style="width: 5%;padding-left:3%"><?= $value[0]->HORA?></td>
+			<td style="width: 7%;padding-left:3%"><?= $value[0]->NRO_PEDIDO?></td>
+			<td style="width: 12%;padding-left:2%" name="orden_<?php ?>"><small><?= $value[0]->RAZON_SOCIAL?></small></td>
+			<td style="width: 8%;padding-left:4%"><?= $value[0]->COD_ARTICULO;?></td>
+			<td style="width: 11%;padding-left:3%"><small><?= $value[0]->DESCRIPCION;?></small></td>
+			<td style="width: 4%;padding-left:2%" style="text-align: left;"><?= $value[0]->CANTIDAD_A_FACTURAR;?></td>
+			<td style="width: 7%;padding-left:3%" ><?= '$ '.number_format($value[0]->IMPORTE_PAGO , 0, '', '.')?></td>
+			<td style="width: 5%;padding-left:3%" style="text-align: center;"><small><?= $value[0]->NRO_COMP?></small></td>
+			<td style="width: 5%;padding-left:4%" style="text-align: center;"><small><?= $value[0]->WAREHOUSE?></small></td>
+			<td style="width: 5%;padding-left:4%" style="text-align: center;"><small><?= $value[0]->METODO_ENVIO?></small></td>
 			<td style="width: 5%;" style="text-align: center;"><small><?= $value[0]->DESC_SUCURSAL?></small></td>
 			<td style="width: 0.1rem;" id="cancelado">
 			<?php if($value[0]->CANCELADO == 1 && $value[0]->FACTURADO == 1 && !isset($value[0]->NCR)){?>
