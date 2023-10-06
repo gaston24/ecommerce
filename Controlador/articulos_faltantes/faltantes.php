@@ -22,8 +22,6 @@ $string = "
     <th>Descripcion Articulo</th>
     <th>Cantidad</th>
     <th>01</th>
-    <th>09</th>
-    <th>12</th>
 </thead>
 <tbody>
 <?php
@@ -40,8 +38,6 @@ foreach($list as $pendientes){
         $string .= '<td>'.$pendientes[9].'</td>';
         $string .= '<td>'.$pendientes[10].'</td>';
         $string .= '<td>'.$pendientes[30].'</td>';
-        $string .= '<td>'.$pendientes[31].'</td>';
-        $string .= '<td>'.$pendientes[32].'</td>';
     $string .= '</tr>';
 }
 
