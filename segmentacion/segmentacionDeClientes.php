@@ -106,7 +106,7 @@ include "dataSegmentacionDeClientes.php";
 
                                     <div class="row" style="margin-top:5px">
 
-                                        <label style="margin-left:20px"><i class="bi bi-briefcase"></i> Categoria</label>
+                                        <label style="margin-left:20px"><i class="bi bi-briefcase"></i> Categoria </label>
 
                                         <select id="selectCategoria" name="selectCategoria[]" style="width:100%;margin-left:20px" class="js-states form-control select2-hidden-accessible" multiple="" data-select2-id="selectCategoria" tabindex="-1" aria-hidden="true">
                                            
