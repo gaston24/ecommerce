@@ -70,7 +70,6 @@ $todosLosWarehouse = $pedidos->traerWarehouse();
 			<option value="APPER">APPER</option>
 			<option value="VTEX">VTEX</option>
 			<option value="ML">MERCADO LIBRE</option>
-			<option value="DAA">DAFITI</option>
 		</select >
 
 		<label class="ml-2">Origen:</label>
@@ -251,13 +250,13 @@ foreach($arrayPedidos as $key => $value){
 						<i class="fas fa-square" style="color: white; font-size: 20px;">
 						<?php } ?>
 			</td>
-			<td width="0.1rem" id="incompleto">
+			<!-- <td width="0.1rem" id="incompleto">
 			<?php if($value[0]->FALTANTE== 1){ ?>
 				<i title="Pedido incompleto" data-toggle="tooltip" data-placement="left" class="bi bi-cart-dash-fill incompleto" style="color: orange; font-size: 20px;"></i>	
 				<?php }else if($value[0]->FALTANTE== 0){?>
 					<i class="fas fa-square" style="color: white; font-size: 20px;">
 					<?php } ?>
-			</td>
+			</td> -->
 			<td width="0.1rem">
 			<?php if($value[0]->DESPACHADO== 1){ ?>
 				<i class="fas fa-truck"  data-toggle="tooltip" data-placement="left" title="Despachado <?= $value[0]->FECHA_DESPACHO?>" style="color: #17a2b8; font-size: 17px;"></i>

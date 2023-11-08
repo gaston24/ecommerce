@@ -12,7 +12,7 @@ class Pedido{
 
         $cid = odbc_connect($this->dsn, $this->usuario, $this->clave);
 
-        ini_set('max_execution_time', 300);
+        ini_set('max_execution_time', 500);
         $result=odbc_exec($cid,$sql)or die(exit("Error en odbc_exec"));
         $data = [];
         while($v=odbc_fetch_object($result)){
