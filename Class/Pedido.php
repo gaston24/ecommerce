@@ -25,14 +25,14 @@ class Pedido{
 
     
     
-    public function traerPedidos($desde, $hasta, $tienda, $warehouse){
+    public function traerPedidos($desde, $hasta, $tienda, $warehouse, $estado = null){
 
         $tienda = $_GET['tienda'];
         $warehouse = $_GET['warehouse'];
             
         $sql = "
         SET DATEFORMAT YMD
-        EXEC RO_ECOMMERCE_PEDIDOS '$desde', '$hasta', '%$tienda', '%$warehouse'
+        EXEC RO_ECOMMERCE_PEDIDOS '$desde', '$hasta', '%$tienda', '%$warehouse', '$estado'
         ";
 
         $array = $this->getDatos($sql);    

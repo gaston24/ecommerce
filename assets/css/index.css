@@ -75,11 +75,19 @@ td{
     height: 40px;
     width: 100px;
 }
+#buttonExportar{
+    color: #f7f7f7;
+    background-color: #28a745 ;
+    border-color: #28a745 ;
+    border-radius: 5px;
+    height: 40px;
+    width: 100px;
+}
 
 #buttonCancelados{
     color: #f7f7f7;
     background-color: #007bff;
-    border-color: #007bff;
+    border-color: #263544;
     border-radius: 5px;
     height: 40px;
     width: 100px;
