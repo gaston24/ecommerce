@@ -183,11 +183,11 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/assets/js/js.php';
 					<th style="width: 5%;" class="headerTitle">DEPOSITO</th>
 					<th style="width: 5%;" class="headerTitle">METODO<BR>ENVIO</th>
 					<th style="width: 5%;" class="headerTitle">TIENDA</th>
-					<th style="width: 1%; color: white;" class="headerTitle">F</th>
-					<th style="width: 1%; color: white;" class="headerTitle">C</th>
-					<th style="width: 1%; color: white;" class="headerTitle">I</th>
-					<th style="width: 1%; color: white;" class="headerTitle">D</th>
-					<th style="width: 1%; color: white;" class="headerTitle">E</th>
+					<th style="width: 1%; color: white;" class="headerTitle noExl">F</th>
+					<th style="width: 1%; color: white;" class="headerTitle noExl">C</th>
+					<th style="width: 1%; color: white;" class="headerTitle noExl">I</th>
+					<th style="width: 1%; color: white;" class="headerTitle noExl">D</th>
+					<th style="width: 1%; color: white;" class="headerTitle noExl">E</th>
 				</tr>
 			</thead>
 			<tbody id="table">
@@ -241,7 +241,7 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/assets/js/js.php';
 					<td  style="text-align: center;"><small><?= $value[0]->WAREHOUSE?></small></td>
 					<td  style="text-align: center;"><small><?= $value[0]->METODO_ENVIO?></small></td>
 					<td  style="text-align: center;"><small><?= $value[0]->DESC_SUCURSAL?></small></td>
-					<td id="cancelado">
+					<td id="cancelado" class="noExl">
 
 						<?php if($value[0]->CANCELADO == 1 && $value[0]->FACTURADO == 1 && !isset($value[0]->NCR)){?>
 							<i class="bi bi-clipboard-x-fill cancelado" data-toggle="tooltip" data-placement="left" title="Pedido cancelado sin NC" style="color: #6610f2; font-size: 20px; padding: 0;"></i>
@@ -261,7 +261,7 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/assets/js/js.php';
 
 					</td>
 
-					<td >
+					<td class="noExl" >
 						<?php if($value[0]->CONTROLADO== 1){ ?>
 							<i class="bi bi-clipboard2-check-fill"  data-toggle="tooltip" data-placement="left" title="Controlado" style="color: green; font-size: 20px;"></i>
 								<?php }else if($value[0]->CONTROLADO== 0){?>
@@ -269,7 +269,7 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/assets/js/js.php';
 									<?php } ?>
 					</td>
 
-					<td  id="incompleto">
+					<td  id="incompleto" class="noExl">
 						<?php if(isset($value[0]->FALTANTE) && $value[0]->FALTANTE== 1){ ?>
 							<i title="Pedido incompleto" data-toggle="tooltip" data-placement="left" class="bi bi-cart-dash-fill incompleto" style="color: orange; font-size: 20px;"></i>	
 							<?php }else if(isset($value[0]->FALTANTE) && $value[0]->FALTANTE== 0){?>
@@ -277,7 +277,7 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/assets/js/js.php';
 								<?php } ?>
 					</td>
 
-					<td >
+					<td class="noExl">
 						<?php if($value[0]->DESPACHADO== 1){ ?>
 							<i class="fas fa-truck"  data-toggle="tooltip" data-placement="left" title="Despachado <?= $value[0]->FECHA_DESPACHO?>" style="color: #17a2b8; font-size: 17px;"></i>
 								<?php }else if($value[0]->DESPACHADO== 0){?>
@@ -285,7 +285,7 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/assets/js/js.php';
 									<?php } ?>
 					</td>
 
-					<td >
+					<td class="noExl">
 						<?php if($value[0]->ENTREGADO == 1){ ?>
 							<i class="bi bi-box-seam-fill" data-toggle="tooltip" data-placement="left" title="Entregado <?= $value[0]->FECHA_ENTREGADO?>" style="color: #007bff; font-size: 17px;"></i>
 								<?php }else if($value[0]->ENTREGADO == 0){?>
