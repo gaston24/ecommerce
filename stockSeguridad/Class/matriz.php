@@ -43,7 +43,8 @@ class Matriz
                 ISNULL([CINTOS DE CUERO], 0) CINTOS_DE_CUERO,
                 ISNULL([CINTOS DE VINILICO], 0) CINTOS_DE_VINILICO,
                 ISNULL([LENTES], 0) LENTES,
-                ISNULL([RELOJES], 0) RELOJES
+                ISNULL([RELOJES], 0) RELOJES,
+                ISNULL([INDUMENTARIA], 0) INDUMENTARIA
             FROM RO_T_STOCK_SEGURIDAD_VTEX ORDER BY DESC_SUCURSAL
         ";
 

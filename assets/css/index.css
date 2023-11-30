@@ -22,7 +22,7 @@ table.table-fh > thead {
 }
 table.table-fh > tbody {
     display: block;
-    max-height: 75vh;
+    max-height: 70vh;
     overflow-y: scroll;
 }
 
@@ -73,7 +73,8 @@ td{
     border-color: #dc3545;
     border-radius: 5px;
     height: 40px;
-    width: 100px;
+    width: 10vh;
+    font-size: 12px;
 }
 #buttonExportar{
     color: #f7f7f7;
@@ -90,7 +91,8 @@ td{
     border-color: #263544;
     border-radius: 5px;
     height: 40px;
-    width: 100px;
+    width: 10vh;
+    font-size: 12px;
 }
 
 #buttonPendientes{
@@ -99,7 +101,8 @@ td{
     border-color: #ffc107;
     border-radius: 5px;
     height: 40px;
-    width: 100px;
+    width: 10vh;
+    font-size: 12px;
 }
 
 #buttonIncompletos:focus{
@@ -118,3 +121,14 @@ td{
 {
     font-size: 11px;
 }
+
+.loading {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url('../images/spinnervlll.gif') 50% 50% no-repeat rgb(249, 249, 249);
+    opacity: .8;
+  }

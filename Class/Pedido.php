@@ -13,8 +13,10 @@ class Pedido{
         $cid = new Conexion();
         $cid_central = $cid->conectarSql('central');
 
+
         ini_set('max_execution_time', 300);
         $result=sqlsrv_query($cid_central,$sql)or die(exit("Error en sqlsrv_query"));
+
         $data = [];
         while($v=sqlsrv_fetch_object($result)){
             $data[] = array($v);
@@ -25,7 +27,9 @@ class Pedido{
 
     
     
+
     public function traerPedidos($desde, $hasta, $tienda, $warehouse, $estado = null){
+
 
         $tienda = $_GET['tienda'];
         $warehouse = $_GET['warehouse'];
@@ -33,6 +37,7 @@ class Pedido{
         $sql = "
         SET DATEFORMAT YMD
         EXEC RO_ECOMMERCE_PEDIDOS '$desde', '$hasta', '%$tienda', '%$warehouse', '$estado'
+
         ";
 
         $array = $this->getDatos($sql);    
