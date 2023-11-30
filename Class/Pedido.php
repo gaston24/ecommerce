@@ -1,21 +1,24 @@
 <?php
 
-include 'Controlador/metodos.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/Class/Conexion.php';
+
+
+
+
 
 class Pedido{
     
-    private $dsn = '1 - CENTRAL';
-    private $usuario = "sa";
-    private $clave="Axoft1988";
 
     private function getDatos($sql){
+        $cid = new Conexion();
+        $cid_central = $cid->conectarSql('central');
 
-        $cid = odbc_connect($this->dsn, $this->usuario, $this->clave);
 
-        ini_set('max_execution_time', 500);
-        $result=odbc_exec($cid,$sql)or die(exit("Error en odbc_exec"));
+        ini_set('max_execution_time', 300);
+        $result=sqlsrv_query($cid_central,$sql)or die(exit("Error en sqlsrv_query"));
+
         $data = [];
-        while($v=odbc_fetch_object($result)){
+        while($v=sqlsrv_fetch_object($result)){
             $data[] = array($v);
         };
         return $data;
@@ -24,14 +27,17 @@ class Pedido{
 
     
     
-    public function traerPedidos($desde, $hasta, $tienda, $warehouse){
+
+    public function traerPedidos($desde, $hasta, $tienda, $warehouse, $estado = null){
+
 
         $tienda = $_GET['tienda'];
         $warehouse = $_GET['warehouse'];
             
         $sql = "
         SET DATEFORMAT YMD
-        EXEC RO_ECOMMERCE_PEDIDOS '$desde', '$hasta', '%$tienda', '%$warehouse'
+        EXEC RO_ECOMMERCE_PEDIDOS '$desde', '$hasta', '%$tienda', '%$warehouse', '$estado'
+
         ";
 
         $array = $this->getDatos($sql);    

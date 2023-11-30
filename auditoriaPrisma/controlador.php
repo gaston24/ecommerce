@@ -1,17 +1,21 @@
 <?php
+require_once $_SERVER['DOCUMENT_ROOT'].'/ecommerce/Class/Conexion.php';
 
 function auditoria($dias){
-    include '../AccesoDatos/dsn.php';
+
+    
+    $cid = new Conexion();
+    $cid_central = $cid->conectarSql('central');
 
     $sql = "
     EXEC SJ_AUDITORIA_PRISMA $dias
     ";
 
-    $result=odbc_exec($cid,$sql)or die(exit("Error en odbc_exec"));
+    $result=sqlsrv_query($cid,$sql)or die(exit("Error en sqlsrv_query"));
 
     $rows = array();
 
-    while($v=odbc_fetch_array($result)){
+    while($v=sqlsrv_fetch_array($result)){
         $rows[] = $v;
         }
 
@@ -20,17 +24,19 @@ function auditoria($dias){
 }
 
 function auditoriaDetalle($mail){
-    include '../AccesoDatos/dsn.php';
+
+    $cid = new Conexion();
+    $cid_central = $cid->conectarSql('central');
 
     $sql = "
     EXEC SJ_AUDITORIA_PRISMA_DETALLE '$mail'
     ";
 
-    $result=odbc_exec($cid,$sql)or die(exit("Error en odbc_exec"));
+    $result=sqlsrv_query($cid,$sql)or die(exit("Error en sqlsrv_query"));
 
     $rows = array();
 
-    while($v=odbc_fetch_array($result)){
+    while($v=sqlsrv_fetch_array($result)){
         $rows[] = $v;
         }
 
@@ -40,12 +46,14 @@ function auditoriaDetalle($mail){
 
 
 function actualizarAuditoria($mail, $nroPedido, $tarjeta, $autoriza, $noAutoriza){
-    include '../../AccesoDatos/dsn.php';
+
+    $cid = new Conexion();
+    $cid_central = $cid->conectarSql('central');
 
     $sql = "
     EXEC SJ_AUDITORIA_PRISMA_DETALLE_ACTUALIZAR '$mail', '$nroPedido', '$tarjeta', '$autoriza', '$noAutoriza'
     ";
 
-    odbc_exec($cid,$sql)or die(exit("Error en odbc_exec"));
+    sqlsrv_query($cid,$sql)or die(exit("Error en sqlsrv_query"));
 
 }

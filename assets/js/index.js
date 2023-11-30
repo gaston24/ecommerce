@@ -219,8 +219,29 @@ function ponerCero() {
   
 }
 
+const exportar = () => {
+
+  $("#id_tabla").table2excel({
+    // exclude CSS class
+    exclude: ".noExl",
+    name: "Worksheet Name",
+    filename: "Remitos", //do not include extension
+    fileext: ".xls", // file extension
+  });
+  
+}
 
 $( document ).ready(function() {
+    var btn = document.querySelectorAll('.btn-buscar');
+    btn.forEach(el => {
+        el.addEventListener("click", ()=>{$("#boxLoading").addClass("loading")});
+    })
+
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+
   $("#busqueda").show();
   $("#textBox").focus();
 });
+

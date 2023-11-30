@@ -18,15 +18,10 @@ $matrizStockSeguridad = new Matriz();
     <title>Matriz Stock Seg. Vtex</title>
     <link rel="icon" type="image/jpg" href="images/LOGO XL 2018.jpg">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.css" />
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.js"></script>
-    <link rel="stylesheet" href="css/style.css">
+    <?php 
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/ecommerce/assets/css/css.php';
+    ?>
+
 
 </head>
 
@@ -117,12 +112,15 @@ $matrizStockSeguridad = new Matriz();
 
         
         <?php
-include 'activar.php';
-include 'parametrizar.php';
+        
+            include 'activar.php';
+            include 'parametrizar.php';
 
-?>
+        ?>
 </body>
-<script src="js/main.js" charset="utf-8"></script>
+<?php 
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/ecommerce/assets/js/js.php';
+?>
 </html>
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

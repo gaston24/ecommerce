@@ -1,12 +1,15 @@
 <?php
 function new_fotter(){
-	$dsn = '1 - CENTRAL';
-	$user = 'sa';
-	$pass = 'Axoft1988';
+	// $dsn = '1 - CENTRAL';
+	// $user = 'sa';
+	// $pass = 'Axoft1988';
+	require_once 'Class/Conexion.php';
+	$cid = new Conexion();
+	$cid_central = $cid->conectarSql('central');
 
-	$cid=odbc_connect($dsn, $user, $pass);
+	// $cid=odbc_connect($dsn, $user, $pass);
 
-	if (!$cid){exit("<strong>Ha ocurrido un error tratando de conectarse con el origen de datos.</strong>");}
+	if (!$cid_central){exit("<strong>Ha ocurrido un error tratando de conectarse con el origen de datos.</strong>");}
 	
 	
 	//////////////TOMA CADA UNO DE LOS PEDIDOS QUE NO ESTAN EN AUDITORIA
@@ -37,9 +40,9 @@ function new_fotter(){
 	";
 
 	ini_set('max_execution_time', 300);
-	$result1=odbc_exec($cid,$sqlPedidosNuevos)or die(exit("Error en odbc_exec"));
+	$result1=sqlsrv_query($cid_central,$sqlPedidosNuevos)or die(exit("Error en odbc_exec"));
 		
-	while($v=odbc_fetch_array($result1)){
+	while($v=sqlsrv_fetch_array($result1)){
 		$ordenEcommerce = $v['NRO_ORDEN'];
 		$cliente = 'FOTTER';
 		$totalPedi = $v['PRECIO_PEDIDO'];
@@ -56,7 +59,7 @@ function new_fotter(){
 		//////////////MODIFICA NUMERACION
 		$sqlProxNumero =
 		"EXEC SJ_PEDIDOS_PROX";
-		odbc_exec($cid,$sqlProxNumero)or die(exit("Error en odbc_exec"));
+		sqlsrv_query($cid_central,$sqlProxNumero)or die(exit("Error en odbc_exec"));
 		
 		
 		//////////////VARIABLE DE NUMERO ACTUAL
@@ -64,9 +67,9 @@ function new_fotter(){
 		"SELECT PROXIMO FROM SJ_TEMP_PEDIDOS WHERE TALONARIO = 98";
 		
 		ini_set('max_execution_time', 300);
-		$result=odbc_exec($cid,$sqlNumActual)or die(exit("Error en odbc_exec"));
+		$result=sqlsrv_query($cid_central,$sqlNumActual)or die(exit("Error en odbc_exec"));
 			
-		while($v=odbc_fetch_array($result)){
+		while($v=sqlsrv_fetch_array($result)){
 			$numPedido = ' 00002'.$v['PROXIMO'];
 		}
 		
@@ -99,7 +102,7 @@ function new_fotter(){
 		)
 		";
 		
-		odbc_exec($cid,$sqlPedEncabezado)or die(exit("Error en odbc_exec"));
+		sqlsrv_query($cid_central,$sqlPedEncabezado)or die(exit("Error en odbc_exec"));
 		
 		
 		
@@ -136,11 +139,11 @@ function new_fotter(){
 
 		
 		";
-		$resultPedidoDetalle=odbc_exec($cid,$sqlPedidoDetalle)or die(exit("Error en odbc_exec"));
+		$resultPedidoDetalle=sqlsrv_query($cid_central,$sqlPedidoDetalle)or die(exit("Error en odbc_exec"));
 		
 		$renglonPedido = 1;
 		
-		while($v=odbc_fetch_array($resultPedidoDetalle)){
+		while($v=sqlsrv_fetch_array($resultPedidoDetalle)){
 			$codArt = $v['COD_ARTICU'];
 			$cantArt = $v['CANT'];
 			$precioArt = $v['PRECIO'];
@@ -165,7 +168,7 @@ function new_fotter(){
 			'', NULL
 			)
 			";
-			odbc_exec($cid,$sqlDetalle)or die(exit("Error en odbc_exec"));
+			sqlsrv_query($cid_central,$sqlDetalle)or die(exit("Error en odbc_exec"));
 			
 			$renglonPedido++;
 			
@@ -233,7 +236,7 @@ function new_fotter(){
 		AND [NRO_ORDEN] collate Latin1_General_BIN = '$ordenEcommerce'
 		";
 		
-		odbc_exec($cid,$sqlAuditoria)or die(exit("Error en odbc_exec"));
+		sqlsrv_query($cid_central,$sqlAuditoria)or die(exit("Error en odbc_exec"));
 		
 	}
 

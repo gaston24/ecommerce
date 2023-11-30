@@ -4,18 +4,18 @@ table.table-fh {
 	
 }
 
-table.table-fh.table-15c > thead > tr >th, table.table-fh.table-15c > tbody > tr > td {
+/* table.table-fh.table-15c > thead > tr >th, table.table-fh.table-15c > tbody > tr > td {
     width: calc(100% / 15);
 }
 
 table.table-fh.table-19c > thead > tr >th, table.table-fh.table-19c > tbody > tr > td {
     width: calc(100% / 19);
-}
-
+} */
+/* 
 table.table-fh, table.table-fh > tbody > tr > td {
     border-collapse: collapse;
     border: 1px solid #000;
-}
+} */
 table.table-fh > thead {
     display: table;
     /* width: calc(100% - 17px); */
@@ -26,18 +26,18 @@ table.table-fh > tbody {
     overflow-y: scroll;
 }
 
-table.table-fh > tbody > tr {
+/* table.table-fh > tbody > tr {
     display: table;
     width: 100%;
-}
+} */
 table.table-fh > tbody > tr > td {
     border: none;
 }
 
-td{
+/* td{
 	font-size:11px;
     justify-content: center;
-}
+} */
 
 #columnita{
 	font-size:9px;
@@ -76,11 +76,19 @@ td{
     width: 10vh;
     font-size: 12px;
 }
+#buttonExportar{
+    color: #f7f7f7;
+    background-color: #28a745 ;
+    border-color: #28a745 ;
+    border-radius: 5px;
+    height: 40px;
+    width: 100px;
+}
 
 #buttonCancelados{
     color: #f7f7f7;
     background-color: #007bff;
-    border-color: #007bff;
+    border-color: #263544;
     border-radius: 5px;
     height: 40px;
     width: 10vh;

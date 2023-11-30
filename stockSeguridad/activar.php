@@ -1,7 +1,7 @@
 <?php
 
-/* require_once 'Class/cuenta.php';
-require_once 'Class/rubro.php'; */
+require_once 'Class/cuenta.php';
+require_once 'Class/rubro.php';
 
 $rubro = new Rubro();
 $todosLosRubros = $rubro->traerRubros();

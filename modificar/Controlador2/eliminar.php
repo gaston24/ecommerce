@@ -1,13 +1,16 @@
 <?php
 
-require '../../../Controlador/dsn_central.php';
+require $_SERVER['DOCUMENT_ROOT'].'/ecommerce/Class/Conexion.php';
+
+$cid = new Conexion();
+$cid_central = $cid->conectarSql('central');
 
 $pedido = $_POST['pedido'];
 $viejo = $_POST['viejo'];   
 
 $eliminar = "EXEC SJ_SP_CAMBIAR_ELIMINAR_PEDIDOS_ECOMMERCE '$pedido', '$viejo'";
 
-odbc_exec($cid, $eliminar);
+sqlsrv_query($cid_central, $eliminar);
 
 
 

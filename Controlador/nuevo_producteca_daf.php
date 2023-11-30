@@ -1,12 +1,12 @@
 <?php
 function new_producteca_daf(){
-	$dsn = '1 - CENTRAL';
-	$user = 'sa';
-	$pass = 'Axoft1988';
 
-	$cid=odbc_connect($dsn, $user, $pass);
+	require_once 'Class/Conexion.php';
+	$cid = new Conexion();
+	$cid_central = $cid->conectarSql('central');
 
-	if (!$cid){exit("<strong>Ha ocurrido un error tratando de conectarse con el origen de datos.</strong>");}
+
+	if (!$cid_central){exit("<strong>Ha ocurrido un error tratando de conectarse con el origen de datos.</strong>");}
 	
 	
 	//////////////TOMA CADA UNO DE LOS PEDIDOS QUE NO ESTAN EN AUDITORIA
@@ -26,9 +26,9 @@ function new_producteca_daf(){
 
 
 	ini_set('max_execution_time', 300);
-	$result1=odbc_exec($cid,$sqlPedidosNuevos)or die(exit("Error en odbc_exec"));
+	$result1=sqlsrv_query($cid_central,$sqlPedidosNuevos)or die(exit("Error en sqlsrv_query"));
 		
-	while($v=odbc_fetch_array($result1)){
+	while($v=sqlsrv_fetch_array($result1)){
 
 		$ordenEcommerce = $v['ORDER_ID_TIENDA'];
 		$idPedido = $v['ID_NEXO_PEDIDOS_ORDEN'];
@@ -48,7 +48,7 @@ function new_producteca_daf(){
 		//////////////MODIFICA NUMERACION
 		$sqlProxNumero =
 		"EXEC SJ_PEDIDOS_PROX";
-		odbc_exec($cid,$sqlProxNumero)or die(exit("Error en odbc_exec"));
+		sqlsrv_query($cid_central,$sqlProxNumero)or die(exit("Error en sqlsrv_query"));
 		
 		
 		//////////////VARIABLE DE NUMERO ACTUAL
@@ -56,9 +56,9 @@ function new_producteca_daf(){
 		"SELECT PROXIMO FROM SJ_TEMP_PEDIDOS WHERE TALONARIO = 98";
 		
 		ini_set('max_execution_time', 300);
-		$result=odbc_exec($cid,$sqlNumActual)or die(exit("Error en odbc_exec"));
+		$result=sqlsrv_query($cid_central,$sqlNumActual)or die(exit("Error en sqlsrv_query"));
 			
-		while($v=odbc_fetch_array($result)){
+		while($v=sqlsrv_fetch_array($result)){
 			$numPedido = ' 00002'.$v['PROXIMO'];
 		}
 		
@@ -93,7 +93,7 @@ function new_producteca_daf(){
 
 
 
-		odbc_exec($cid,$sqlPedEncabezado)or die(exit("Error en odbc_exec"));
+		sqlsrv_query($cid_central,$sqlPedEncabezado)or die(exit("Error en sqlsrv_query"));
 		
 		
 		
@@ -107,11 +107,11 @@ function new_producteca_daf(){
 		WHERE ID_NEXO_PEDIDOS_ORDEN = $idPedido		
 		";
 		
-		$resultPedidoDetalle=odbc_exec($cid,$sqlPedidoDetalle)or die(exit("Error en odbc_exec"));
+		$resultPedidoDetalle=sqlsrv_query($cid_central,$sqlPedidoDetalle)or die(exit("Error en sqlsrv_query"));
 		
 		$renglonPedido = 1;
 		
-		while($v=odbc_fetch_array($resultPedidoDetalle)){
+		while($v=sqlsrv_fetch_array($resultPedidoDetalle)){
 			$codArt = $v['COD_STA11'];
 			$cantArt = $v['CANTIDAD_PEDIDA'];
 			$precioArt = $v['PRECIO_UNITARIO'];
@@ -136,9 +136,9 @@ function new_producteca_daf(){
 			'', NULL
 			)
 			";
-			if(!@odbc_exec($cid,$sqlDetalle)){
+			if(!@sqlsrv_query($cid_central,$sqlDetalle)){
 				echo '<div class="alert alert-danger text-center" role="alert">ERROR CARGANDO DETALLE DE DAFITI!</div>';
-			};//or die(exit("Error en odbc_exec"));
+			};//or die(exit("Error en sqlsrv_query"));
 			
 			$renglonPedido++;
 			
@@ -167,7 +167,7 @@ function new_producteca_daf(){
 		'$direccion', '$localidad', '02', '$localidad', '$codPostal', '$telefono', '$ordenEcommerce', 2, 'N', 'N', NULL, '1800-01-01', NULL
 		)
 		";
-		odbc_exec($cid,$sqlDatosCliente)or die(exit("Error en odbc_exec"));
+		sqlsrv_query($cid_central,$sqlDatosCliente)or die(exit("Error en sqlsrv_query"));
 		
 		
 		////////////// INSERTAR DATOS EN AUDITORIA
@@ -199,7 +199,7 @@ function new_producteca_daf(){
 
 
 		
-		odbc_exec($cid,$sqlAuditoria)or die(exit("Error en odbc_exec"));
+		sqlsrv_query($cid_central,$sqlAuditoria)or die(exit("Error en sqlsrv_query"));
 
 		
 		

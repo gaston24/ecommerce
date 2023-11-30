@@ -2,30 +2,27 @@
 
 function desabastecimiento(){
 
-$dsn = '1 - CENTRAL';
-$user = 'sa';
-$pass = 'Axoft1988';
+	require_once 'Class/Conexion.php';
+	$cid = new Conexion();
+	$cid_central = $cid->conectarSql('central');
 
-$cdn = odbc_connect($dsn, $user, $pass);
+	$sql = "SELECT * FROM STA14 WHERE COD_PRO_CL = 'GTCENT' AND EXPORTADO = 0 AND T_COMP = 'REM'";
 
-$sql = "SELECT * FROM STA14 WHERE COD_PRO_CL = 'GTCENT' AND EXPORTADO = 0 AND T_COMP = 'REM'";
+	$result=sqlsrv_query($cid_central,$sql);
 
-$result=odbc_exec($cdn,$sql);
+	while($v=sqlsrv_fetch_object($result)){	
+		$rem[] = $v->N_COMP;
+		$cliente[] = $v -> COD_PRO_CL;
+	}
 
-while($v=odbc_fetch_object($result)){	
-	$rem[] = $v->N_COMP;
-	$cliente[] = $v -> COD_PRO_CL;
-}
 
-odbc_close($cdn);
 
 
 function insertar($remito){
-	$dsn = '1 - CENTRAL';
-	$user = 'sa';
-	$pass = 'Axoft1988';
 
-	$cdn = odbc_connect($dsn, $user, $pass);
+	require_once 'Class/Conexion.php';
+	$cid = new Conexion();
+	$cid_central = $cid->conectarSql('central');
 
 	$sql2 = "
 	SET DATEFORMAT YMD
@@ -81,7 +78,7 @@ function insertar($remito){
 	
 	";
 
-	odbc_exec($cdn,$sql2);
+	sqlsrv_query($cid_central,$sql2);
 }
 
 if(!isset($rem)){

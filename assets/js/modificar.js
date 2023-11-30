@@ -2,7 +2,6 @@ function modificar(){
     var pedido = document.getElementById("pedidoModificar").value;
     var viejo = document.getElementById("articuloViejoModificar").value;
     var nuevo = document.getElementById("articuloNuevoModificar").value;
-
     modificar2(pedido, viejo, nuevo);
 
 }
@@ -11,35 +10,37 @@ function modificar2(pedido, viejo, nuevo) {
     console.log(pedido+viejo+nuevo);
   
 
-    swal({
-        title: "Estas seguro de modificar el pedido?",
-        text: "Vas a modificar los articulos del pedido: "+pedido,
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      })
-      .then((willDelete) => {
-        if (willDelete) {
-            $.ajax({
-                url: 'Controlador2/modificar.php',
-                method: 'POST',
-                data: {
-                  
-                  pedido: pedido,
-                  viejo: viejo,
-                  nuevo: nuevo
-                },
-                success: function(data) {
-                  console.log(data);
-                }
-              });
-          swal("Pedido modificado", {
-            icon: "success",
-          });
-        } else {
-          swal("Pedido NO modificado");
-        }
-      });
+    Swal.fire({
+      title: "¿Estás seguro de modificar el pedido?",
+      text: "Vas a modificar los artículos del pedido: " + pedido,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, modificar pedido",
+      cancelButtonText: "No, cancelar",
+      dangerMode: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: 'Controlador2/modificar.php',
+          method: 'POST',
+          data: {
+            pedido: pedido,
+            viejo: viejo,
+            nuevo: nuevo
+          },
+          success: function(data) {
+            console.log(data);
+            Swal.fire("Pedido modificado", "", "success");
+          },
+          error: function() {
+            Swal.fire("Error al modificar el pedido", "", "error");
+          }
+        });
+      } else {
+        Swal.fire("Pedido NO modificado", "", "info");
+      }
+    });
+    
 
 
 
@@ -61,39 +62,40 @@ function cantidad2(pedido, viejo, cant) {
     console.log(pedido+viejo+cant);
   
 
-    swal({
-        title: "Estas seguro de modificar el pedido?",
-        text: "Vas a modificar la cantidad del pedido: "+pedido,
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      })
-      .then((willDelete) => {
-        if (willDelete) {
-            $.ajax({
-                url: 'Controlador2/cantidad.php',
-                method: 'POST',
-                data: {
-                  
-                  pedido: pedido,
-                  viejo: viejo,
-                  cant: cant
-                },
-                success: function(data) {
-                  console.log(data);
-                }
-              });
-          swal("Pedido modificado", {
-            icon: "success",
+    Swal.fire({
+      title: "¿Estás seguro de modificar el pedido?",
+      text: "Vas a modificar la cantidad del pedido: " + pedido,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, modificar pedido",
+      cancelButtonText: "No, cancelar",
+      dangerMode: true,
+    })
+      .then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: 'Controlador2/cantidad.php',
+            method: 'POST',
+            data: {
+              pedido: pedido,
+              viejo: viejo,
+              cant: cant
+            },
+            success: function (data) {
+              console.log(data);
+              Swal.fire("Pedido modificado", "", "success");
+            },
+            error: function () {
+              Swal.fire("Error al modificar el pedido", "", "error");
+            }
           });
         } else {
-          swal("Pedido NO modificado");
+          Swal.fire("Pedido NO modificado", "", "info");
         }
       });
-
-   
-      ponerCero()
-   
+  
+    ponerCero();
+    
 }
 
 function eliminar(){
@@ -156,20 +158,24 @@ function ponerCero(){
 
 $( window ).on( "load", function() {
 
-  swal("Escribir contraseña:", {
-    content: {
-      element: "input",
-      attributes: {
-        placeholder: "Escriba la constraseña de administrador",
-        type: "password",
-      },
-    }
+  Swal.fire({
+    title: "Escribir contraseña:",
+    input: "password",
+    inputPlaceholder: "Escriba la constraseña de administrador",
+    showCancelButton: true,
+    cancelButtonText: "Cancelar",
+    confirmButtonText: "Aceptar",
+    preConfirm: (password) => {
+      if (password === "Admin") {
+        return true; // La promesa se resolverá correctamente
+      } else {
+        Swal.showValidationMessage("Contraseña incorrecta");
+        window.location.href = "../index.php";
+        return false; // La promesa se rechazará
+      }
+    },
   })
-  .then((value) => {
-    if(value!='Admin'){
-      window.location.href="../index.php";
-    }
-  });
+  
 
 });
 

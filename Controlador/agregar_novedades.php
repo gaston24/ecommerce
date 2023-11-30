@@ -1,13 +1,12 @@
 <?php
 
 function agregar_novedades(){
-    $dsn = '1 - CENTRAL';
-	$user = 'sa';
-	$pass = 'Axoft1988';
+    
+    require_once 'Class/Conexion.php';
+    $cid = new Conexion();
+    $cid_central = $cid->conectarSql('central');
 
-	$cid=odbc_connect($dsn, $user, $pass);
-
-	if (!$cid){exit("<strong>Ha ocurrido un error tratando de conectarse con el origen de datos.</strong>");}
+	if (!$cid_central){exit("<strong>Ha ocurrido un error tratando de conectarse con el origen de datos.</strong>");}
     
     $sqlAgreNov = 
     "
@@ -15,7 +14,7 @@ function agregar_novedades(){
     "
     ;
   
-    odbc_exec($cid,$sqlAgreNov)or die(exit("Error en odbc_exec"));
+    sqlsrv_query($cid_central,$sqlAgreNov)or die(exit("Error en odbc_exec"));
 }
     
 ?>
