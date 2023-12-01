@@ -43,19 +43,18 @@ $todosLosWarehouse = $pedidos->traerWarehouse();
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
-
 </head>
 
 <body>
 <div class="container-fluid">
 
-<div class="alert alert-primary" role="alert">
+<div class="alert alert-primary" role="alert" id="menu">
 	<h3 class="mt-2"><i class="bi bi-handbag"></i> Estado Pedidos Ecommerce</h3>
 
+  
+	<div class="row"  id="renderr" style="margin-left:10px">
 
-	<div class="row"  id="render">
-
-		<div id="formulario" class="mt-2">
+		<div class="mt-2">
 
 			<form class="form-inline" method="GET" action="">		
 
@@ -78,10 +77,11 @@ $todosLosWarehouse = $pedidos->traerWarehouse();
 					<option selected></option>
 					<option value="CANCELADO" <?= (isset($_GET['estado']) && $_GET['estado'] == 'CANCELADO') ? 'selected' : '' ?>>CANCELADO</option>
 					<option value="PREPARADO" <?= (isset($_GET['estado']) && $_GET['estado'] == 'PREPARADO') ? 'selected' : '' ?>>PREPARADO</option>
-				   <option value="CONTROLADO" <?= (isset($_GET['estado']) && $_GET['estado'] == 'CONTROLADO') ? 'selected' : '' ?>>CONTROLADO</option>
+				   <option value="SIN_CONTROLAR" <?= (isset($_GET['estado']) && $_GET['estado'] == 'SIN_CONTROLAR') ? 'selected' : '' ?>>SIN CONTROLAR</option>
 					<option value="FACTURADO" <?= (isset($_GET['estado']) && $_GET['estado'] == 'FACTURADO') ? 'selected' : '' ?>>FACTURADO</option>
 				   <option value="DESPACHADO" <?= (isset($_GET['estado']) && $_GET['estado'] == 'DESPACHADO') ? 'selected' : '' ?>>DESPACHADO</option>
 					<option value="ENTREGADO" <?= (isset($_GET['estado']) && $_GET['estado'] == 'ENTREGADO') ? 'selected' : '' ?>>ENTREGADO</option>
+					<option value="SIN_DESPACHAR" <?= (isset($_GET['estado']) && $_GET['estado'] == 'SIN_DESPACHAR') ? 'selected' : '' ?>>SIN DESPACHAR</option>
 				</select >
 
 				<label class="ml-2">Origen:</label>
@@ -150,6 +150,7 @@ $todosLosWarehouse = $pedidos->traerWarehouse();
 
 	</div>
 
+
 </div>
 
 <?php 
@@ -165,13 +166,13 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/assets/js/js.php';
 	<div >
 
 		<table class="table table-hover " id="id_tabla">
-			<thead>
+			<thead id="tablaPedidosH">
 				<tr>
-					<th style="width: 2%;" >TIENDA</th>
-					<th style="width: 9%;" >NRO<BR>ORDEN</th>
-					<th style="width: 6%;" >FECHA<BR>PEDIDO</th>
-					<th style="width: 6%;" >HORA<BR>PEDIDO</th>
-					<th style="width: 5%;" >PEDIDO</th>
+					<th style="width: 2%;" class="headerTitle">TIENDA</th>
+					<th style="width: 9%;" class="headerTitle">NRO<BR>ORDEN</th>
+					<th style="width: 6%;" class="headerTitle">FECHA<BR>PEDIDO</th>
+					<th style="width: 6%;" class="headerTitle">HORA<BR>PEDIDO</th>
+					<th style="width: 5%;" class="headerTitle">PEDIDO</th>
 					<th style="width: 12%;" class="headerTitle">NOMBRE</th>
 					<th style="width: 8%;" class="headerTitle">COD<BR>ARTICULO</th>
 					<th style="width: 8%;" class="headerTitle">DESC<BR>ARTICULO</th>
@@ -181,11 +182,11 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/assets/js/js.php';
 					<th style="width: 5%;" class="headerTitle">DEPOSITO</th>
 					<th style="width: 5%;" class="headerTitle">METODO<BR>ENVIO</th>
 					<th style="width: 5%;" class="headerTitle">TIENDA</th>
-					<th style="width: 1%; color: white;" class="headerTitle noExl">F</th>
-					<th style="width: 1%; color: white;" class="headerTitle noExl">C</th>
-					<th style="width: 1%; color: white;" class="headerTitle noExl">I</th>
-					<th style="width: 1%; color: white;" class="headerTitle noExl">D</th>
-					<th style="width: 1%; color: white;" class="headerTitle noExl">E</th>
+					<th style="width: 1%; color: white;" class="headerTitle noExl"></th>
+					<th style="width: 1%; color: white;" class="headerTitle noExl"></th>
+					<th style="width: 1%; color: white;" class="headerTitle noExl"></th>
+					<th style="width: 1%; color: white;" class="headerTitle noExl"></th>
+					<th style="width: 1%; color: white;" class="headerTitle noExl"></th>
 				</tr>
 			</thead>
 			<tbody id="table">

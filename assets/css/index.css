@@ -120,6 +120,7 @@ td{
 .headerTitle
 {
     font-size: 11px;
+    color: white;
 }
 
 .loading {
@@ -132,3 +133,20 @@ td{
     background: url('../css/images/spinnervlll.gif') 50% 50% no-repeat  rgb(246,247,248);
     opacity: .8;
   }
+
+  	
+#menu {
+    position: sticky;
+    top: 0;
+	bottom: 1.5rem;
+    z-index: 1000;
+}
+
+
+#tablaPedidosH {
+    position: sticky;
+    top:7rem; /* Ajusta la distancia vertical según sea necesario */
+    background-color: #343a40;
+    padding: 10px; /* Ajusta el relleno según sea necesario */
+    z-index: 1000; /* Asegura que esté por encima del contenido */
+}
