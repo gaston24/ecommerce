@@ -1,15 +1,13 @@
 <?php
 
+require_once 'Class/Conexion.php';
 require_once 'Class/Pedido.php';
-require_once 'Controlador/actua_comprobante.php';
-require_once 'Controlador/actua_despacho.php';
 require_once 'Controlador/envio_remitos_once.php';
 require_once 'Controlador/nuevo_ml.php';
 require_once 'Controlador/nc_pend.php';
 $pedidos = new Pedido();
 
-actua_comprobante();
-actua_despacho();
+
 remitos_buscar_once();
 new_ml();
 
