@@ -120,6 +120,7 @@ td{
 .headerTitle
 {
     font-size: 11px;
+    color: white;
 }
 
 .loading {
@@ -145,7 +146,7 @@ td{
 #tablaPedidosH {
     position: sticky;
     top:7rem; /* Ajusta la distancia vertical según sea necesario */
-    background-color: #898E96;
+    background-color: #343a40;
     padding: 10px; /* Ajusta el relleno según sea necesario */
     z-index: 1000; /* Asegura que esté por encima del contenido */
 }

@@ -170,11 +170,11 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/assets/js/js.php';
 		<table class="table table-hover " id="id_tabla">
 			<thead id="tablaPedidosH">
 				<tr>
-					<th style="width: 2%;" >TIENDA</th>
-					<th style="width: 9%;" >NRO<BR>ORDEN</th>
-					<th style="width: 6%;" >FECHA<BR>PEDIDO</th>
-					<th style="width: 6%;" >HORA<BR>PEDIDO</th>
-					<th style="width: 5%;" >PEDIDO</th>
+					<th style="width: 2%;" class="headerTitle">TIENDA</th>
+					<th style="width: 9%;" class="headerTitle">NRO<BR>ORDEN</th>
+					<th style="width: 6%;" class="headerTitle">FECHA<BR>PEDIDO</th>
+					<th style="width: 6%;" class="headerTitle">HORA<BR>PEDIDO</th>
+					<th style="width: 5%;" class="headerTitle">PEDIDO</th>
 					<th style="width: 12%;" class="headerTitle">NOMBRE</th>
 					<th style="width: 8%;" class="headerTitle">COD<BR>ARTICULO</th>
 					<th style="width: 8%;" class="headerTitle">DESC<BR>ARTICULO</th>
@@ -184,11 +184,11 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/assets/js/js.php';
 					<th style="width: 5%;" class="headerTitle">DEPOSITO</th>
 					<th style="width: 5%;" class="headerTitle">METODO<BR>ENVIO</th>
 					<th style="width: 5%;" class="headerTitle">TIENDA</th>
-					<th style="width: 1%; color: white;" class="headerTitle noExl">F</th>
-					<th style="width: 1%; color: white;" class="headerTitle noExl">C</th>
-					<th style="width: 1%; color: white;" class="headerTitle noExl">I</th>
-					<th style="width: 1%; color: white;" class="headerTitle noExl">D</th>
-					<th style="width: 1%; color: white;" class="headerTitle noExl">E</th>
+					<th style="width: 1%; color: white;" class="headerTitle noExl"></th>
+					<th style="width: 1%; color: white;" class="headerTitle noExl"></th>
+					<th style="width: 1%; color: white;" class="headerTitle noExl"></th>
+					<th style="width: 1%; color: white;" class="headerTitle noExl"></th>
+					<th style="width: 1%; color: white;" class="headerTitle noExl"></th>
 				</tr>
 			</thead>
 			<tbody id="table">
