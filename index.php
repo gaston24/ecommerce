@@ -278,7 +278,7 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/assets/js/js.php';
 
 					<td class="noExl">
 						<?php if($value[0]->DESPACHADO== 1){ ?>
-							<i class="fas fa-truck"  data-toggle="tooltip" data-placement="left" title="Despachado <?= $value[0]->FECHA_DESPACHO->format("Y-m-d")?>" style="color: #17a2b8; font-size: 17px;"></i>
+							<i class="fas fa-truck"  data-toggle="tooltip" data-placement="left" title="Despachado <?= $value[0]->FECHA_DESPACHO->format("Y-m-d")?>" style="color: #17a2b8; font-size: 18px; padding-top: 0.4rem;"></i>
 								<?php }else if($value[0]->DESPACHADO== 0){?>
 									<i class="fas fa-square" style="color: white; font-size: 20px;">
 									<?php } ?>
@@ -286,7 +286,7 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/assets/js/js.php';
 
 					<td class="noExl">
 						<?php if($value[0]->ENTREGADO == 1){ ?>
-							<i class="bi bi-box-seam-fill" data-toggle="tooltip" data-placement="left" title="Entregado <?= $value[0]->FECHA_ENTREGADO->format("Y-m-d")?>" style="color: #007bff; font-size: 17px;"></i>
+							<i class="bi bi-box-seam-fill" data-toggle="tooltip" data-placement="left" title="Entregado <?= $value[0]->FECHA_ENTREGADO->format("Y-m-d")?>" style="color: #007bff; font-size: 18px; padding-top: 0.4rem;"></i>
 								<?php }else if($value[0]->ENTREGADO == 0){?>
 								<i class="fas fa-square" style="color: white; font-size: 20px;">
 								<?php } ?>
