@@ -20,9 +20,13 @@ foreach ($selectCategoria as $x => $categoria) {
     $arrayCategorias[$x] = explode("-",$categoria)[1];
 
 }
+$clientes = [];
 
-$clientes = $cliente->traerClientes($desde,$hasta,$selectBanco,$selectRubro,$arrayCategorias,$selectRangoEtario);
+if($desde != null){
 
-$total = number_format(count($clientes), 0, ',', '.');
+    $clientes = $cliente->traerClientes($desde,$hasta,$selectBanco,$selectRubro,$arrayCategorias,$selectRangoEtario);
+    
+    $total = number_format(count($clientes), 0, ',', '.');
+}
 
 ?>

@@ -29,11 +29,11 @@ include "dataSegmentacionDeClientes.php";
                 <div class="wrapper wrapper--w680"><div style="color:white; text-align:center"><h6>Segmentacion de Clientes</h6></div>
                     <div class="card card-1">
                         <div class="row" style = "height:845px;width:100%;margin-left:10px;margin-top:5px;margin-bottom:5px">
-
+                        <div id="boxLoading"></div>
                             <div class="col-3" style="border:solid 1px;">
                                 <form action="">
                                     <div style="margin-top:30px">
-                                        <button type="submit"  name="submit"class="btn btn-primary btn-block submit"style="height:40px">Filtrar <i class="bi bi-funnel-fill" style="color:white"></i></button>
+                                        <button type="submit"  id="btnFiltrar" name="submit"class="btn btn-primary btn-block submit"style="height:40px" onclick="mostrarSpiner()">Filtrar <i class="bi bi-funnel-fill" style="color:white"></i></button>
                                     </div>
                                     <div class="contenedor" style="margin-top:10px">
                                         <div class="row">

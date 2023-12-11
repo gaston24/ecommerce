@@ -14,6 +14,14 @@ var $searchfield = $(this).parent().find('.select2-search__field');
 // $searchfield.prop('disabled', true);
 });
 
+const mostrarSpiner = () =>{
+
+    let spinner = document.querySelector("#boxLoading");
+
+    spinner.classList.add("loading");
+
+
+}
 
 $('#selectCategoria').select2();
 
