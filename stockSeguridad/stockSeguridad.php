@@ -21,6 +21,7 @@ $matrizStockSeguridad = new Matriz();
     <?php 
         require_once $_SERVER['DOCUMENT_ROOT'] . '/ecommerce/assets/css/css.php';
     ?>
+    <link rel="stylesheet" href="css/stockSeguridad.css" class="rel">
 
 
 </head>
