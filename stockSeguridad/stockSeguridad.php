@@ -21,15 +21,41 @@ $matrizStockSeguridad = new Matriz();
     <?php 
         require_once $_SERVER['DOCUMENT_ROOT'] . '/ecommerce/assets/css/css.php';
     ?>
+    <!-- Asegúrate de incluir jQuery antes que Bootstrap y Bootstrap Toggle -->
+
+    
     <link rel="stylesheet" href="css/stockSeguridad.css" class="rel">
 
+
+<style>
+    /* Estilo personalizado para el interruptor con imágenes de banderas */
+    .toggle-on {
+        background-image: url('images/bandera_con_sol__55757_std.jpg'); /* Ruta de la imagen para el estado encendido (ARG) */
+        background-size: contain; /* Ajusta el tamaño de la imagen para que se ajuste al contenedor */
+        background-repeat: no-repeat; /* Evita la repetición de la imagen */
+        height: 60px; /* Establece la altura del botón */
+        width: 60px; /* Establece el ancho del botón */
+    }
+
+    .toggle-off {
+        background-image: url('images/UY.png'); /* Ruta de la imagen para el estado apagado (UY) */
+        background-size: contain; /* Ajusta el tamaño de la imagen para que se ajuste al contenedor */
+        background-repeat: no-repeat; /* Evita la repetición de la imagen */
+        height: 60px; /* Establece la altura del botón */
+        width: 60px; /* Establece el ancho del botón */
+    }
+ 
+</style>
+
+   
+ 
 
 </head>
 
 <body>
 
     <h3><i class="bi bi-pencil-square"></i> Administracion de Stock Seguridad Vtex</h3>
-
+    <div id="boxLoading"></div> 
     <form action="#" id="menu">
         <div class="form-row contenedor">
             <div id="busqRapida">
@@ -38,11 +64,16 @@ $matrizStockSeguridad = new Matriz();
             </div>
             <div class="form-button">
                 <div>
+                   
                     <button type="button" class="btn btn-primary" id="btn_active" data-toggle="modal" data-target="#modalActive">Activar <i class="bi bi-check-circle-fill"></i></button>
                 </div>
                 <div>
                     <button type="button" class="btn btn-warning" id="btn_edit" data-toggle="modal" data-target="#modalParameters">Editar <i class="bi bi-pencil-square"></i></button>
                 </div>
+              
+                <input type="checkbox" checked data-toggle="toggle" data-on="ARG" data-off="UY" class="custom-toggle" style="color:black; font-size: 0;" onchange="cambiarEntorno(this)">
+
+
             </div>
         </div>
            
@@ -119,9 +150,19 @@ $matrizStockSeguridad = new Matriz();
 
         ?>
 </body>
+
 <?php 
     require_once $_SERVER['DOCUMENT_ROOT'] . '/ecommerce/assets/js/js.php';
 ?>
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script>
+      $(document).ready( function () {
+            document.querySelector(".toggle").style.width="40px"
+            document.querySelector(".toggle-on").style.fontSize="0"
+            document.querySelector(".toggle-off").style.fontSize="0"
+      })
+</script>
 </html>
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

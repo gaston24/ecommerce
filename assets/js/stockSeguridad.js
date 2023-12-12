@@ -253,3 +253,87 @@ function activarWarehouse() {
     });
   }
 }
+
+const cambiarEntorno = (t) =>{
+  let spinner = document.querySelector("#boxLoading");
+
+  spinner.classList.add("loading");
+
+  if(t.checked == false){
+
+
+    $.ajax({
+      url: "Controller/stockDeSeguridadController.php?accion=cambiarEntornoUy",
+      method: "GET",
+      success: function (data) {
+        data = JSON.parse(data);
+        let tabla = document.getElementById('table');
+        tabla.innerHTML = '';
+
+        data.forEach((row) => {
+          tabla.innerHTML += `
+          <tr>
+          <td style="display:none;">${row['ID']}</td>
+          <td style="display:none;">${row['WAREHOUSE_ID']}</td>
+          <td>${row['VTEX_CUENTA']}</td>
+          <td>${row['DESC_SUCURSAL']}</td>
+          <td><input type="number" class="inputNumber" name="BILLETERAS_DE_CUERO" value="${row['BILLETERAS_DE_CUERO']}" disabled></td>
+          <td><input type="number" class="inputNumber" name="BILLETERAS_DE_VINILICO" value="${row['BILLETERAS_DE_VINILICO']}" disabled></td>
+          <td><input type="number" class="inputNumber" name="CALZADOS" value="${row['CALZADOS']}" disabled></td>
+          <td><input type="number" class="inputNumber" name="CAMPERAS" value="${row['CAMPERAS']}" disabled></td>
+          <td><input type="number" class="inputNumber" name="CARTERAS_DE_CUERO" value="${row['CARTERAS_DE_CUERO']}" disabled></td>
+          <td><input type="number" class="inputNumber" name="CARTERAS_DE_VINILICO" value="${row['CARTERAS_DE_VINILICO']}" disabled></td>
+          <td><input type="number" class="inputNumber" name="CHALINAS" value="${row['CHALINAS']}" disabled></td>
+          <td><input type="number" class="inputNumber" name="CINTOS_DE_CUERO" value="${row['CINTOS_DE_CUERO']}" disabled></td>
+          <td><input type="number" class="inputNumber" name="CINTOS_DE_VINILICO" value="${row['CINTOS_DE_VINILICO']}" disabled></td>
+          <td><input type="number" class="inputNumber" name="INDUMENTARIA" value="${row['INDUMENTARIA']}" disabled></td>
+          <td><input type="number" class="inputNumber" name="LENTES" value="${row['LENTES']}" disabled></td>
+          <td><input type="number" class="inputNumber" name="RELOJES" value="${row['RELOJES']}" disabled></td>
+          </tr>
+          `;
+        });
+        spinner.classList.remove("loading")
+      }
+
+
+    });
+  }else{
+
+    $.ajax({
+      url: "Controller/stockDeSeguridadController.php?accion=cambiarEntornoArg",
+      method: "GET",
+      success: function (data) {
+        data = JSON.parse(data);
+        let tabla = document.getElementById('table');
+        tabla.innerHTML = '';
+
+        data.forEach((row) => {
+          tabla.innerHTML += `
+          <tr>
+          <td style="display:none;">${row['ID']}</td>
+          <td style="display:none;">${row['WAREHOUSE_ID']}</td>
+          <td>${row['VTEX_CUENTA']}</td>
+          <td>${row['DESC_SUCURSAL']}</td>
+          <td><input type="number" class="inputNumber" name="BILLETERAS_DE_CUERO" value="${row['BILLETERAS_DE_CUERO']}" disabled></td>
+          <td><input type="number" class="inputNumber" name="BILLETERAS_DE_VINILICO" value="${row['BILLETERAS_DE_VINILICO']}" disabled></td>
+          <td><input type="number" class="inputNumber" name="CALZADOS" value="${row['CALZADOS']}" disabled></td>
+          <td><input type="number" class="inputNumber" name="CAMPERAS" value="${row['CAMPERAS']}" disabled></td>
+          <td><input type="number" class="inputNumber" name="CARTERAS_DE_CUERO" value="${row['CARTERAS_DE_CUERO']}" disabled></td>
+          <td><input type="number" class="inputNumber" name="CARTERAS_DE_VINILICO" value="${row['CARTERAS_DE_VINILICO']}" disabled></td>
+          <td><input type="number" class="inputNumber" name="CHALINAS" value="${row['CHALINAS']}" disabled></td>
+          <td><input type="number" class="inputNumber" name="CINTOS_DE_CUERO" value="${row['CINTOS_DE_CUERO']}" disabled></td>
+          <td><input type="number" class="inputNumber" name="CINTOS_DE_VINILICO" value="${row['CINTOS_DE_VINILICO']}" disabled></td>
+          <td><input type="number" class="inputNumber" name="INDUMENTARIA" value="${row['INDUMENTARIA']}" disabled></td>
+          <td><input type="number" class="inputNumber" name="LENTES" value="${row['LENTES']}" disabled></td>
+          <td><input type="number" class="inputNumber" name="RELOJES" value="${row['RELOJES']}" disabled></td>
+          </tr>
+          `;
+        });
+        spinner.classList.remove("loading")
+      }
+
+
+    });
+
+  }
+}
