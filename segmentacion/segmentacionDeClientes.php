@@ -13,7 +13,7 @@ include "dataSegmentacionDeClientes.php";
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Gestion de Conceptos</title>
+        <title>Segmentacion De Clientes</title>
         <?php 
             require_once $_SERVER['DOCUMENT_ROOT'].'/ecommerce/assets/css/css.php';
         ?>
@@ -244,7 +244,7 @@ include "dataSegmentacionDeClientes.php";
 
     </html>
     <script>    
-
+mostrarSpiner()
         $(document).ready( function () {
 
         $('#tablaClientes').DataTable({
@@ -278,7 +278,7 @@ include "dataSegmentacionDeClientes.php";
         newdiv2.append(newdiv1)
 
         $("#tablaClientes_filter").parent().parent().children()[0].appendChild(newdiv2);
-
+        document.querySelector("#boxLoading").classList.remove("loading")
     
     } );
 
