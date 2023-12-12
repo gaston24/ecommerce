@@ -61,6 +61,7 @@ class DotEnv
             'CHARACTER' => getenv('CHARACTER'),
             'HOST_MONGO' => getenv('HOST_MONGO'),
             'DATABASE_MONGO' => getenv('DATABASE_MONGO'),
+            'DATABASE_UY' => getenv('DATABASE_UY'),
             'ENV' => getenv('ENV'),
 
         );

@@ -20,6 +20,7 @@ class Conexion{
         $this->character = $this->envVars['CHARACTER'];
         $this->host_mongo = $this->envVars['HOST_MONGO'];
         $this->database_mongo = $this->envVars['DATABASE_MONGO'];
+        $this->database_uy = $this->envVars['DATABASE_UY'];
 
   
 
@@ -31,6 +32,8 @@ class Conexion{
             return array($this->host_central, $this->database_central);
         }elseif($nameServer == 'locales'){
             return array($this->host_locales, $this->database_locales);
+        }elseif($nameServer == 'uy'){
+            return array($this->host_central, $this->database_uy);
         }else{
             return array($_SESSION['conexion_dns'], $_SESSION['base_nombre']);
         }
