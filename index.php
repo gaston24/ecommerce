@@ -78,6 +78,7 @@ $todosLosWarehouse = $pedidos->traerWarehouse();
 					<option value="CANCELADO" <?= (isset($_GET['estado']) && $_GET['estado'] == 'CANCELADO') ? 'selected' : '' ?>>CANCELADO</option>
 					<option value="PREPARADO" <?= (isset($_GET['estado']) && $_GET['estado'] == 'PREPARADO') ? 'selected' : '' ?>>PREPARADO</option>
 				   <option value="SIN_CONTROLAR" <?= (isset($_GET['estado']) && $_GET['estado'] == 'SIN_CONTROLAR') ? 'selected' : '' ?>>SIN CONTROLAR</option>
+				   <option value="FALTANTE" <?= (isset($_GET['estado']) && $_GET['estado'] == 'FALTANTE') ? 'selected' : '' ?>>FALTANTE</option>
 					<option value="FACTURADO" <?= (isset($_GET['estado']) && $_GET['estado'] == 'FACTURADO') ? 'selected' : '' ?>>FACTURADO</option>
 				   <option value="DESPACHADO" <?= (isset($_GET['estado']) && $_GET['estado'] == 'DESPACHADO') ? 'selected' : '' ?>>DESPACHADO</option>
 					<option value="ENTREGADO" <?= (isset($_GET['estado']) && $_GET['estado'] == 'ENTREGADO') ? 'selected' : '' ?>>ENTREGADO</option>

@@ -45,7 +45,7 @@ function filterIncompletos(){
 
     // console.log($('#buttonIncompletos').css("color"));
 
-    if($('#buttonIncompletos').css("background-color") == 'rgb(220, 53, 69)'){
+    if($('#buttonIncompletos').css("background-color") == 'rgb(253, 126, 20)'){
      
       for (j = 0; j < td.length; j++) {
         if (td[0].querySelector(".incompleto") ) {
