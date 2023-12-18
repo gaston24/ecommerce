@@ -71,7 +71,7 @@ $matrizStockSeguridad = new Matriz();
                     <button type="button" class="btn btn-warning" id="btn_edit" data-toggle="modal" data-target="#modalParameters">Editar <i class="bi bi-pencil-square"></i></button>
                 </div>
               
-                <input type="checkbox" checked data-toggle="toggle" data-on="ARG" data-off="UY" class="custom-toggle" style="color:black; font-size: 0;" onchange="cambiarEntorno(this)">
+                <input type="checkbox" checked data-toggle="toggle" data-on="ARG" data-off="UY" class="custom-toggle" style="color:black; font-size: 0;" onchange="cambiarEntorno(this)" id="checkEntorno">
 
 
             </div>
@@ -146,7 +146,9 @@ $matrizStockSeguridad = new Matriz();
         <?php
         
             include 'activar.php';
+            include 'activarUruguay.php';
             include 'parametrizar.php';
+            include 'parametrizarUy.php';
 
         ?>
 </body>
@@ -158,9 +160,12 @@ $matrizStockSeguridad = new Matriz();
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script>
       $(document).ready( function () {
+        
             document.querySelector(".toggle").style.width="40px"
             document.querySelector(".toggle-on").style.fontSize="0"
             document.querySelector(".toggle-off").style.fontSize="0"
+
+
       })
 </script>
 </html>

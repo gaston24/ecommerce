@@ -4,14 +4,14 @@
 class Cuenta
 {
 
-    private function retornarArray($sqlEnviado)
+    private function retornarArray($sqlEnviado,$db = 'central')
     {
 
         require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/Class/Conexion.php';
 
 
         $cid = new Conexion();
-        $cid_central = $cid->conectarSql('central');
+        $cid_central = $cid->conectarSql($db);
         $sql = $sqlEnviado;
 
         $stmt = sqlsrv_query($cid_central, $sql);
@@ -26,7 +26,7 @@ class Cuenta
     }
 
 
-    public function traerCuentas()
+    public function traerCuentas($db = 'central')
     {
 
         $sql = "SELECT A.WAREHOUSE_ID, A.DESCRIPCION, B.VTEX_CUENTA, A.UTILIZA_STOCK_SEGURIDAD_POR_CLASIF FROM GC_ECOMMERCE_WAREHOUSE A
@@ -36,7 +36,7 @@ class Cuenta
                 ORDER BY 1
                 ";
 
-        $rows = $this->retornarArray($sql);
+        $rows = $this->retornarArray($sql,$db);
 
         $myJSON = json_encode($rows);
 
@@ -68,10 +68,13 @@ class Cuenta
         echo $myJSON;
     }
 
-    public function traerCuentas3()
+    public function traerCuentas3($db = 'central')
     {
 
-        $sql = "SELECT WAREHOUSE_ID,DESCRIPCION FROM  GC_ECOMMERCE_WAREHOUSE";
+        $sql = "SELECT WAREHOUSE_ID,A.DESCRIPCION,B.VTEX_CUENTA FROM  GC_ECOMMERCE_WAREHOUSE A
+        LEFT JOIN GC_ECOMMERCE_CUENTA B
+        ON A.ID_GC_ECOMMERCE_CUENTA = B.ID_GC_ECOMMERCE_CUENTA
+        ";
      /*    $sql = "SELECT * FROM
                 (
                 SELECT DESCRIP RUBRO, RUTA, WAREHOUSE_ID, VTEX_CUENTA, DESC_SUCURSAL, STOCK_SEGURIDAD FROM GC_VIEW_ECOMMERCE_CLASIFICADOR_ARTICULOS A
@@ -88,7 +91,7 @@ class Cuenta
                 WHERE WAREHOUSE_ID = 'xl915' AND A.RUTA IS NOT NULL OR B.PATH_CLASIF IS NULL
                 ) A
                 WHERE RUBRO NOT LIKE '%OUTLET' AND RUBRO NOT LIKE '[_]%' AND RUBRO != 'Todos' ";  */
-        $rows = $this->retornarArray($sql);
+        $rows = $this->retornarArray($sql, $db);
 
         $myJSON = json_encode($rows);
 

@@ -1,16 +1,17 @@
 const btnEditar = document.getElementById("btn_edit");
 const btnActivar = document.getElementById("btn_active");
-const btnAgregarRubro = document.querySelector(".fa-plus");
-const btnGuardarEditar = document.querySelector("#btnSaveFormEditar");
+const btnAgregarRubro = document.querySelector("#agregarRubro");
+const btnAgregarRubroUy = document.querySelector("#agregarRubroUy");
 
-btnGuardarEditar.addEventListener("click", guardarForm);
 
 let conexion1;
 
-function guardarForm() {
+
+
+function guardarForm(db = 'central') {
   conexion1 = new XMLHttpRequest();
   conexion1.onreadystatechange = procesarEventos;
-  conexion1.open("POST", "Controller/guardarForm.php", true);
+  conexion1.open("POST", `Controller/guardarForm.php?db=${db}`, true);
   conexion1.setRequestHeader(
     "Content-Type",
     "application/x-www-form-urlencoded"
@@ -18,7 +19,7 @@ function guardarForm() {
   conexion1.send(retornarDatos());
 }
 
-function retornarDatos() {
+function retornarDatos($db = null) {
   let cad = "";
   let rubros = [];
   let cantidad = [];
@@ -33,6 +34,18 @@ function retornarDatos() {
   colCantidad.forEach((cant) => {
     cantidad.push(parseInt(cant.value));
   });
+
+  if($db == 'uy'){
+
+    let cad = "";
+    let rubros = [];
+    let cantidad = [];
+    let warehouse = document.getElementById("inputWarehouse2Uy").value;
+    let cuenta = document.getElementById("inputCuentaEditarUy").value;
+    let localCuenta=document.getElementById("localCuentaUy").value;
+    let tablaRubros = document.querySelectorAll(".Rubro");
+
+  }
   cad =
     "warehouse=" +
     encodeURIComponent(warehouse) +
@@ -107,6 +120,46 @@ btnAgregarRubro.addEventListener("click", () => {
   }
 });
 
+
+btnAgregarRubroUy.addEventListener("click", () => {
+  if (!document.getElementById("inputRubroUy").value.includes("Seleccione rubro")) {
+    let rubroSeleccionado = document.getElementById("inputRubroUy").value;
+    let tablaRubro = document.getElementById("tablaRubroStockSeguridadUy");
+    let newRow = tablaRubro.insertRow(1);
+    let newCell = newRow.insertCell(0);
+    newCell.classList = "Rubro";
+    let newText = document.createTextNode(`${rubroSeleccionado}`);
+    newCell.appendChild(newText);
+    newCell = newRow.insertCell(1);
+    let newInput = document.createElement("input");
+    newInput.type = "number";
+    newInput.classList = "cantidad";
+    /****************************** */
+    let warehouse = document.getElementById('inputWarehouse2Uy').value;
+    conexion1 = new XMLHttpRequest();
+
+    conexion1.onreadystatechange = () => {
+   
+      if (conexion1.readyState == 4 && conexion1.status == 200) {
+        
+        newCell.appendChild(newInput);
+       
+      }
+    };
+  
+    conexion1.open(
+      "GET",
+      "Class/matriz.php?warehouse="+warehouse+"&rubro=" + rubroSeleccionado,
+      true
+    );
+    conexion1.send();
+    /****************************** */
+
+   
+    
+  }
+});
+
 document
   .getElementById("inputWarehouse")
   .addEventListener("change", completarModal);
@@ -140,13 +193,14 @@ function completarModal(e) {
 
   conexion1.onreadystatechange = () => {
     if (conexion1.readyState == 4 && conexion1.status == 200) {
-      cuentas = JSON.parse(conexion1.responseText);
+
       console.log(cuentas);
-      cuenta = cuentas.find((cuenta) => {return cuenta["WAREHOUSE_ID"] == warehouse /* && cuenta["DESCRIPCION"].includes(descripcionWarehouse) */});
-     console.log('cuenta: '+cuenta)
+
+      cuentas = JSON.parse(conexion1.responseText);
+      cuenta = cuentas[0];
       warehouse += cuenta["DESCRIPCION"];
       inputCuenta.value = cuenta["VTEX_CUENTA"];
-       inputCuenta.textContent = cuenta["VTEX_CUENTA"];
+      inputCuenta.textContent = cuenta["VTEX_CUENTA"];
     } else {
       console.log("aguanta");
     }
@@ -206,9 +260,19 @@ function limpiarForm() {
 
 //Capturar valores de formulario modal y enviar//
 
-function activarWarehouse() {
-  var inputWarehouse = document.getElementById("inputWarehouse").value;
-  var inputCuenta = document.getElementById("inputCuenta").textContent;
+function activarWarehouse(db = 'central') {
+
+  if(db == 'central'){
+
+    var inputWarehouse = document.getElementById("inputWarehouse").value;
+    var inputCuenta = document.getElementById("inputCuenta").textContent;
+
+  }else{
+
+    var inputWarehouse = document.querySelector("#inputWarehouseUy").value;
+    var inputCuenta = document.querySelector("#inputCuentaUy").value;
+
+  }
 
   if (inputWarehouse != "" && inputCuenta != "") {
     Swal.fire({
@@ -223,7 +287,7 @@ function activarWarehouse() {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         let env = 1;
-        let url = env == 1 ? "guardarForm.php" : "test.php";
+        let url = env == 1 ? `guardarForm.php?db=${db}` : "test.php";
         $.ajax({
           url: "controller/" + url,
           method: "POST",
@@ -261,6 +325,9 @@ const cambiarEntorno = (t) =>{
 
   if(t.checked == false){
 
+    document.querySelector("#btn_active").setAttribute("data-target","#modalActiveUruguay")
+
+    document.querySelector("#btn_edit").setAttribute("data-target","#modalParametersUy")
 
     $.ajax({
       url: "Controller/stockDeSeguridadController.php?accion=cambiarEntornoUy",
@@ -298,6 +365,8 @@ const cambiarEntorno = (t) =>{
 
     });
   }else{
+
+    document.querySelector("#btn_active").setAttribute("data-target","#modalActive")
 
     $.ajax({
       url: "Controller/stockDeSeguridadController.php?accion=cambiarEntornoArg",
@@ -337,3 +406,18 @@ const cambiarEntorno = (t) =>{
 
   }
 }
+
+const completarModalUY = (e) => {
+  
+  let valor  = e.querySelectorAll("option")[e.selectedIndex].getAttribute("valor-cuenta")
+  document.querySelector("#inputCuentaUy").value = valor;
+
+}
+
+const completarModalEditUY = (e) => {
+  
+  let valor  = e.querySelectorAll("option")[e.selectedIndex].getAttribute("valor-cuenta")
+  document.querySelector("#inputCuentaEditarUy").value = valor;
+
+}
+
