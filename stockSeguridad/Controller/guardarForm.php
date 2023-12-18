@@ -14,9 +14,6 @@ $cuenta = $_POST['cuenta'];
 $rubro = (isset($_POST['rubros']) ? json_decode($_POST['rubros']) : NULL);
 $stockSeguridad = (isset($_POST['rubros'])) ? json_decode($_POST['cantidad']) : NULL;
 
-var_dump("llego");
-var_dump($db);
-die();
 
 
 if (isset($_POST['rubros'])) {
