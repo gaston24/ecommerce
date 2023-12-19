@@ -3,13 +3,13 @@
 require_once 'Class/cuenta.php'; 
 
 $cuenta2 = new Cuenta();
-$todasLasCuentas = $cuenta2->traerCuentas3();
+$todasLasCuentas = $cuenta2->traerCuentas3("uy");
 $todasLasCuentas = json_decode($todasLasCuentas);
 
 ?>
 
 <!-- Modal -->
-<div class="modal fade hide" id="modalParameters" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade hide" id="modalParametersUy" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -23,31 +23,32 @@ $todasLasCuentas = json_decode($todasLasCuentas);
                 <form>
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Warehouse:</label>
-                        <select id="inputWarehouse2" class="form-control form-control-sm selected" name="warehouse">
+                        <select id="inputWarehouse2Uy"  onchange="completarModalEditUY(this)"  class="form-control form-control-sm selected" name="warehouse">
                             <option selected disabled>Seleccione el ID</option>
                             <?php
 
                             foreach ($todasLasCuentas as $valor => $value) {
                                 /* $cuenta=$value-> */
                             ?>
-                                <option id="WAREHOUSE_ID2" value="<?= $value->WAREHOUSE_ID; ?>"><?= $value->WAREHOUSE_ID.' - '.$value->DESCRIPCION?></option>
+                                <option id="WAREHOUSE_ID2" value="<?= $value->WAREHOUSE_ID; ?>" valor-cuenta="<?= $value->VTEX_CUENTA ?>"><?= $value->WAREHOUSE_ID.' - '.$value->DESCRIPCION?></option>
                             <?php
                             }
                             ?>
                         </select>
 
                         <label for="recipient-name" class="col-form-label">Cuenta:</label>
-                        <input value="" type="text" class="form-control cuentaVtex" id="inputCuentaEditar" name="cuenta" disabled>
-                        <input value="" type="text" id="localCuenta" disabled hidden>
+                        <input value="" type="text" class="form-control cuentaVtex" id="inputCuentaEditarUy" name="cuenta" disabled>
+                        <input value="" type="text" id="localCuentaUy" disabled hidden>
                     </div>
 
                     <div class="form-group">
                         <!-- <label for="recipient-name" class="col-form-label">Rubro:</label> -->
                         <div class="contRubro">
-                            <select id="inputRubro" class="form-control form-control-sm selected" name="rubro[]">
+                            
+                            <select id="inputRubroUy" class="form-control form-control-sm selected" name="rubro[]">
                                 <option selected disabled>Seleccione rubro</option>
                                 <?php
-                                $todosLosRubros = json_decode($todosLosRubros);
+
                                 foreach ($todosLosRubros as $valor => $value) {
                                 ?>
                                     <option value="<?= $value->PATH_CLASIF; ?>"><?= $value->RUBRO; ?></option>
@@ -55,9 +56,9 @@ $todasLasCuentas = json_decode($todasLasCuentas);
                                 }
                                 ?>
                             </select>
-                            <i class="fa-solid fa-plus" id="agregarRubro"></i>
+                            <i class="fa-solid fa-plus" id="agregarRubroUy"></i>
                         </div>
-                        <table id="tablaRubroStockSeguridad" name="rubros&stockSeguridad">
+                        <table id="tablaRubroStockSeguridadUy" name="rubros&stockSeguridad">
                             <thead>
                                 <td>Rubro</td>
                                 <td>Stock Seguridad</td>
@@ -74,7 +75,7 @@ $todasLasCuentas = json_decode($todasLasCuentas);
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btnClose" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cerrar</button>
-                <button type="button" id="btnSaveFormEditar" class="btn btn-info btnSaveForm " onclick ="guardarForm()"><i class="bi bi-check-circle-fill"></i> Activar</button>
+                <button type="button" id="btnSaveFormEditarUy" class="btn btn-info btnSaveForm " onclick="guardarForm('uy')"><i class="bi bi-check-circle-fill"></i> Activar</button>
             </div>
         </div>
     </div>

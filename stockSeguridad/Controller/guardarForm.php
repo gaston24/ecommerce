@@ -1,16 +1,19 @@
 
 <?php
 
-require_once '../Class/conexion.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/ecommerce/Class/Conexion.php';
+
 $cid = new Conexion();
-$cid_central = $cid->conectar();
+
+$db = isset($_GET['db']) ? $_GET['db'] : 'central';
+
+$cid_central = $cid->conectarSql($db);
 
 $warehouse = $_POST['warehouse'];
 $cuenta = $_POST['cuenta'];
-$rubro = json_decode($_POST['rubros']);
-$stockSeguridad = json_decode($_POST['cantidad']);
+$rubro = (isset($_POST['rubros']) ? json_decode($_POST['rubros']) : NULL);
+$stockSeguridad = (isset($_POST['rubros'])) ? json_decode($_POST['cantidad']) : NULL;
 
-var_dump($warehouse);
 
 
 if (isset($_POST['rubros'])) {
