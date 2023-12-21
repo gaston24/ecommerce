@@ -58,11 +58,11 @@ include "dataSegmentacionDeClientes.php";
                                             <?php 
                                                 foreach ($bancos as  $banco) {
 
-                                                    $text = '<option value="'.$banco['DESC_CTA_BANCO'].'"';
+                                                    $text = '<option value="'.$banco['COD_CTA_BANCO'].'"';
                 
                                                     if(count($selectBanco) > 0){
                                         
-                                                        if(in_array($banco['DESC_CTA_BANCO'],$selectBanco)){
+                                                        if(in_array($banco['COD_CTA_BANCO'],$selectBanco)){
 
                                                             $text = $text.'selected="selected"';
 

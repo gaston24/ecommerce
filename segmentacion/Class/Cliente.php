@@ -78,10 +78,12 @@ class Cliente{
         $mongoCollection = $this->cid_mongo->selectCollection("Ventas");
 
         $filter = [];
-
+       
         if($selectBanco != null){
-            $filter["BANCO"] = array('$in' => $selectBanco);
+            $numericBancoValues = array_map('intval', $selectBanco);
+            $filter["BANCO"] = ['$in' => $numericBancoValues];
         }
+   
         
         if($selectRubro != null || $selectCategoria != null){
             $articulosFilter = [];
@@ -106,8 +108,10 @@ class Cliente{
         
             $filter["FECHA"] = ['$gte' => $desdeDate, '$lte' => $hastaDate];
 
+            
+
         }
- 
+   
         $options = [
             'projection' => [
                 'NOMBRE_CLI' => 1,
@@ -126,10 +130,11 @@ class Cliente{
                 'articulos' => ['$push' => '$ARTICULOS']
             ]
         ];
-
+       
 
         $result = $mongoCollection->find($filter, $options);
         $newArray = [];
+
         foreach ($result as $x => $document) {
 
         $documentArray = $document->getArrayCopy();
@@ -151,7 +156,7 @@ class Cliente{
         }
 
         }
-
+       
         return ($newArray);
 
     
