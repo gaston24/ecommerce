@@ -45,13 +45,14 @@ function filterIncompletos(){
 
     // console.log($('#buttonIncompletos').css("color"));
 
-    if($('#buttonIncompletos').css("background-color") == 'rgb(253, 126, 20)'){
+    if(document.querySelector("#buttonIncompletos").textContent != 'Todos'){
      
       for (j = 0; j < td.length; j++) {
         if (td[0].querySelector(".incompleto") ) {
           visible = true;
         }
       }
+
     }else{
       for (j = 0; j < td.length; j++) {
         visible = true;
