@@ -26,6 +26,7 @@ if($desde != null){
 
     $clientes = $cliente->traerClientes($desde,$hasta,$selectBanco,$selectRubro,$arrayCategorias,$selectRangoEtario);
     
+    
     $total = number_format(count($clientes), 0, ',', '.');
 }
 

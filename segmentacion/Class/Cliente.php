@@ -78,9 +78,15 @@ class Cliente{
         $mongoCollection = $this->cid_mongo->selectCollection("Ventas");
 
         $filter = [];
-       
-        if($selectBanco != null){
-            $numericBancoValues = array_map('intval', $selectBanco);
+        $arrayBanco = [];
+        foreach ($selectBanco as $key => $banco) {
+            $partes = explode("?", $banco);
+            $arrayBanco[]= $partes[0];
+            $arrayBanco[]= $partes[1];
+        }
+        
+        if($arrayBanco != null){
+            $numericBancoValues = array_map('intval', $arrayBanco);
             $filter["BANCO"] = ['$in' => $numericBancoValues];
         }
    
@@ -111,7 +117,7 @@ class Cliente{
             
 
         }
-   
+  
         $options = [
             'projection' => [
                 'NOMBRE_CLI' => 1,
@@ -145,18 +151,50 @@ class Cliente{
         $newArray[$x]['ID'] = $id;
         // Acceder a los demás campos
         $keys = array_keys($documentArray);
-
+        
         foreach ($keys as $key) {
+            
+            
             // Saltar el campo _id
             if ($key === '_id') {
                 continue;
             }
-            $newArray[$x][$key] = $documentArray[$key];
-
-        }
-
-        }
+                  
        
+            if($key != 'ARTICULOS' ){
+                
+                $newArray[$x][$key] = $documentArray[$key];
+                
+            }else{
+                
+                foreach ($documentArray['ARTICULOS'] as $y => &$articulo) {
+                
+                    if($selectRubro != null || $selectCategoria != null){
+
+                        if(!in_array($articulo['RUBRO'], $selectRubro)){
+                            unset($documentArray['ARTICULOS'][$y]);
+                            continue;
+                        }
+
+                        if(!in_array($articulo['CATEGORIA'], $selectCategoria)){
+                            unset($documentArray['ARTICULOS'][$y]);
+                            continue;
+                        }
+                 
+           
+                    }
+
+                    $newArray[$x][$key] = $documentArray[$key];
+
+
+                }
+
+            }
+            
+        }
+
+        }
+
         return ($newArray);
 
     
