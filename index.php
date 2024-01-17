@@ -15,6 +15,7 @@ if(!isset($_GET['desde'])){
 	nc_pendientes();
 }
 
+
 $hoy = date("Y-m-d");
 $tienda = (!isset($_GET['tienda'])) ? '%' : '%'.$_GET['tienda'].'%';
 $warehouse = (!isset($_GET['warehouse'])) ? '%' : '%'.$_GET['warehouse'].'%';
