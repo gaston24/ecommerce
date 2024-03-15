@@ -77,6 +77,8 @@ const filtrarCategoria = () =>{
 
 const exportTable = () =>{
 
+    $('#tablaClientes').DataTable().destroy();
+
     $(`#tablaClientes`).table2excel({
     // exclude CSS class
     exclude: ".noE  xl",
@@ -85,4 +87,36 @@ const exportTable = () =>{
     fileext: ".xlsx" // file extension
     });
 
-    }
+    $('#tablaClientes').DataTable({
+        "bLengthChange": false,
+        "bInfo": false,
+        "aaSorting": false,
+        'columnDefs': [
+            {
+                "targets": "_all", 
+                "className": "text-center",
+                "sortable": false,
+         
+            },
+        ],
+        "oLanguage": {
+
+            "sSearch": "Busqueda rapida:",
+            "sSearchPlaceholder" : "Sobre cualquier campo"
+            
+
+        },
+    });
+    $("#tablaClientes_filter").append('<button class="btn btn-success btn_exportar" style="margin-bottom:4px;margin-left:10px;height:40px;margin-right:5px" onclick ="exportTable()"> Exportar<i class="bi bi-file-earmark-excel"></i></button>');
+    $('.dataTables_filter input[type="search"]').css(
+        {'height':'40px'}
+    );
+
+
+    let newdiv2 = document.createElement( "strong" );
+    let newdiv1 =  document.querySelector("#conteo").textContent + " Registros Encontrado" ;
+    newdiv2.append(newdiv1)
+
+    $("#tablaClientes_filter").parent().parent().children()[0].appendChild(newdiv2);
+    document.querySelector("#boxLoading").classList.remove("loading")
+}

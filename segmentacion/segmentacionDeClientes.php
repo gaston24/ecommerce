@@ -48,7 +48,7 @@ include "dataSegmentacionDeClientes.php";
                                             </div>
                                         </div>
                                     </div>
-
+                                <div hidden  id="conteo"><?= (isset($total)) ? $total  : "0" ?></div>
                                     <div class="row">
 
                                         <label style="margin-left:20px"><i class="bi bi-bank2"></i> Banco</label>
