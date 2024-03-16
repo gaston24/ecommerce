@@ -232,7 +232,7 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/assets/js/js.php';
 					<td ><?= $value[0]->FECHA_PEDIDO->format("Y-m-d"); ?></td>
 					<td ><?= $value[0]->HORA?></td>
 					<td ><?= $value[0]->NRO_PEDIDO?></td>
-					<td  name="orden_<?php ?>"><small><?= $value[0]->RAZON_SOCIAL?></small></td>
+					<td   data-toggle="tooltip" data-placement="right" title="<?= $value[0]->LUGAR_ENTREGA?>" name="orden_<?php ?>"><small><?= $value[0]->RAZON_SOCIAL?></small></td>
 					<td ><?= $value[0]->COD_ARTICULO;?></td>
 					<td ><small><?= $value[0]->DESCRIPCION;?></small></td>
 					<td  style="text-align: left;"><?= $value[0]->CANTIDAD_A_FACTURAR;?></td>
