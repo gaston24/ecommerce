@@ -183,11 +183,11 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/assets/js/js.php';
 					<th style="width: 5%;" class="headerTitle">DEPOSITO</th>
 					<th style="width: 5%;" class="headerTitle">METODO<BR>ENVIO</th>
 					<th style="width: 5%;" class="headerTitle">TIENDA</th>
-					<th style="width: 1%; color: white;" class="headerTitle noExl"></th>
-					<th style="width: 1%; color: white;" class="headerTitle noExl"></th>
-					<th style="width: 1%; color: white;" class="headerTitle noExl"></th>
-					<th style="width: 1%; color: white;" class="headerTitle noExl"></th>
-					<th style="width: 1%; color: white;" class="headerTitle noExl"></th>
+					<th style="width: 1%; color: white;" class="headerTitle noExl"><i class="bi bi-file-earmark-text-fill" data-toggle="tooltip" data-placement="top" title="Facturación" style="color: #FFFFFF; font-size: 18px; padding-top: 0.4rem;"></i></th>
+					<th style="width: 1%; color: white;" class="headerTitle noExl"><i class="bi bi-clipboard2-check-fill" data-toggle="tooltip" data-placement="top" title="Control" style="color: #FFFFFF; font-size: 18px; padding-top: 0.4rem;"></i></th>
+					<th style="width: 1%; color: white;" class="headerTitle noExl"><i class="fa fa-cart-plus" data-toggle="tooltip" data-placement="top" title="Preparación" style="color: #FFFFFF; font-size: 18px; padding-top: 0.4rem;"></i></th>
+					<th style="width: 1%; color: white;" class="headerTitle noExl"><i class="fas fa-truck" data-toggle="tooltip" data-placement="top" title="Despacho" style="color: #FFFFFF; font-size: 18px; padding-top: 0.4rem;"></i></th>
+					<th style="width: 1%; color: white;" class="headerTitle noExl"><i class="bi bi-box-seam-fill" data-toggle="tooltip" data-placement="top" title="Entrega" style="color: #FFFFFF; font-size: 18px; padding-top: 0.4rem;"></i></th>
 				</tr>
 			</thead>
 			<tbody id="table">
