@@ -49,8 +49,11 @@ $todosLosWarehouse = $pedidos->traerWarehouse();
 <div class="container-fluid">
 
 <div class="alert alert-primary" role="alert" id="menu">
-	<h3 class="mt-2"><i class="bi bi-handbag"></i> Estado Pedidos Ecommerce</h3>
-
+	<div class="form-inline">
+		<h3 class="mt-2"><i class="bi bi-handbag"></i> Estado Pedidos Ecommerce</h3>
+		<label style="margin-left: 55%">Cantidad Ordenes:</label>
+		<input type="text" style="text-align:center; width:10rem; font-size: 16px;" class="form-control form-control-sm ml-1" id="cantidad" readonly disabled>
+	</div>
   
 	<div class="row"  id="renderr" style="margin-left:10px">
 
@@ -197,7 +200,7 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/assets/js/js.php';
 
 
 					echo '<tr id="tr" style="';
-					if($value[0]->NRO_COMP == ''){
+					if ($value[0]->NRO_COMP == '' && $value[0]->CANCELADO == 0 ){
 						echo 'font-weight:bold; color:#FE2E2E;';
 					}else{
 						echo '';
@@ -309,6 +312,26 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/assets/js/js.php';
 <?php
 }
 ?>
+
+<script>
+	
+	$(document).ready( function () {
+		contar();
+	})
+	
+	const contar = () =>{
+
+		let trFiltrados = $('#id_tabla tbody tr:visible');
+
+		let count = 0;
+		var trArray = trFiltrados.get();
+		let total = trArray.length
+
+		console.log(total);
+		document.getElementById('cantidad').value = total
+	}
+
+</script>
 
 
 

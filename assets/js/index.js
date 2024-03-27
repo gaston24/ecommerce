@@ -32,6 +32,7 @@ function busquedaRapida() {
       tr[i].style.display = "none";
     }
   }
+  contar();
 }
 
 function filterIncompletos(){
@@ -74,6 +75,7 @@ function filterIncompletos(){
     $('#buttonIncompletos').css("color", '#f7f7f7').css("background-color",'#dc3545').css("border-style",'#dc3545');
     $('#buttonIncompletos').text("Incompletos");
   } 
+  contar();
 }
 
 function filterCancelados(){
@@ -119,6 +121,7 @@ function filterCancelados(){
     $('#buttonCancelados').css("color", '#f7f7f7').css("background-color",'#007bff').css("border-style",'#007bff');
     $('#buttonCancelados').text("Sin NC");
   } 
+  contar();
 }
 
 function filterPendientes(){
@@ -164,6 +167,7 @@ function filterPendientes(){
     $('#buttonPendientes').css("color", '#f7f7f7').css("background-color",'#ffc107').css("border-style",'#ffc107');
     $('#buttonPendientes').text("Pendientes");
   } 
+  contar();
 }
 
 var	valores = [];
