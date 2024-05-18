@@ -197,7 +197,9 @@ include "dataSegmentacionDeClientes.php";
                                            
                                                                 $dataArray = (array) $value;
                                                                 $cantidad = 0;
-
+                                                                if(!isset($dataArray['ARTICULOS'])){
+                                                                    break;
+                                                                }
                                                                 foreach ($dataArray['ARTICULOS'] as $v) {
                                                                     $cantidad += $v['CANTIDAD'];
                                                                 } 

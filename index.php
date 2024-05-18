@@ -21,6 +21,7 @@ $warehouse = (!isset($_GET['warehouse'])) ? '%' : '%'.$_GET['warehouse'].'%';
 $desde = (!isset($_GET['desde'])) ? $hoy : $_GET['desde'];
 $hasta = (!isset($_GET['hasta'])) ? $hoy : $_GET['hasta'];
 $estado = (isset($_GET['estado'])) ? $_GET['estado'] : null;
+$orden = (!isset($_GET['orden'])) ? '%' : '%'.$_GET['orden'].'%';
 $todosLosWarehouse = $pedidos->traerWarehouse();
 							
 
@@ -61,50 +62,63 @@ $todosLosWarehouse = $pedidos->traerWarehouse();
 
 			<form class="form-inline" method="GET" action="">		
 
-				<label>Desde:</label>
-				<input type="date" class="form-control form-control-sm ml-1" name="desde" value="<?=$desde?>">
-				<label class="ml-2">Hasta:</label>
-				<input type="date" class="form-control form-control-sm ml-1" name="hasta" value="<?=$hasta?>">
-						
-				<label class="ml-2">Tienda:</label>
-				<select class="form-control form-control-sm ml-1" name="tienda">
-					<option selected></option>
-					<option value="APPER">APPER</option>
-					<option value="VTEX">VTEX</option>
-					<option value="ML">MERCADO LIBRE</option>
-					<option value="DAA">DAFITI</option>
-				</select >
-
-				<label class="ml-2">Estado:</label>
-				<select class="form-control form-control-sm ml-1" name="estado">
-					<option selected></option>
-					<option value="CANCELADO" <?= (isset($_GET['estado']) && $_GET['estado'] == 'CANCELADO') ? 'selected' : '' ?>>CANCELADO</option>
-					<option value="PREPARADO" <?= (isset($_GET['estado']) && $_GET['estado'] == 'PREPARADO') ? 'selected' : '' ?>>PREPARADO</option>
-				   <option value="SIN_CONTROLAR" <?= (isset($_GET['estado']) && $_GET['estado'] == 'SIN_CONTROLAR') ? 'selected' : '' ?>>SIN CONTROLAR</option>
-				   <option value="FALTANTE" <?= (isset($_GET['estado']) && $_GET['estado'] == 'FALTANTE') ? 'selected' : '' ?>>FALTANTE</option>
-					<option value="FACTURADO" <?= (isset($_GET['estado']) && $_GET['estado'] == 'FACTURADO') ? 'selected' : '' ?>>FACTURADO</option>
-				   <option value="DESPACHADO" <?= (isset($_GET['estado']) && $_GET['estado'] == 'DESPACHADO') ? 'selected' : '' ?>>DESPACHADO</option>
-					<option value="ENTREGADO" <?= (isset($_GET['estado']) && $_GET['estado'] == 'ENTREGADO') ? 'selected' : '' ?>>ENTREGADO</option>
-					<option value="SIN_DESPACHAR" <?= (isset($_GET['estado']) && $_GET['estado'] == 'SIN_DESPACHAR') ? 'selected' : '' ?>>SIN DESPACHAR</option>
-				</select >
-
-				<label class="ml-2">Origen:</label>
-				<select class="form-control form-control-sm ml-1" name="warehouse">
+				<div style="display: flex; flex-direction: column;">
+					<label style="align-self: flex-start;">Desde:</label>
+					<input type="date" class="form-control form-control-sm" name="desde" value="<?=$desde?>">
+				</div>
+				<div style="display: flex; flex-direction: column; margin-left:0.5rem">
+					<label style="align-self: flex-start;">Hasta:</label>
+					<input type="date" class="form-control form-control-sm" name="hasta" value="<?=$hasta?>">
+				</div>			
+				<div style="display: flex; flex-direction: column; margin-left:0.5rem">
+					<label style="align-self: flex-start;">Tienda:</label>
+					<select class="form-control form-control-sm" name="tienda">
 						<option selected></option>
-								<?php
+						<option value="APPER">APPER</option>
+						<option value="VTEX">VTEX</option>
+						<option value="ML">MERCADO LIBRE</option>
+					</select>
+				</div>
+
+				<div style="display: flex; flex-direction: column; margin-left:0.5rem">
+					<label style="align-self: flex-start;">Estado:</label>
+					<select class="form-control form-control-sm" name="estado">
+						<option selected></option>
+						<option value="CANCELADO" <?= (isset($_GET['estado']) && $_GET['estado'] == 'CANCELADO') ? 'selected' : '' ?>>CANCELADO</option>
+						<option value="PREPARADO" <?= (isset($_GET['estado']) && $_GET['estado'] == 'PREPARADO') ? 'selected' : '' ?>>PREPARADO</option>
+						<option value="SIN_CONTROLAR" <?= (isset($_GET['estado']) && $_GET['estado'] == 'SIN_CONTROLAR') ? 'selected' : '' ?>>SIN CONTROLAR</option>
+						<option value="FALTANTE" <?= (isset($_GET['estado']) && $_GET['estado'] == 'FALTANTE') ? 'selected' : '' ?>>FALTANTE</option>
+						<option value="FACTURADO" <?= (isset($_GET['estado']) && $_GET['estado'] == 'FACTURADO') ? 'selected' : '' ?>>FACTURADO</option>
+						<option value="DESPACHADO" <?= (isset($_GET['estado']) && $_GET['estado'] == 'DESPACHADO') ? 'selected' : '' ?>>DESPACHADO</option>
+						<option value="ENTREGADO" <?= (isset($_GET['estado']) && $_GET['estado'] == 'ENTREGADO') ? 'selected' : '' ?>>ENTREGADO</option>
+						<option value="SIN_DESPACHAR" <?= (isset($_GET['estado']) && $_GET['estado'] == 'SIN_DESPACHAR') ? 'selected' : '' ?>>SIN DESPACHAR</option>
+					</select>
+				</div>
+
+				<div style="display: flex; flex-direction: column; margin-left:0.5rem">
+					<label style="align-self: flex-start;">Origen:</label>
+					<select class="form-control form-control-sm" name="warehouse">
+							<option selected></option>
+									<?php
+									
+								foreach($todosLosWarehouse as $warehouse => $key){
 								
-							foreach($todosLosWarehouse as $warehouse => $key){
-							
-							?>
-							
-						<option value="<?= $key[0]->WAREHOUSE ?>"><?= $key[0]->WAREHOUSE ?></option>
-							<?php   
-							}
-							?>
-				</select >
+								?>
+								
+							<option value="<?= $key[0]->WAREHOUSE ?>"><?= $key[0]->WAREHOUSE ?></option>
+								<?php   
+								}
+								?>
+					</select>
+				</div>
+
+				<div style="display: flex; flex-direction: column; margin-left:0.5rem">
+					<label style="align-self: flex-start;">Orden:</label>
+					<input class="form-control form-control-sm" type="text" placeholder="Número de orden.." name="orden">
+				</div>
 				
 				<div class="ml-2">
-					<button type="submit" class="btn btn-primary btn-buscar">Buscar <i class="bi bi-search"></i></button>
+					<button type="submit" class="btn btn-primary btn-buscar mt-4">Buscar <i class="bi bi-search"></i></button>
 				</div>
 				<!-- spinner -->
 				<div id="boxLoading"></div> 
@@ -112,8 +126,9 @@ $todosLosWarehouse = $pedidos->traerWarehouse();
 				<?php 
 				if(isset($_GET['desde'])){			
 				?>
-				<label class="ml-2">Busqueda:</label>
-					<input type="text" class="form-control form-control-sm ml-1" onkeyup="busquedaRapida()" onkeypress = "return pulsar(event)" id="textBox" name="factura" placeholder="Sobre cualquier campo.." autofocus>
+
+				<label class="ml-2 mt-4">Busqueda:</label>
+					<input type="text" class="form-control form-control-sm ml-1 mt-4" onkeyup="busquedaRapida()" onkeypress = "return pulsar(event)" id="textBox" name="factura" placeholder="Sobre cualquier campo.." autofocus>
 				<?php 
 				}
 				?>
@@ -121,7 +136,7 @@ $todosLosWarehouse = $pedidos->traerWarehouse();
 				<?php
 					if(isset($_GET['desde'])){
 
-					$arrayPedidos = $pedidos->traerPedidos($desde, $hasta, $tienda, $warehouse, $estado);
+					$arrayPedidos = $pedidos->traerPedidos($desde, $hasta, $tienda, $warehouse, $estado, $orden);
 
 					$bandera = 0;
 					$pedido_viejo = '';
@@ -133,21 +148,21 @@ $todosLosWarehouse = $pedidos->traerWarehouse();
 		
 		</div>
 
-		<div class="mt-2" style="margin-left: 1.5rem;">
+		<div class="mt-4" style="margin-left: 1.5rem;">
 			<button onclick="filterPendientes()" id="buttonPendientes">Pendientes</button>
 			</svg>
 		</div>
 
-		<div class="ml-1 mt-2">
+		<div class="ml-1 mt-4">
 			<button onclick="filterCancelados()" id="buttonCancelados">Sin NC</button>
 			</svg>
 		</div>
 
-		<div class="ml-1 mt-2">
+		<div class="ml-1 mt-4">
 			<button onclick="filterIncompletos()" id="buttonIncompletos">Incompletos</button>
 			</svg>
 		</div>
-		<div class="ml-1 mt-2">
+		<div class="ml-1 mt-4">
 			<button onclick="exportar()" id="buttonExportar" style="background-color:#28a745" >Exportar <i class="bi bi-filetype-xls"></i></button>
 			</svg>
 		</div>
