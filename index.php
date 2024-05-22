@@ -74,7 +74,7 @@ $todosLosWarehouse = $pedidos->traerWarehouse();
 					<label style="align-self: flex-start;">Tienda:</label>
 					<select class="form-control form-control-sm" name="tienda">
 						<option selected></option>
-						<option value="APPER">APPER</option>
+						<option value="ICBC">ICBC</option>
 						<option value="VTEX">VTEX</option>
 						<option value="ML">MERCADO LIBRE</option>
 					</select>
