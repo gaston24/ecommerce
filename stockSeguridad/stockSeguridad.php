@@ -95,6 +95,7 @@ $matrizStockSeguridad = new Matriz();
                     <th scope="col" style="width: 1%; display:none;">WAREHOUSE</th>
                     <th scope="col" style="width: 10%">CUENTA VTEX</th>
                     <th scope="col" style="width: 10%">SUCURSAL</th>
+                    <th scope="col" style="width: 1%">ACCESORIOS<BR>DE VINILICO</th>
                     <th scope="col" style="width: 1%">BILLETERAS<BR>DE CUERO</th>
                     <th scope="col" style="width: 1%">BILLETERAS<BR>DE VINILICO</th>
                     <th scope="col" style="width: 1%">CALZADOS</th>
@@ -120,6 +121,7 @@ $matrizStockSeguridad = new Matriz();
                             <td style="display:none;"><?= $value->WAREHOUSE_ID; ?></td>
                             <td><?= $value->VTEX_CUENTA; ?></td>
                             <td><?= $value->DESC_SUCURSAL; ?></td>
+                            <td><input type="number" class="inputNumber" name="ACCESORIOS_DE_VINILICO" value="<?= $value->ACCESORIOS_DE_VINILICO ?>" disabled></td>
                             <td><input type="number" class="inputNumber" name="BILLETERAS_DE_CUERO" value="<?= $value->BILLETERAS_DE_CUERO ?>" disabled></td>
                             <td><input type="number" class="inputNumber" name="BILLETERAS_DE_VINILICO" value="<?= $value->BILLETERAS_DE_VINILICO ?>" disabled></td>
                             <td><input type="number" class="inputNumber" name="CALZADOS" value="<?= $value->CALZADOS ?>" disabled></td>

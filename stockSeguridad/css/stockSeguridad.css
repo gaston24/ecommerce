@@ -1,7 +1,7 @@
 /*Fijar encabezado de tabla*/
 body {
     overflow-y: hidden;
-    max-width: 90%;
+    max-width: 97%;
     margin-top: 1rem;
 }
 
@@ -42,7 +42,7 @@ h3 {
 
 .form-button {
     display: inline-flex;
-    margin-left: 60%;
+    margin-left: 40%;
     margin-top: 1.8rem;
 }
 
