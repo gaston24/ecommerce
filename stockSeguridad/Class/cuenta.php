@@ -46,22 +46,24 @@ class Cuenta
 
     public function traerCuentas2()
     {
-
+        $desc = $_GET['descripcionWarehouse'];
+        
         if(strpos($_GET['tipo'], 'Activar') !== false)
         {
             $sql = "SELECT A.WAREHOUSE_ID, A.DESCRIPCION, B.VTEX_CUENTA, A.UTILIZA_STOCK_SEGURIDAD_POR_CLASIF FROM GC_ECOMMERCE_WAREHOUSE A
             INNER JOIN GC_ECOMMERCE_CUENTA B
             ON A.ID_GC_ECOMMERCE_CUENTA = B.ID_GC_ECOMMERCE_CUENTA
-            WHERE UTILIZA_STOCK_SEGURIDAD_POR_CLASIF = 0 AND WAREHOUSE_ID = '".$_GET['warehouse']."'";
+            WHERE UTILIZA_STOCK_SEGURIDAD_POR_CLASIF = 0 AND WAREHOUSE_ID = '".$_GET['warehouse']."'
+            AND A.DESCRIPCION LIKE '%".$desc."%'";
          
         }else{
             $sql = "SELECT A.WAREHOUSE_ID, A.DESCRIPCION, B.VTEX_CUENTA, A.UTILIZA_STOCK_SEGURIDAD_POR_CLASIF FROM GC_ECOMMERCE_WAREHOUSE A
             INNER JOIN GC_ECOMMERCE_CUENTA B
             ON A.ID_GC_ECOMMERCE_CUENTA = B.ID_GC_ECOMMERCE_CUENTA
-            WHERE UTILIZA_STOCK_SEGURIDAD_POR_CLASIF = 1 AND WAREHOUSE_ID = '".$_GET['warehouse']."'";
+            WHERE UTILIZA_STOCK_SEGURIDAD_POR_CLASIF = 1 AND WAREHOUSE_ID = '".$_GET['warehouse']."'
+            AND A.DESCRIPCION LIKE '%".$desc."%'";
         }
 
-    
 
         $rows = $this->retornarArray($sql);
 
