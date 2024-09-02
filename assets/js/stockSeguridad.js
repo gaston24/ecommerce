@@ -208,7 +208,7 @@ function completarModal(e) {
 
   conexion1.open(
     "GET",
-    "Class/cuenta.php?traerCuenta=1&tipo=" + tipoCuenta + "&warehouse=" + warehouse,
+    "Class/cuenta.php?traerCuenta=1&tipo=" + tipoCuenta + "&warehouse=" + warehouse + "&descripcionWarehouse=" + descripcionWarehouse,
     true
   );
   conexion1.send();
