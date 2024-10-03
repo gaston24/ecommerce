@@ -348,13 +348,8 @@ const cambiarEntorno = (t) =>{
        
 
         data.forEach((row,x) => {
-          console.log(`Fila ${x}:`);
           const keys = Object.keys(row);
-
-          console.log(keys);
-       
-          // if(!isNaN(key))
-          // tabla.innerHTML += `
+      
           let text  = `
           <tr>
           <td style="display:none;">${row['ID']}</td>
@@ -366,9 +361,7 @@ const cambiarEntorno = (t) =>{
 
           keys.forEach(element => {
             if(isNaN(element)){
-              if (element.trim() != 'ID' && element != 'WAREHOUSE_ID'  && element != 'VTEX_CUENTA' && element != 'DESC_SUCURSAL') {
-                console.log(element.trim());
-                
+              if (element.trim() != 'ID' && element != 'WAREHOUSE_ID'  && element != 'VTEX_CUENTA' && element != 'DESC_SUCURSAL') {        
                 text += `<td><input type="number" class="inputNumber" name="${element}" value="${row[element]}" disabled></td>`;
               }
             }
@@ -398,26 +391,31 @@ const cambiarEntorno = (t) =>{
         tabla.innerHTML = '';
 
         data.forEach((row) => {
-          tabla.innerHTML += `
+  
+          const keys = Object.keys(row);
+
+          
+          let text  = `
           <tr>
           <td style="display:none;">${row['ID']}</td>
           <td style="display:none;">${row['WAREHOUSE_ID']}</td>
           <td>${row['VTEX_CUENTA']}</td>
           <td>${row['DESC_SUCURSAL']}</td>
-          <td><input type="number" class="inputNumber" name="BILLETERAS_DE_CUERO" value="${row['BILLETERAS_DE_CUERO']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="BILLETERAS_DE_VINILICO" value="${row['BILLETERAS_DE_VINILICO']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="CALZADOS" value="${row['CALZADOS']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="CAMPERAS" value="${row['CAMPERAS']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="CARTERAS_DE_CUERO" value="${row['CARTERAS_DE_CUERO']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="CARTERAS_DE_VINILICO" value="${row['CARTERAS_DE_VINILICO']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="CHALINAS" value="${row['CHALINAS']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="CINTOS_DE_CUERO" value="${row['CINTOS_DE_CUERO']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="CINTOS_DE_VINILICO" value="${row['CINTOS_DE_VINILICO']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="INDUMENTARIA" value="${row['INDUMENTARIA']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="LENTES" value="${row['LENTES']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="RELOJES" value="${row['RELOJES']}" disabled></td>
-          </tr>
-          `;
+           `;
+
+           
+          keys.forEach(element => {
+            if(isNaN(element)){
+              if (element.trim() != 'ID' && element != 'WAREHOUSE_ID'  && element != 'VTEX_CUENTA' && element != 'DESC_SUCURSAL') {   
+                text += `<td><input type="number" class="inputNumber" name="${element}" value="${row[element]}" disabled></td>`;
+              }
+            }
+          });
+
+
+          text += `</tr>`;
+          tabla.innerHTML += text;
+
         });
         spinner.classList.remove("loading")
       }
