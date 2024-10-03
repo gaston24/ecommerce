@@ -139,12 +139,12 @@ $matrizStockSeguridad = new Matriz();
                             <td><input type="number" class="inputNumber" name="CINTOS_DE_CUERO" value="<?= $value->CINTOS_DE_CUERO ?>" disabled></td>
                             <td><input type="number" class="inputNumber" name="CINTOS_DE_VINILICO" value="<?= $value->CINTOS_DE_VINILICO ?>" disabled></td>
                             <td><input type="number" class="inputNumber" name="COSMETICA" value="<?= $value->COSMETICA ?>" disabled></td>
-                            <td><input type="number" class="inputNumber" name="COSMETICA" value="<?= $value->EQUIPAJES ?>" disabled></td>
+                            <td><input type="number" class="inputNumber" name="EQUIPAJES" value="<?= $value->EQUIPAJES ?>" disabled></td>
                             <td><input type="number" class="inputNumber" name="INDUMENTARIA" value="<?= $value->INDUMENTARIA ?>" disabled></td>
                             <td><input type="number" class="inputNumber" name="LENTES" value="<?= $value->LENTES ?>" disabled></td>
                             <td><input type="number" class="inputNumber" name="LLAVEROS" value="<?= $value->LLAVEROS ?>" disabled></td>
                             <td><input type="number" class="inputNumber" name="COSMETICA" value="<?= $value->PACKAGING ?>" disabled></td>
-                            <td><input type="number" class="inputNumber" name="COSMETICA" value="<?= $value->PARAGUAS ?>" disabled></td>
+                            <td><input type="number" class="inputNumber" name="PARAGUAS" value="<?= $value->PARAGUAS ?>" disabled></td>
                             <td><input type="number" class="inputNumber" name="RELOJES" value="<?= $value->RELOJES ?>" disabled></td>
                         </tr>
                     <?php
