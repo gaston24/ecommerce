@@ -16,17 +16,35 @@ function guardarForm(db = 'central') {
     "Content-Type",
     "application/x-www-form-urlencoded"
   );
-  conexion1.send(retornarDatos());
+  conexion1.send(retornarDatos(db));
 }
 
-function retornarDatos($db = null) {
+function retornarDatos(db = null) {
   let cad = "";
   let rubros = [];
   let cantidad = [];
-  let warehouse = document.getElementById("inputWarehouse2").value;
-  let cuenta = document.getElementById("inputCuentaEditar").value;
-  let localCuenta=document.getElementById("localCuenta").value;
-  let tablaRubros = document.querySelectorAll(".Rubro");
+  
+  let warehouse = ''
+  let cuenta = ''
+  let localCuenta = ''
+  let tablaRubros = ''
+  if(db == 'uy'){
+
+  warehouse = document.getElementById("inputWarehouse2Uy").value;
+  cuenta = document.getElementById("inputCuentaEditarUy").value;
+  localCuenta=document.getElementById("localCuentaUy").value;
+  tablaRubros = document.querySelectorAll(".Rubro");
+
+
+  }else{
+    warehouse = document.getElementById("inputWarehouse2").value;
+    cuenta = document.getElementById("inputCuentaEditar").value;
+    localCuenta=document.getElementById("localCuenta").value;
+    tablaRubros = document.querySelectorAll(".Rubro");
+  
+  }
+
+
   tablaRubros.forEach((rubro) => {
     rubros.push(rubro.innerHTML);
   });
@@ -35,17 +53,6 @@ function retornarDatos($db = null) {
     cantidad.push(parseInt(cant.value));
   });
 
-  if($db == 'uy'){
-
-    let cad = "";
-    let rubros = [];
-    let cantidad = [];
-    let warehouse = document.getElementById("inputWarehouse2Uy").value;
-    let cuenta = document.getElementById("inputCuentaEditarUy").value;
-    let localCuenta=document.getElementById("localCuentaUy").value;
-    let tablaRubros = document.querySelectorAll(".Rubro");
-
-  }
   cad =
     "warehouse=" +
     encodeURIComponent(warehouse) +
@@ -335,30 +342,37 @@ const cambiarEntorno = (t) =>{
       success: function (data) {
         data = JSON.parse(data);
         let tabla = document.getElementById('table');
+
         tabla.innerHTML = '';
 
-        data.forEach((row) => {
-          tabla.innerHTML += `
+       
+
+        data.forEach((row,x) => {
+          const keys = Object.keys(row);
+      
+          let text  = `
           <tr>
           <td style="display:none;">${row['ID']}</td>
           <td style="display:none;">${row['WAREHOUSE_ID']}</td>
           <td>${row['VTEX_CUENTA']}</td>
           <td>${row['DESC_SUCURSAL']}</td>
-          <td><input type="number" class="inputNumber" name="BILLETERAS_DE_CUERO" value="${row['BILLETERAS_DE_CUERO']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="BILLETERAS_DE_VINILICO" value="${row['BILLETERAS_DE_VINILICO']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="CALZADOS" value="${row['CALZADOS']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="CAMPERAS" value="${row['CAMPERAS']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="CARTERAS_DE_CUERO" value="${row['CARTERAS_DE_CUERO']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="CARTERAS_DE_VINILICO" value="${row['CARTERAS_DE_VINILICO']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="CHALINAS" value="${row['CHALINAS']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="CINTOS_DE_CUERO" value="${row['CINTOS_DE_CUERO']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="CINTOS_DE_VINILICO" value="${row['CINTOS_DE_VINILICO']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="INDUMENTARIA" value="${row['INDUMENTARIA']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="LENTES" value="${row['LENTES']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="RELOJES" value="${row['RELOJES']}" disabled></td>
-          </tr>
-          `;
+           `;
+
+
+          keys.forEach(element => {
+            if(isNaN(element)){
+              if (element.trim() != 'ID' && element != 'WAREHOUSE_ID'  && element != 'VTEX_CUENTA' && element != 'DESC_SUCURSAL') {        
+                text += `<td><input type="number" class="inputNumber" name="${element}" value="${row[element]}" disabled></td>`;
+              }
+            }
+          });
+
+
+          text += `</tr>`;
+          tabla.innerHTML += text;
         });
+        
+       
         spinner.classList.remove("loading")
       }
 
@@ -377,26 +391,31 @@ const cambiarEntorno = (t) =>{
         tabla.innerHTML = '';
 
         data.forEach((row) => {
-          tabla.innerHTML += `
+  
+          const keys = Object.keys(row);
+
+          
+          let text  = `
           <tr>
           <td style="display:none;">${row['ID']}</td>
           <td style="display:none;">${row['WAREHOUSE_ID']}</td>
           <td>${row['VTEX_CUENTA']}</td>
           <td>${row['DESC_SUCURSAL']}</td>
-          <td><input type="number" class="inputNumber" name="BILLETERAS_DE_CUERO" value="${row['BILLETERAS_DE_CUERO']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="BILLETERAS_DE_VINILICO" value="${row['BILLETERAS_DE_VINILICO']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="CALZADOS" value="${row['CALZADOS']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="CAMPERAS" value="${row['CAMPERAS']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="CARTERAS_DE_CUERO" value="${row['CARTERAS_DE_CUERO']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="CARTERAS_DE_VINILICO" value="${row['CARTERAS_DE_VINILICO']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="CHALINAS" value="${row['CHALINAS']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="CINTOS_DE_CUERO" value="${row['CINTOS_DE_CUERO']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="CINTOS_DE_VINILICO" value="${row['CINTOS_DE_VINILICO']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="INDUMENTARIA" value="${row['INDUMENTARIA']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="LENTES" value="${row['LENTES']}" disabled></td>
-          <td><input type="number" class="inputNumber" name="RELOJES" value="${row['RELOJES']}" disabled></td>
-          </tr>
-          `;
+           `;
+
+           
+          keys.forEach(element => {
+            if(isNaN(element)){
+              if (element.trim() != 'ID' && element != 'WAREHOUSE_ID'  && element != 'VTEX_CUENTA' && element != 'DESC_SUCURSAL') {   
+                text += `<td><input type="number" class="inputNumber" name="${element}" value="${row[element]}" disabled></td>`;
+              }
+            }
+          });
+
+
+          text += `</tr>`;
+          tabla.innerHTML += text;
+
         });
         spinner.classList.remove("loading")
       }
