@@ -330,21 +330,25 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/assets/js/js.php';
 
 <script>
 	
-	$(document).ready( function () {
-		contar();
-	})
-	
-	const contar = () =>{
+		const contar = () => {
+			let trFiltrados = $('#id_tabla tbody tr:visible');
+			let pedidosUnicos = new Set();
 
-		let trFiltrados = $('#id_tabla tbody tr:visible');
+			trFiltrados.each(function() {
+				// Asumimos que el número de pedido está en la quinta columna (índice 4)
+				// Ajusta este índice si el número de pedido está en una columna diferente
+				let numeroPedido = $(this).find('td').eq(4).text().trim();
+				pedidosUnicos.add(numeroPedido);
+			});
 
-		let count = 0;
-		var trArray = trFiltrados.get();
-		let total = trArray.length
+			let total = pedidosUnicos.size;
+			console.log(total);
+			document.getElementById('cantidad').value = total;
+		}
 
-		console.log(total);
-		document.getElementById('cantidad').value = total
-	}
+		$(document).ready(function () {
+			contar();
+		});
 
 </script>
 
