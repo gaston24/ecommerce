@@ -13,6 +13,7 @@ $pedidos = new Pedido();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seguimiento de Pedidos E-commerce</title>
+    <link rel="shortcut icon" href="assets/icono.ico" />
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -33,18 +34,40 @@ $pedidos = new Pedido();
                 <!-- Formulario de búsqueda -->
                 <form method="POST" class="search-container mb-4">
                     <div class="row align-items-center">
-                        <div class="col-md-9 mb-3 mb-md-0">
+                        <div class="col-md-3 mb-3 mb-md-0">
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-calendar"></i>
+                                </span>
+                                <input type="date" name="desde" class="form-control" 
+                                    value="<?php echo isset($_POST['desde']) ? $_POST['desde'] : date('Y-m-d', strtotime('-30 days')); ?>"
+                                    max="<?php echo date('Y-m-d'); ?>"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3 mb-md-0">
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-calendar"></i>
+                                </span>
+                                <input type="date" name="hasta" class="form-control" 
+                                    value="<?php echo isset($_POST['hasta']) ? $_POST['hasta'] : date('Y-m-d'); ?>"
+                                    max="<?php echo date('Y-m-d'); ?>"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3 mb-md-0">
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="fas fa-search"></i>
                                 </span>
                                 <input type="text" name="numero" class="form-control" 
-                                    placeholder="Ingrese Número de Orden o Número de Pedido" 
+                                    placeholder="Ingrese Número de Orden o Pedido" 
                                     value="<?php echo isset($_POST['numero']) ? htmlspecialchars($_POST['numero']) : ''; ?>"
                                     required>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <button type="submit" class="btn btn-primary w-100">
                                 <i class="fas fa-search me-2"></i>Buscar
                             </button>
@@ -54,9 +77,9 @@ $pedidos = new Pedido();
 
                 <?php
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['numero'])) {
-                    $numero = $_POST['numero'];
-                    $desde = date('Y-m-d');
-                    $hasta = date('Y-m-d');
+                    $numero = trim($_POST['numero']);
+                    $desde = isset($_POST['desde']) ? $_POST['desde'] : date('Y-m-d', strtotime('-30 days'));
+                    $hasta = isset($_POST['hasta']) ? $_POST['hasta'] : date('Y-m-d');
                     
                     $resultado = $pedidos->buscarPedido($desde, $hasta, $numero);
                     
@@ -124,9 +147,9 @@ $pedidos = new Pedido();
                                     <h5 class="card-title mb-4">Estado del Pedido</h5>
                                     <div class="timeline">
                                         <div class="row timeline-row">
-                                            <div class="col-3 timeline-step">
+                                            <div class="col timeline-step">
                                                 <div class="timeline-icon <?php echo $pedido->SINCRONIZADO ? 'active' : ''; ?>">
-                                                    <i class="fas fa-sync-alt"></i>
+                                                    <i class="fas fa-sync-alt icon"></i>
                                                 </div>
                                                 <div>Sincronizado</div>
                                                 <div class="timeline-date">
@@ -139,9 +162,9 @@ $pedidos = new Pedido();
                                                     ?>
                                                 </div>
                                             </div>
-                                            <div class="col-3 timeline-step">
+                                            <div class="col timeline-step">
                                                 <div class="timeline-icon <?php echo $pedido->FACTURADO ? 'active' : ''; ?>">
-                                                    <i class="fas fa-file-invoice"></i>
+                                                    <i class="fas fa-file-invoice icon"></i>
                                                 </div>
                                                 <div>Facturado</div>
                                                 <div class="timeline-date">
@@ -154,9 +177,24 @@ $pedidos = new Pedido();
                                                     ?>
                                                 </div>
                                             </div>
-                                            <div class="col-3 timeline-step">
+                                            <div class="col timeline-step">
+                                                <div class="timeline-icon <?php echo $pedido->CONTROLADO ? 'active' : ''; ?>">
+                                                    <i class="fas fa-clipboard-check icon"></i>
+                                                </div>
+                                                <div>Controlado</div>
+                                                <div class="timeline-date">
+                                                    <?php 
+                                                    echo $pedido->FECHA_CONTROLADO ? 
+                                                        ($pedido->FECHA_CONTROLADO instanceof DateTime ? 
+                                                            $pedido->FECHA_CONTROLADO->format('d/m/Y H:i') : 
+                                                            date('d/m/Y H:i', strtotime($pedido->FECHA_CONTROLADO))) : 
+                                                        'Pendiente'; 
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            <div class="col timeline-step">
                                                 <div class="timeline-icon <?php echo $pedido->DESPACHADO ? 'active' : ''; ?>">
-                                                    <i class="fas fa-truck"></i>
+                                                    <i class="fas fa-truck icon"></i>
                                                 </div>
                                                 <div>Despachado</div>
                                                 <div class="timeline-date">
@@ -169,9 +207,9 @@ $pedidos = new Pedido();
                                                     ?>
                                                 </div>
                                             </div>
-                                            <div class="col-3 timeline-step">
+                                            <div class="col timeline-step">
                                                 <div class="timeline-icon <?php echo $pedido->ENTREGADO ? 'active' : ''; ?>">
-                                                    <i class="fas fa-check"></i>
+                                                    <i class="fas fa-check icon"></i>
                                                 </div>
                                                 <div>Entregado</div>
                                                 <div class="timeline-date">
@@ -215,8 +253,8 @@ $pedidos = new Pedido();
 
                                                         // Lógica para las imágenes
                                                         $imageName = substr($item->COD_ARTICU, 0, 13);
-                                                        $imageUrl = file_exists("../../Imagenes/".$imageName.".jpg") ? 
-                                                                "../../Imagenes/".$imageName.".jpg" : "";
+                                                        $imageUrl = file_exists("../Imagenes/".$imageName.".jpg") ? 
+                                                                "../Imagenes/".$imageName.".jpg" : "";
                                                         
                                                         // Verificar si es SALE
                                                         $isSale = (substr($item->DESCRIPCIO, -11) == '-- SALE! --');
@@ -270,8 +308,8 @@ $pedidos = new Pedido();
                                 foreach($detalles as $detalle) {
                                     $item = $detalle[0];
                                     $imageName = substr($item->COD_ARTICU, 0, 13);
-                                    $imageUrl = file_exists("../../Imagenes/".$imageName.".jpg") ? 
-                                            "../../Imagenes/".$imageName.".jpg" : "";
+                                    $imageUrl = file_exists("../Imagenes/".$imageName.".jpg") ? 
+                                            "../Imagenes/".$imageName.".jpg" : "";
                             ?>
                             <div class="modal fade" id="imageModal<?php echo $imageName; ?>" tabindex="-1" 
                                 aria-labelledby="imageModalLabel<?php echo $imageName; ?>" aria-hidden="true">

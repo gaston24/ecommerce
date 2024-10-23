@@ -5,6 +5,10 @@
 .col-md-4{
     margin-bottom:1rem;
 }
+
+.icon{
+    font-size: 1.5rem;;
+}
 .timeline {
     position: relative;
     padding: 20px 0;
@@ -78,6 +82,36 @@
     border: none;
     border-radius: 10px;
     margin-bottom: 20px;
+}
+
+.input-group-text {
+    background-color: #f8f9fa;
+    border-right: none;
+}
+
+.input-group .form-control {
+    border-left: none;
+}
+
+.input-group .form-control:focus {
+    border-color: #dee2e6;
+    box-shadow: none;
+}
+
+.input-group:focus-within .input-group-text {
+    border-color: #86b7fe;
+}
+
+/* Estilo para los inputs tipo date */
+input[type="date"] {
+    min-height: 40px;
+}
+
+/* Ajuste responsive para móviles */
+@media (max-width: 768px) {
+    .input-group {
+        margin-bottom: 10px;
+    }
 }
 
 /* Tabla de detalle */
