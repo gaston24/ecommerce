@@ -63,6 +63,31 @@ class Pedido{
         return $array;
     }
 
+    public function buscarPedido($desde, $hasta, $orden){
+            
+        $sql = "
+        SET DATEFORMAT YMD
+        EXEC RO_SP_ECOMMERCE_PEDIDOS_FLUJO '$desde', '$hasta', '$orden'
+
+        ";
+
+        $array = $this->getDatos($sql);    
+
+        return $array;
+    }
+
+    public function buscarDetallePedido($desde, $hasta, $orden){
+            
+        $sql = "
+        SET DATEFORMAT YMD
+        EXEC RO_SP_ECOMMERCE_PEDIDOS_FLUJO_DETALLE '$desde', '$hasta', '$orden'
+
+        ";
+
+        $array = $this->getDatos($sql);    
+
+        return $array;
+    }
 
 
 }

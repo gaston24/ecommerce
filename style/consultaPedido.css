@@ -1,0 +1,134 @@
+
+.info-label{
+    font-weight: bold;
+}
+.col-md-4{
+    margin-bottom:1rem;
+}
+.timeline {
+    position: relative;
+    padding: 20px 0;
+}
+
+.timeline-step {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.timeline-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    border: 2px solid #dee2e6;
+    position: relative;
+    z-index: 2;
+}
+
+.timeline-icon.active {
+    background: #28a745;
+    border-color: #28a745;
+    color: white;
+}
+
+.timeline-date {
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+.timeline-row {
+    position: relative;
+}
+
+.timeline-row::before {
+    content: '';
+    position: absolute;
+    top: 25px; /* Ajusta este valor para centrar la línea con los íconos */
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #dee2e6;
+    z-index: 1;
+}
+
+/* Ajuste para el primer y último step */
+.timeline-step:first-child .timeline-row::before {
+    left: 50%;
+}
+
+.timeline-step:last-child .timeline-row::before {
+    right: 50%;
+}
+
+/* Resto de los estilos... */
+.search-container {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+/* Tabla de detalle */
+.table > :not(caption) > * > * {
+    padding: 1rem;
+}
+
+.table img {
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.text-primary {
+    color: #0d6efd !important;
+}
+
+.fw-bold {
+    font-weight: 600 !important;
+}
+
+.text-muted {
+    color: #6c757d !important;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Imagenes */
+.product-image {
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    transition: transform 0.2s;
+}
+
+.product-image:hover {
+    transform: scale(1.1);
+}
+
+.badge {
+    font-size: 0.75em;
+    padding: 0.35em 0.65em;
+    margin-left: 0.5em;
+}
+
+.modal-lg {
+    max-width: 800px;
+}
+
+.modal-body img {
+    max-height: 80vh;
+    object-fit: contain;
+}
