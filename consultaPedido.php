@@ -18,6 +18,7 @@ $pedidos = new Pedido();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="style/consultaPedido.css">
   
 </head>
@@ -72,6 +73,14 @@ $pedidos = new Pedido();
                                 <i class="fas fa-search me-2"></i>Buscar
                             </button>
                         </div>
+                        <div id="spinner" class="spinner-wrapper spinner-hidden">
+                            <div class="spinner-dots">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div>
                     </div>
                 </form>
 
@@ -107,7 +116,15 @@ $pedidos = new Pedido();
                                         </div>
                                         <div class="col-md-4">
                                             <div class="info-label">Nro. Pedido</div>
-                                            <div class="info-value"><?php echo $pedido->NRO_PEDIDO; ?></div>
+                                            <div class="info-value d-flex align-items-center">
+                                                <?php echo $pedido->NRO_PEDIDO; ?>
+                                                <?php if ($pedido->CANCELADO == 1): ?>
+                                                    <i class="bi bi-x-circle-fill ms-2 text-danger icon-state" data-bs-toggle="tooltip" title="Pedido Cancelado"></i>
+                                                <?php endif; ?>
+                                                <?php if ($pedido->INCOMPLETO == 1): ?>
+                                                    <i class="fas fa-exclamation-triangle ms-2 text-warning icon-state" data-bs-toggle="tooltip" title="Pedido Incompleto"></i>
+                                                <?php endif; ?>
+                                            </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="info-label">Nro. Orden</div>
@@ -347,5 +364,43 @@ $pedidos = new Pedido();
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+
+        // Inicializar todos los tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+
+        // Función para mostrar el spinner
+        function showSpinner() {
+            document.getElementById('spinner').classList.remove('spinner-hidden');
+        }
+
+        // Función para ocultar el spinner
+        function hideSpinner() {
+            document.getElementById('spinner').classList.add('spinner-hidden');
+        }
+
+        // Modificar el formulario para mostrar el spinner
+        document.querySelector('form').addEventListener('submit', function(e) {
+            showSpinner();
+        });
+
+        // Si hay error en la búsqueda, ocultar el spinner
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.querySelector('.alert-warning')) {
+                hideSpinner();
+            }
+        });
+
+        // Ocultar el spinner cuando la página termina de cargar
+        window.addEventListener('load', function() {
+            hideSpinner();
+        });
+
+    </script>
+
 </body>
 </html>
