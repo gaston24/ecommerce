@@ -63,7 +63,7 @@ $pedidos = new Pedido();
                                     <i class="fas fa-search"></i>
                                 </span>
                                 <input type="text" name="numero" class="form-control" 
-                                    placeholder="Ingrese Número de Orden o Pedido" 
+                                    placeholder="Ingrese número de Orden, Pedido o Factura" 
                                     value="<?php echo isset($_POST['numero']) ? htmlspecialchars($_POST['numero']) : ''; ?>"
                                     required>
                             </div>
@@ -110,7 +110,7 @@ $pedidos = new Pedido();
                                                 ?>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <div class="info-label">Marketplace</div>
                                             <div class="info-value"><?php echo $pedido->MARKETPLACE; ?></div>
                                         </div>
@@ -130,7 +130,11 @@ $pedidos = new Pedido();
                                             <div class="info-label">Nro. Orden</div>
                                             <div class="info-value"><?php echo $pedido->NRO_ORDEN; ?></div>
                                         </div>
-                                        <div class="col-md-8">
+                                        <div class="col-md-4">
+                                            <div class="info-label">Nro. Factura</div>
+                                            <div class="info-value"><?php echo $pedido->FACTURA; ?></div>
+                                        </div>
+                                        <div class="col-md-4">
                                             <div class="info-label">Cliente</div>
                                             <div class="info-value"><?php echo $pedido->CLIENTE; ?></div>
                                         </div>
@@ -138,7 +142,7 @@ $pedidos = new Pedido();
                                             <div class="info-label">Dirección de Entrega</div>
                                             <div class="info-value"><?php echo $pedido->DIRECCION_ENTREGA; ?></div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="info-label">Lugar de Entrega</div>
                                             <div class="info-value"><?php echo $pedido->LUGAR_ENTREGA; ?></div>
                                         </div>
