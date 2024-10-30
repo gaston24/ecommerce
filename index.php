@@ -52,8 +52,10 @@ $todosLosWarehouse = $pedidos->traerWarehouse();
 <div class="alert alert-primary" role="alert" id="menu">
 	<div class="form-inline">
 		<h3 class="mt-2"><i class="bi bi-handbag"></i> Estado Pedidos Ecommerce</h3>
-		<label style="margin-left: 55%">Cantidad Ordenes:</label>
+		<label style="margin-left: 45%">Ordenes:</label>
 		<input type="text" style="text-align:center; width:10rem; font-size: 16px;" class="form-control form-control-sm ml-1" id="cantidad" readonly disabled>
+		<label class="ml-2">Artículos:</label>
+		<input type="text" style="text-align:center; width:10rem; font-size: 16px;" class="form-control form-control-sm ml-1" id="cantidadArticulos" readonly disabled>
 	</div>
   
 	<div class="row"  id="renderr" style="margin-left:10px">
@@ -264,8 +266,8 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/assets/js/js.php';
 						<?php if($value[0]->CANCELADO == 1 && $value[0]->FACTURADO == 1 && !isset($value[0]->NCR)){?>
 							<i class="bi bi-clipboard-x-fill cancelado" data-toggle="tooltip" data-placement="left" title="Pedido cancelado sin NC" style="color: #6610f2; font-size: 20px; padding: 0;"></i>
 							<?php
-						}else if($value[0]->CANCELADO == 1 && isset($value[0]->NCR)){?>
-							<i class="bi bi-clipboard-x-fill" data-toggle="tooltip" data-placement="left" title="Pedido cancelado <?php if(isset($value[0]->NCR)){echo 'NCR '.$value[0]->NCR;}?>" style="color: green; font-size: 20px; padding: 0;"></i>
+						}else if(isset($value[0]->NCR)){?>
+							<i class="bi bi-clipboard-check-fill" data-toggle="tooltip" data-placement="left" title="Pedido cancelado <?php if(isset($value[0]->NCR)){echo 'NCR '.$value[0]->NCR;}?>" style="color: #17a2b8; font-size: 20px; padding: 0;"></i>
 							<?php
 						}else if($value[0]->CANCELADO == 1 ){
 						?>
@@ -281,7 +283,7 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/assets/js/js.php';
 
 					<td class="noExl" >
 						<?php if($value[0]->CONTROLADO== 1){ ?>
-							<i class="bi bi-clipboard2-check-fill"  data-toggle="tooltip" data-placement="left" title="Controlado" style="color: green; font-size: 20px;"></i>
+							<i class="bi bi-clipboard2-check-fill"  data-toggle="tooltip" data-placement="left" title="Controlado <?= $value[0]->FECHA_CONTROLADO->format("Y-m-d")?>" style="color: green; font-size: 20px;"></i>
 								<?php }else if($value[0]->CONTROLADO== 0){?>
 										<i class="fas fa-square" style="color: white; font-size: 20px;">
 									<?php } ?>
@@ -330,21 +332,26 @@ require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/assets/js/js.php';
 
 <script>
 	
-		const contar = () => {
-			let trFiltrados = $('#id_tabla tbody tr:visible');
-			let pedidosUnicos = new Set();
+	const contar = () => {
+		let trFiltrados = $('#id_tabla tbody tr:visible');
+		let pedidosUnicos = new Set();
+		let totalArticulos = 0;
 
-			trFiltrados.each(function() {
-				// Asumimos que el número de pedido está en la quinta columna (índice 4)
-				// Ajusta este índice si el número de pedido está en una columna diferente
-				let numeroPedido = $(this).find('td').eq(4).text().trim();
-				pedidosUnicos.add(numeroPedido);
-			});
+		trFiltrados.each(function() {
+			let numeroPedido = $(this).find('td').eq(4).text().trim();
+			let codArticulo = $(this).find('td').eq(6).text().trim();
+			let cantidad = parseFloat($(this).find('td').eq(8).text().trim()) || 0;
+			
+			pedidosUnicos.add(numeroPedido);
+			
+			if (codArticulo !== '***COSTO ENVIO') {
+				totalArticulos += cantidad;
+			}
+		});
 
-			let total = pedidosUnicos.size;
-			console.log(total);
-			document.getElementById('cantidad').value = total;
-		}
+		document.getElementById('cantidad').value = pedidosUnicos.size.toLocaleString();
+		document.getElementById('cantidadArticulos').value = totalArticulos.toLocaleString();
+	}
 
 		$(document).ready(function () {
 			contar();
