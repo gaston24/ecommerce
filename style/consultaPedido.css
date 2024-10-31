@@ -259,3 +259,41 @@ input[type="date"] {
 .spinner-hidden {
     display: none;
 }
+
+/* Estilos para filas faltantes */
+.table tbody tr.faltante-row {
+    background-color: #f8d7da !important;
+    border-left: 4px solid #dc3545 !important;
+    position: relative;
+}
+
+/* Asegurar que la fila ocupe todo el ancho */
+.table tbody tr.faltante-row td {
+    background-color: #f8d7da !important;
+}
+
+/* Ajustar el primer td para el borde rojo */
+.table tbody tr.faltante-row td:first-child {
+    padding-left: 15px;
+}
+
+/* Estilo para la tabla */
+.table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+/* Eliminar bordes por defecto */
+.table td {
+    border: none;
+}
+
+/* Línea separadora entre filas */
+.table tr {
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Ajuste para el hover */
+.table tbody tr.faltante-row:hover td {
+    background-color: #ffe4e4 !important;
+}

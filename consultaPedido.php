@@ -118,8 +118,16 @@ $pedidos = new Pedido();
                                             <div class="info-label">Nro. Pedido</div>
                                             <div class="info-value d-flex align-items-center">
                                                 <?php echo $pedido->NRO_PEDIDO; ?>
-                                                <?php if ($pedido->CANCELADO == 1): ?>
-                                                    <i class="bi bi-x-circle-fill ms-2 text-danger icon-state" data-bs-toggle="tooltip" title="Pedido Cancelado"></i>
+                                                <?php if ($pedido->CANCELADO == 1): 
+                                                    $tooltipText = "Pedido Cancelado";
+                                                    if (isset($pedido->NCR) && !empty($pedido->NCR)) {
+                                                        $tooltipText .= " - NCR " . $pedido->NCR;
+                                                    }
+                                                ?>
+                                                    <i class="bi bi-x-circle-fill ms-2 text-danger icon-state" 
+                                                    data-bs-toggle="tooltip" 
+                                                    title="<?php echo $tooltipText; ?>">
+                                                    </i>
                                                 <?php endif; ?>
                                                 <?php if ($pedido->INCOMPLETO == 1): ?>
                                                     <i class="fas fa-exclamation-triangle ms-2 text-warning icon-state" data-bs-toggle="tooltip" title="Pedido Incompleto"></i>
@@ -281,7 +289,7 @@ $pedidos = new Pedido();
                                                         $isSale = (substr($item->DESCRIPCIO, -11) == '-- SALE! --');
                                                         $description = $isSale ? substr($item->DESCRIPCIO, 0, -11) : $item->DESCRIPCIO;
                                                 ?>
-                                                <tr>
+                                                <tr class="<?php echo $item->FALTANTE == 1 ? 'faltante-row' : ''; ?>">
                                                     <td>
                                                         <div class="d-flex align-items-center">
                                                             <img src="<?php echo $imageUrl ? $imageUrl : '/api/placeholder/50/50'; ?>" 
@@ -291,10 +299,16 @@ $pedidos = new Pedido();
                                                                 data-bs-toggle="modal" 
                                                                 data-bs-target="#imageModal<?php echo $imageName; ?>">
                                                             <div>
-                                                                <div class="fw-bold text-primary">
+                                                                <div class="fw-bold text-primary d-flex align-items-center">
                                                                     <?php echo $description; ?>
                                                                     <?php if ($isSale): ?>
-                                                                        <span class="badge bg-danger">SALE</span>
+                                                                        <span class="badge bg-danger ms-2">SALE</span>
+                                                                    <?php endif; ?>
+                                                                    <?php if ($item->FALTANTE == 1): ?>
+                                                                        <i class="bi bi-exclamation-diamond-fill ms-2 text-warning" 
+                                                                        data-bs-toggle="tooltip" 
+                                                                        data-bs-placement="right"
+                                                                        title="Artículo faltante"></i>
                                                                     <?php endif; ?>
                                                                 </div>
                                                                 <div class="text-muted">
