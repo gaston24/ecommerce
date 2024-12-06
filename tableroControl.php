@@ -137,7 +137,7 @@
     }
 
     .modal-xl {
-    max-width: 95%;
+    max-width: 70%;
     }
 
     .table {
@@ -205,13 +205,16 @@
                 Error: <?php echo htmlspecialchars($error); ?>
             </div>
         <?php endif; ?>
-        <div class="alert alert-info ">
-            <h2 class="text-center mb-4">
-                <i class="fas fa-chart-line"></i> Tablero de Control Ecommerce
-            </h2>
-            <!-- Timestamp de última actualización -->
-            <div class="row mt-4">
-                <div class="col-12 text-end">
+        <div class="alert alert-info">
+            <div class="mt-4">
+                <!-- Espaciador para centrar el título -->
+                <div class="flex-grow-1 text-center">
+                    <h2 class="mb-0">
+                        <i class="fas fa-chart-line"></i> Tablero de Control Ecommerce
+                    </h2>
+                </div>
+                <!-- Timestamp de última actualización -->
+                <div class="text-end">
                     <small class="text-muted">
                         <i class="fas fa-clock"></i> 
                         Última actualización: <?php echo $ultimaActualizacion->format('d/m/Y H:i:s'); ?>
@@ -219,6 +222,7 @@
                 </div>
             </div>
         </div>
+
         <div class="row">
             <!-- NC Pendientes Promociones -->
             <div class="col-md-6 col-lg-3">
@@ -394,7 +398,7 @@
                     <?php if ($facturasSinRemito !== null && $facturasSinRemito->CANT_FACTURAS !== null): ?>
                         <p class="card-value"><?php echo htmlspecialchars($facturasSinRemito->CANT_FACTURAS); ?></p>
                         <p class="mb-0">Total: $<?php echo number_format($facturasSinRemito->IMPORTE, 2); ?></p>
-                        <p class="date-info">Desde: <?php echo $facturasSinRemito->FECHA_FACTURA->format('d/m/Y H:i'); ?></p>
+                        <p class="date-info">Desde: <?php echo $facturasSinRemito->FECHA_FACTURA->format('d/m/Y'); ?></p>
                         <div class="mt-3">
                         <button type="button" class="btn btn-outline-warning w-100 mt-2" data-bs-toggle="modal" data-bs-target="#modalFacturasDetalle">
                             <i class="fas fa-list-ul me-2"></i>Ver Detalle
@@ -440,7 +444,7 @@
                                         foreach ($detalleFacturas as $detalle): ?>
                                             <tr>
                                                 <td><?php echo htmlspecialchars($detalle->SUCURSAL); ?></td>
-                                                <td><?php echo $detalle->FECHA_FACTURA->format('d/m/Y H:i'); ?></td>
+                                                <td><?php echo $detalle->FECHA_FACTURA->format('d/m/Y'); ?></td>
                                                 <td><?php echo htmlspecialchars($detalle->FACTURA); ?></td>
                                                 <td><?php echo htmlspecialchars($detalle->COD_ARTICU); ?></td>
                                                 <td><?php echo htmlspecialchars($detalle->DESC_CTA_ARTICULO); ?></td>
