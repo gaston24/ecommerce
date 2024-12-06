@@ -19,6 +19,7 @@ $pedidos = new Pedido();
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" />
     <link rel="stylesheet" href="style/consultaPedido.css">
   
 </head>
@@ -131,6 +132,9 @@ $pedidos = new Pedido();
                                                 <?php endif; ?>
                                                 <?php if ($pedido->INCOMPLETO == 1): ?>
                                                     <i class="fas fa-exclamation-triangle ms-2 text-warning icon-state" data-bs-toggle="tooltip" title="Pedido Incompleto"></i>
+                                                    <button class="btn btn-sm btn-outline-warning ms-2" data-bs-toggle="modal" data-bs-target="#historialModal">
+                                                        <i class="fas fa-history"></i> Ver Historial
+                                                    </button>
                                                 <?php endif; ?>
                                             </div>
                                         </div>
@@ -369,6 +373,104 @@ $pedidos = new Pedido();
                             }
                             ?>
 
+                            <!-- Modal Historial -->
+                                <div class="modal fade" id="historialModal" tabindex="-1" aria-labelledby="historialModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="historialModalLabel">
+                                                    <i class="fas fa-clipboard-list me-2"></i>Historial de Reclamo
+                                                </h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <!-- Estado del Reclamo en la parte superior -->
+                                            <div class="estado-reclamo-header p-3 border-bottom">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <span class="fw-bold me-2">Estado del Reclamo:</span>
+                                                        <span class="estado-badge estado-abierto active">
+                                                            <i class="fas fa-exclamation-circle me-1"></i>Abierto
+                                                        </span>
+                                                        <span class="estado-badge estado-proceso">
+                                                            <i class="fas fa-clock me-1"></i>En Proceso
+                                                        </span>
+                                                        <span class="estado-badge estado-resuelto">
+                                                            <i class="fas fa-check-circle me-1"></i>Resuelto
+                                                        </span>
+                                                    </div>
+                                                    <button class="btn btn-outline-success btn-sm" id="marcarResuelto">
+                                                        <i class="fas fa-check me-1"></i>Marcar como Resuelto
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="modal-body">
+                                            <div class="seccion-historial">
+                                                <div class="row g-3">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label d-flex align-items-center">
+                                                                <i class="fas fa-comments me-2"></i>
+                                                                Tipo de Contacto
+                                                            </label>
+                                                            <select class="form-select tipo-contacto">
+                                                                <option value="mail">Mail</option>
+                                                                <option value="whatsapp">WhatsApp</option>
+                                                                <option value="facebook">Facebook</option>
+                                                                <option value="instagram">Instagram</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label d-flex align-items-center">
+                                                                <i class="fas fa-user me-2"></i>
+                                                                Agente
+                                                            </label>
+                                                            <select class="form-select agente">
+                                                                <option value="at">Agustina Taboada</option>
+                                                                <option value="fc">Florencia Consoli</option>
+                                                                <option value="jd">Julieta Dalmeida</option>
+                                                                <option value="ls">Leonel Segovia</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="dropzone-container">
+                                                    <form action="upload.php" class="dropzone" id="dropzone-1">
+                                                        <div class="dz-message">
+                                                            <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i>
+                                                            <p class="mb-0">Arrastra aquí las imágenes o haz clic para seleccionar</p>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                                <div class="timeline-date text-end">
+                                                    <small>
+                                                        <i class="fas fa-clock me-1"></i>
+                                                        Creado: <?php echo date('d/m/Y H:i'); ?>
+                                                    </small>
+                                                </div>
+                                                <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                    <i class="fas fa-times me-1"></i>Cerrar
+                                                </button>
+                                                <div class="text-end">
+                                                    <button type="button" class="btn btn-primary btn-guardar-seccion">
+                                                        <i class="fas fa-save"></i> Guardar Sección
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            </div>
+                                                </div>
+                                                <button type="button" class="btn btn-outline-primary w-100" id="agregarSeccion">
+                                                    <i class="fas fa-plus-circle me-1"></i> Agregar seguimiento
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                 <?php
                         }
                     } else {
@@ -382,43 +484,8 @@ $pedidos = new Pedido();
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-
-        // Inicializar todos los tooltips
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
-
-        // Función para mostrar el spinner
-        function showSpinner() {
-            document.getElementById('spinner').classList.remove('spinner-hidden');
-        }
-
-        // Función para ocultar el spinner
-        function hideSpinner() {
-            document.getElementById('spinner').classList.add('spinner-hidden');
-        }
-
-        // Modificar el formulario para mostrar el spinner
-        document.querySelector('form').addEventListener('submit', function(e) {
-            showSpinner();
-        });
-
-        // Si hay error en la búsqueda, ocultar el spinner
-        document.addEventListener('DOMContentLoaded', function() {
-            if (document.querySelector('.alert-warning')) {
-                hideSpinner();
-            }
-        });
-
-        // Ocultar el spinner cuando la página termina de cargar
-        window.addEventListener('load', function() {
-            hideSpinner();
-        });
-
-    </script>
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <script src="js/consultaPedido.js"></script>         
 
 </body>
 </html>
