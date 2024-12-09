@@ -526,7 +526,7 @@
                         plugins: {
                             title: {
                                 display: true,
-                                text: 'Notas de Crédito de los últimos 7 días',
+                                text: 'Notas de Crédito realizadas en los últimos 7 días',
                                 font: { size: 16 }
                             },
                             legend: {
