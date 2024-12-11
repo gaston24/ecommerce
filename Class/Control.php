@@ -42,6 +42,12 @@ class Control {
         return $this->getDatos($sql);
     }
 
+    public function traerDetalleNcPendPromociones() {
+        $sql = "SELECT FECHA, COD_PROMOCION_TARJETA, DESC_PROMOCION_TARJETA, PORC_REINTEGRO, COD_ARTICU, NC 
+                FROM SJ_NC_ECOMMERCE_PEND WHERE NUM_NC = 'NO'";
+        return $this->getDatosMultiples($sql);
+    }
+
     public function traerNcPendDevoluciones() {
         $sql = "SELECT MIN(CAST(FECHA_PEDI AS DATE)) FECHA, COUNT(*) CANT_NC_DEV, SUM(IMPORTE) IMPORTE_PEND FROM 
                 (
@@ -49,9 +55,20 @@ class Control {
                 LEFT JOIN RO_T_ESTADO_PEDIDOS_ECOMMERCE B ON A.ORDER_ID_TIENDA = B.ORDER_ID
                 LEFT JOIN GVA55 C ON A.TALON_PED = C.TALON_PED AND A.NRO_PEDIDO = C.NRO_PEDIDO
                 LEFT JOIN GVA12 D ON C.N_COMP = D.N_COMP AND C.T_COMP = D.T_COMP
-                WHERE A.COD_CLIENT = '000000' AND A.FECHA_PEDI >= GETDATE()-90 AND B.CANCELADO = 1 AND B.NCR IS NULL AND C.N_COMP IS NOT NULL
+                WHERE A.COD_CLIENT = '000000' AND A.FECHA_PEDI >= GETDATE()-270 AND B.CANCELADO = 1 AND B.NCR IS NULL AND C.N_COMP IS NOT NULL
                 ) A";
         return $this->getDatos($sql);
+    }
+
+    public function traerDetalleNcPendDevoluciones() {
+        $sql = "SELECT CAST(A.FECHA_PEDI AS DATE) FECHA_PEDI, A.NRO_PEDIDO, A.ORDER_ID_TIENDA, UPPER(E.RAZON_SOCI) CLIENTE,
+                C.N_COMP, CAST(D.IMPORTE AS FLOAT) IMPORTE FROM GVA21 A
+                LEFT JOIN RO_T_ESTADO_PEDIDOS_ECOMMERCE B ON A.ORDER_ID_TIENDA = B.ORDER_ID
+                LEFT JOIN GVA55 C ON A.TALON_PED = C.TALON_PED AND A.NRO_PEDIDO = C.NRO_PEDIDO
+                LEFT JOIN GVA12 D ON C.N_COMP = D.N_COMP AND C.T_COMP = D.T_COMP
+                LEFT JOIN GVA38 E ON A.TALON_PED = E.TALONARIO AND A.NRO_PEDIDO = E.N_COMP
+                WHERE A.COD_CLIENT = '000000' AND A.FECHA_PEDI >= GETDATE()-270 AND B.CANCELADO = 1 AND B.NCR IS NULL AND C.N_COMP IS NOT NULL";
+        return $this->getDatosMultiples($sql);
     }
 
     public function traerNcrRealizadas() {
@@ -104,6 +121,23 @@ class Control {
                 ) A;
         ";
         return $this->getDatos($sql);
+    }
+
+    public function traerDetallePedidosFlex() {
+        $sql = "SELECT CAST(C.FECHA_SINCRONIZADO AS DATETIME) FECHA_SINCRONIZADO, 
+                CASE WHEN A.TALON_PED = '98' THEN 'MERCADO LIBRE'
+                    WHEN A.TALON_PED = '99' THEN 'VTEX'	
+                END CANAL,
+                A.NRO_PEDIDO, A.ORDER_ID_TIENDA, UPPER(D.RAZON_SOCI) CLIENTE ,CAST(A.TOTAL_PEDI AS DECIMAL(10,0)) TOTAL_PEDI FROM GVA21 A
+                INNER JOIN (SELECT * FROM RO_V_WAREHOUSE_METODO_ENVIO_VTEX WHERE METODO_ENVIO = 'FLEX') B ON A.COD_TRANSP = B.COD_TRANSP
+                LEFT JOIN RO_T_ESTADO_PEDIDOS_ECOMMERCE C ON A.ORDER_ID_TIENDA = C.ORDER_ID
+                LEFT JOIN GVA38 D ON A.TALON_PED = D.TALONARIO AND A.NRO_PEDIDO = D.N_COMP
+                WHERE A.COD_CLIENT = '000000' AND A.FECHA_PEDI >= CAST(GETDATE() - 10 AS DATE) AND ((A.FECHA_PEDI = CAST(GETDATE() AS DATE) AND 
+                TRY_CAST(A.HORA_INGRESO AS INT) <= 120000) OR A.FECHA_PEDI < CAST(GETDATE() AS DATE)) AND C.DESPACHADO IS NULL AND C.ENTREGADO IS NULL
+                AND C.CANCELADO IS NULL AND A.COD_SUCURS = '01' AND A.ESTADO != '5'
+                ORDER BY C.FECHA_SINCRONIZADO;
+        ";
+        return $this->getDatosMultiples($sql);
     }
 
     public function traerFacturasSinRemito() {

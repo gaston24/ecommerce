@@ -13,161 +13,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style/tableroControl.css" class="rel css">
     
-    <style>
-    .card {
-        transition: transform 0.2s, box-shadow 0.2s;
-        margin-bottom: 1rem;
-        border: none;
-        border-radius: 12px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.08); /* Sombra permanente sutil */
-    }
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 15px rgba(0,0,0,0.1); /* Sombra más pronunciada en hover */
-    }
-    .card-header {
-        border-radius: 12px 12px 0 0 !important;
-        border-bottom: none;
-        padding: 1.25rem 1.5rem;
-    }
-
-    /* Estilos para NC Promociones */
-    .card-promociones .card-header {
-        background-color: #ebf5ff;
-        border: 1px solid rgba(33, 150, 243, 0.1); /* Borde sutil */
-    }
-    .card-promociones .card-icon {
-        color: #2196f3;
-        font-size: 1.8rem;
-    }
-
-    /* Estilos para NC Devoluciones */
-    .card-devoluciones .card-header {
-        background-color: #fff0f3;
-        border: 1px solid rgba(233, 30, 99, 0.1);
-    }
-    .card-devoluciones .card-icon {
-        color: #e91e63;
-        font-size: 1.8rem;
-    }
-
-    /* Estilos para Órdenes sin Integrar */
-    .card-ordenes .card-header {
-        background-color: #fff3e0;
-        border: 1px solid rgba(255, 152, 0, 0.1);
-    }
-    .card-ordenes .card-icon {
-        color: #ff9800;
-        font-size: 1.8rem;
-    }
-
-    /* Estilos para Pedidos sin Facturar */
-    .card-pedidos .card-header {
-        background-color: #e8f5e9;
-        border: 1px solid rgba(76, 175, 80, 0.1);
-    }
-    .card-pedidos .card-icon {
-        color: #4caf50;
-        font-size: 1.8rem;
-    }
-
-    .card-value {
-        font-size: 2rem;
-        font-weight: bold;
-        margin-bottom: 0.5rem;
-    }
-
-    .info-icon {
-        color: #757575;
-        font-size: 1rem;
-        margin-left: 0.5rem;
-        cursor: help;
-        transition: color 0.2s;
-    }
-    .info-icon:hover {
-        color: #424242;
-    }
-
-    .no-data {
-        color: #757575;
-        font-style: italic;
-        font-size: 1.1rem;
-        text-align: center;
-        padding: 1rem 0;
-    }
-
-    .date-info {
-        font-size: 0.875rem;
-        color: #757575;
-        margin-top: 0.5rem;
-    }
-
-    .alert-info {
-        background-color: #f8f9fa;
-        border-color: #e9ecef;
-        color: #495057;
-    }
-
-    .card-body {
-        padding: 1.5rem;
-        border: 1px solid rgba(0,0,0,0.05); /* Borde sutil para el body */
-        border-top: none;
-        border-radius: 0 0 12px 12px;
-    }
-    .card-flex .card-header {
-        background-color: #f3e5f5;
-        border: 1px solid rgba(156, 39, 176, 0.1);
-    }
-    .card-flex .card-icon {
-        color: #9c27b0;
-        font-size: 1.8rem;
-    }
-
-    /* Estilo para el timestamp */
-    .text-muted {
-        color: #6c757d !important;
-    }
-    .text-muted i {
-        margin-right: 0.5rem;
-    }
-
-    .card-facturas .card-icon {
-        font-size: 1.8rem;
-    }
-
-    .modal-xl {
-    max-width: 70%;
-    }
-
-    .table {
-        font-size: 0.9rem;
-        margin-bottom: 0;
-    }
-
-    .table th {
-        background-color: #f8f9fa;
-        white-space: nowrap;
-    }
-
-    .table td {
-        vertical-align: middle;
-    }
-
-    #ncrChart {
-        height: 400px !important;
-    }
-
-    .card-facturas .card-header {
-    background-color: #fff8e1;
-    border: 1px solid rgba(255, 193, 7, 0.1);
-    }
-    .card-facturas .card-icon {
-        color: #ffc107;
-    }
-
-</style>
-
 </head>
 <body>
     <?php
@@ -205,21 +52,20 @@
                 Error: <?php echo htmlspecialchars($error); ?>
             </div>
         <?php endif; ?>
-        <div class="alert alert-info">
-            <div class="mt-4">
-                <!-- Espaciador para centrar el título -->
-                <div class="flex-grow-1 text-center">
-                    <h2 class="mb-0">
-                        <i class="fas fa-chart-line"></i> Tablero de Control Ecommerce
-                    </h2>
-                </div>
-                <!-- Timestamp de última actualización -->
-                <div class="text-end">
-                    <small class="text-muted">
-                        <i class="fas fa-clock"></i> 
-                        Última actualización: <?php echo $ultimaActualizacion->format('d/m/Y H:i:s'); ?>
-                    </small>
-                </div>
+        <div class="alert alert-info p-2">
+            <div class="d-flex justify-content-between align-items-center">
+                <button type="button" class="btn btn-outline-primary btn-sm" onclick="window.location.reload()">
+                    <i class="fas fa-sync-alt me-2"></i>Actualizar
+                </button>
+                
+                <h2 class="mb-0 text-center flex-grow-1">
+                    <i class="fas fa-chart-line"></i> Tablero de Control Ecommerce
+                </h2>
+                
+                <small class="text-muted">
+                    <i class="fas fa-clock"></i> 
+                    Última actualización: <?php echo $ultimaActualizacion->format('d/m/Y H:i:s'); ?>
+                </small>
             </div>
         </div>
 
@@ -232,9 +78,9 @@
                         <h5 class="card-title mt-2">
                             NC Pendientes por Promociones
                             <i class="fas fa-info-circle info-icon" 
-                               data-bs-toggle="tooltip" 
-                               data-bs-placement="top" 
-                               title="Notas de crédito pendientes por promociones aplicadas">
+                            data-bs-toggle="tooltip" 
+                            data-bs-placement="top" 
+                            title="Notas de crédito pendientes por promociones aplicadas">
                             </i>
                         </h5>
                     </div>
@@ -243,9 +89,67 @@
                             <p class="card-value"><?php echo htmlspecialchars($ncPromociones->CANT_NC_PROMO); ?></p>
                             <p class="mb-0">Importe: $<?php echo number_format($ncPromociones->IMPORTE_NC, 2); ?></p>
                             <p class="date-info">Desde: <?php echo $ncPromociones->FECHA->format('d/m/Y'); ?></p>
+                            <button type="button" class="btn btn-outline-primary mt-3 w-100" data-bs-toggle="modal" data-bs-target="#modalNcPromocionesDetalle">
+                                <i class="fas fa-list-ul me-2"></i>Ver Detalle
+                            </button>
                         <?php else: ?>
                             <p class="no-data">Sin NC pendientes</p>
                         <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal para el detalle de NC Promociones -->
+            <div class="modal fade" id="modalNcPromocionesDetalle" tabindex="-1">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header d-flex justify-content-between align-items-center">
+                            <h5 class="modal-title">
+                                <i class="fas fa-tags"></i> Detalle de NC Pendientes por Promociones
+                            </h5>
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-success" onclick="exportToExcelNcPromociones()">
+                                    <i class="fas fa-file-excel me-2"></i>Exportar
+                                </button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Fecha</th>
+                                            <th>Cód. Promoción</th>
+                                            <th>Descripción</th>
+                                            <th>% Reintegro</th>
+                                            <th>Cód. Artículo</th>
+                                            <th class="text-end">Importe NC</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php 
+                                        $detalleNcPromociones = $control->traerDetalleNcPendPromociones();
+                                        if (!empty($detalleNcPromociones)):
+                                            foreach ($detalleNcPromociones as $detalle): ?>
+                                                <tr>
+                                                    <td><?php echo $detalle->FECHA->format('d/m/Y'); ?></td>
+                                                    <td><?php echo htmlspecialchars($detalle->COD_PROMOCION_TARJETA); ?></td>
+                                                    <td><?php echo htmlspecialchars($detalle->DESC_PROMOCION_TARJETA); ?></td>
+                                                    <td><?php echo htmlspecialchars($detalle->PORC_REINTEGRO); ?></td>
+                                                    <td><?php echo htmlspecialchars($detalle->COD_ARTICU); ?></td>
+                                                    <td class="text-end">$<?php echo number_format($detalle->NC, 2); ?></td>
+                                                </tr>
+                                            <?php endforeach;
+                                        else: ?>
+                                            <tr>
+                                                <td colspan="6" class="text-center">No hay datos para mostrar</td>
+                                            </tr>
+                                        <?php endif; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -259,7 +163,7 @@
                             <i class="fas fa-info-circle info-icon" 
                             data-bs-toggle="tooltip" 
                             data-bs-placement="top" 
-                            title="Notas de crédito pendientes por devoluciones de productos de los últimos 90 días">
+                            title="Notas de crédito pendientes por devoluciones de productos de los últimos 270 días">
                             </i>
                         </h5>
                     </div>
@@ -268,9 +172,14 @@
                             <p class="card-value"><?php echo htmlspecialchars($ncDevoluciones->CANT_NC_DEV); ?></p>
                             <p class="mb-0">Importe: $<?php echo number_format($ncDevoluciones->IMPORTE_PEND, 2); ?></p>
                             <p class="date-info">Desde: <?php echo $ncDevoluciones->FECHA->format('d/m/Y'); ?></p>
-                            <button type="button" class="btn btn-outline-primary w-100 mt-2" data-bs-toggle="modal" data-bs-target="#modalNcr">
-                                <i class="fas fa-chart-bar me-2"></i>Ver Estadísticas
-                            </button>
+                            <div class="d-grid gap-2 mt-3">
+                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalNcr">
+                                    <i class="fas fa-chart-bar me-2"></i>Ver Estadísticas
+                                </button>
+                                <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalNcDevolucionesDetalle">
+                                    <i class="fas fa-list-ul me-2"></i>Ver Detalle
+                                </button>
+                            </div>
                         <?php else: ?>
                             <p class="no-data">Sin devoluciones pendientes</p>
                         <?php endif; ?>
@@ -290,6 +199,61 @@
                         </div>
                         <div class="modal-body">
                             <canvas id="ncrChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal para ver el detalle -->
+            <div class="modal fade" id="modalNcDevolucionesDetalle" tabindex="-1">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header d-flex justify-content-between align-items-center">
+                            <h5 class="modal-title">
+                                <i class="fas fa-undo"></i> Detalle de NC Pendientes por Devoluciones
+                            </h5>
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-success" onclick="exportToExcelNcDevoluciones()">
+                                    <i class="fas fa-file-excel me-2"></i>Exportar
+                                </button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Fecha</th>
+                                            <th>Nro. Pedido</th>
+                                            <th>Order ID</th>
+                                            <th>Cliente</th>
+                                            <th>Comprobante</th>
+                                            <th class="text-end">Importe</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php 
+                                        $detalleNcDevoluciones = $control->traerDetalleNcPendDevoluciones();
+                                        if (!empty($detalleNcDevoluciones)):
+                                            foreach ($detalleNcDevoluciones as $detalle): ?>
+                                                <tr>
+                                                    <td><?php echo $detalle->FECHA_PEDI->format('d/m/Y'); ?></td>
+                                                    <td><?php echo htmlspecialchars($detalle->NRO_PEDIDO); ?></td>
+                                                    <td><?php echo htmlspecialchars($detalle->ORDER_ID_TIENDA); ?></td>
+                                                    <td><?php echo htmlspecialchars($detalle->CLIENTE); ?></td>
+                                                    <td><?php echo htmlspecialchars($detalle->N_COMP); ?></td>
+                                                    <td class="text-end">$<?php echo number_format($detalle->IMPORTE, 2); ?></td>
+                                                </tr>
+                                            <?php endforeach;
+                                        else: ?>
+                                            <tr>
+                                                <td colspan="6" class="text-center">No hay datos para mostrar</td>
+                                            </tr>
+                                        <?php endif; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -354,25 +318,29 @@
         <div class="row mt-3">
             <!-- Card de Flex -->
             <div class="col-md-6 col-lg-3">
-                <div class="card h-100 card-flex">
+                <div class="card h-100 card-pedidos">
                     <div class="card-header">
-                        <i class="fas fa-truck-fast card-icon"></i>
-                        <h5 class="card-title mt-2">
-                            Pedidos Pend. de Despacho Flex Central
-                            <i class="fas fa-info-circle info-icon" 
-                            data-bs-toggle="tooltip" 
-                            data-bs-placement="top" 
-                            title="Pedidos Flex pendientes de despacho en Depósito Central. Para el día actual se consideran los que ingresan antes de las 12 hs.">
-                            </i>
-                        </h5>
-                    </div>
+                    <i class="fas fa-truck-fast card-icon"></i>
+                    <h5 class="card-title mt-2">
+                        Pedidos Pend. de Despacho Flex Central
+                        <i class="fas fa-info-circle info-icon" 
+                        data-bs-toggle="tooltip" 
+                        data-bs-placement="top" 
+                        title="Pedidos Flex pendientes de despacho en Depósito Central. Para el día actual se consideran los que ingresan antes de las 12 hs.">
+                        </i>
+                    </h5>
+                </div>
                     <div class="card-body">
-                        <?php if ($pedidosFlexCentral !== null && $pedidosFlexCentral->CANT_PED_PEND !== null): ?>
+                        <?php if ($pedidosFlexCentral !== null && $pedidosFlexCentral->CANT_PED_PEND !== null && $pedidosFlexCentral->CANT_PED_PEND > 0): ?>
                             <p class="card-value"><?php echo htmlspecialchars($pedidosFlexCentral->CANT_PED_PEND); ?></p>
                             <p class="mb-0">Total: $<?php echo number_format($pedidosFlexCentral->TOTAL_PEDIDOS, 2); ?></p>
                             <?php if ($pedidosFlexCentral->FECHA_PEDI): ?>
                                 <p class="date-info">Desde: <?php echo $pedidosFlexCentral->FECHA_PEDI->format('d/m/Y H:i'); ?></p>
                             <?php endif; ?>
+                            <!-- Botón solo se muestra si hay pendientes -->
+                            <button type="button" class="btn btn-outline-primary mt-3 w-100" data-bs-toggle="modal" data-bs-target="#modalFlexDetalle">
+                                <i class="fas fa-list-ul me-2"></i>Ver Detalle
+                            </button>
                         <?php else: ?>
                             <p class="no-data">Sin pedidos pendientes</p>
                         <?php endif; ?>
@@ -380,6 +348,64 @@
                 </div>
             </div>
         
+            <!-- Modal para el detalle de Pedidos Flex -->
+            <div class="modal fade" id="modalFlexDetalle" tabindex="-1" aria-labelledby="modalFlexDetalleLabel">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-between align-items-center">
+                        <h5 class="modal-title" id="modalFlexDetalleLabel">
+                            <i class="fas fa-truck-fast"></i> Detalle de Pedidos Flex Pendientes
+                        </h5>
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-success" onclick="exportToExcel()">
+                                <i class="fas fa-file-excel me-2"></i>Exportar
+                            </button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                    </div>
+                        <div class="modal-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Fecha Sincronizado</th>
+                                            <th>Canal</th>
+                                            <th>Nro. Pedido</th>
+                                            <th>Order ID</th>
+                                            <th>Cliente</th>
+                                            <th class="text-end">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php 
+                                        $detalleFlex = $control->traerDetallePedidosFlex();
+                                        if (!empty($detalleFlex)):
+                                            foreach ($detalleFlex as $detalle): ?>
+                                                <tr>
+                                                    <td><?php echo $detalle->FECHA_SINCRONIZADO->format('d/m/Y H:i'); ?></td>
+                                                    <td><?php echo htmlspecialchars($detalle->CANAL); ?></td>
+                                                    <td><?php echo htmlspecialchars($detalle->NRO_PEDIDO); ?></td>
+                                                    <td><?php echo htmlspecialchars($detalle->ORDER_ID_TIENDA); ?></td>
+                                                    <td><?php echo htmlspecialchars($detalle->CLIENTE); ?></td>
+                                                    <td class="text-end">$<?php echo number_format($detalle->TOTAL_PEDI, 2); ?></td>
+                                                </tr>
+                                            <?php endforeach;
+                                        else: ?>
+                                            <tr>
+                                                <td colspan="4" class="text-center">No hay pedidos pendientes</td>
+                                            </tr>
+                                        <?php endif; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         <!-- Card de Facturas sin remito -->
         <div class="col-md-6 col-lg-3">
             <div class="card h-100 card-facturas">
@@ -395,15 +421,14 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    <?php if ($facturasSinRemito !== null && $facturasSinRemito->CANT_FACTURAS !== null): ?>
+                    <?php if ($facturasSinRemito !== null && $facturasSinRemito->CANT_FACTURAS !== null && $facturasSinRemito->CANT_FACTURAS > 0): ?>
                         <p class="card-value"><?php echo htmlspecialchars($facturasSinRemito->CANT_FACTURAS); ?></p>
                         <p class="mb-0">Total: $<?php echo number_format($facturasSinRemito->IMPORTE, 2); ?></p>
-                        <p class="date-info">Desde: <?php echo $facturasSinRemito->FECHA_FACTURA->format('d/m/Y'); ?></p>
-                        <div class="mt-3">
-                        <button type="button" class="btn btn-outline-warning w-100 mt-2" data-bs-toggle="modal" data-bs-target="#modalFacturasDetalle">
+                        <p class="date-info">Desde: <?php echo $facturasSinRemito->FECHA_FACTURA->format('d/m/Y H:i'); ?></p>
+                        <!-- Botón solo se muestra si hay pendientes -->
+                        <button type="button" class="btn btn-outline-warning mt-3 w-100" data-bs-toggle="modal" data-bs-target="#modalFacturasDetalle">
                             <i class="fas fa-list-ul me-2"></i>Ver Detalle
                         </button>
-                        </div>
                     <?php else: ?>
                         <p class="no-data">Sin facturas pendientes</p>
                     <?php endif; ?>
@@ -415,64 +440,69 @@
     </div>
 
     <!-- Modal para el detalle de facturas -->
-        <div class="modal fade" id="modalFacturasDetalle" tabindex="-1" aria-labelledby="modalFacturasDetalleLabel">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalFacturasDetalleLabel">
-                            <i class="fas fa-file-invoice-dollar"></i> Detalle de Facturas sin Remito
-                        </h5>
+    <div class="modal fade" id="modalFacturasDetalle" tabindex="-1" aria-labelledby="modalFacturasDetalleLabel">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header d-flex justify-content-between align-items-center">
+                    <h5 class="modal-title" id="modalFacturasDetalleLabel">
+                        <i class="fas fa-file-invoice-dollar"></i> Detalle de Facturas sin Remito
+                    </h5>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-success" onclick="exportToExcelFacturas()">
+                            <i class="fas fa-file-excel me-2"></i>Exportar
+                        </button>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Sucursal</th>
-                                        <th>Fecha</th>
-                                        <th>Factura</th>
-                                        <th>Código</th>
-                                        <th>Descripción</th>
-                                        <th class="text-end">Cantidad</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php 
-                                    $detalleFacturas = $control->traerDetalleFacturasSinRemito();
-                                    if (!empty($detalleFacturas)):
-                                        foreach ($detalleFacturas as $detalle): ?>
-                                            <tr>
-                                                <td><?php echo htmlspecialchars($detalle->SUCURSAL); ?></td>
-                                                <td><?php echo $detalle->FECHA_FACTURA->format('d/m/Y'); ?></td>
-                                                <td><?php echo htmlspecialchars($detalle->FACTURA); ?></td>
-                                                <td><?php echo htmlspecialchars($detalle->COD_ARTICU); ?></td>
-                                                <td><?php echo htmlspecialchars($detalle->DESC_CTA_ARTICULO); ?></td>
-                                                <td class="text-end"><?php echo number_format($detalle->CANTIDAD, 0); ?></td>
-                                            </tr>
-                                        <?php endforeach;
-                                    else: ?>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Sucursal</th>
+                                    <th>Fecha</th>
+                                    <th>Factura</th>
+                                    <th>Código</th>
+                                    <th>Descripción</th>
+                                    <th class="text-end">Cantidad</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php 
+                                $detalleFacturas = $control->traerDetalleFacturasSinRemito();
+                                if (!empty($detalleFacturas)):
+                                    foreach ($detalleFacturas as $detalle): ?>
                                         <tr>
-                                            <td colspan="6" class="text-center">No hay datos para mostrar</td>
+                                            <td><?php echo htmlspecialchars($detalle->SUCURSAL); ?></td>
+                                            <td><?php echo $detalle->FECHA_FACTURA->format('d/m/Y'); ?></td>
+                                            <td><?php echo htmlspecialchars($detalle->FACTURA); ?></td>
+                                            <td><?php echo htmlspecialchars($detalle->COD_ARTICU); ?></td>
+                                            <td><?php echo htmlspecialchars($detalle->DESC_CTA_ARTICULO); ?></td>
+                                            <td class="text-end"><?php echo number_format($detalle->CANTIDAD, 0); ?></td>
                                         </tr>
-                                    <?php endif; ?>
-                                </tbody>
-                            </table>
-                        </div>
+                                    <?php endforeach;
+                                else: ?>
+                                    <tr>
+                                        <td colspan="6" class="text-center">No hay datos para mostrar</td>
+                                    </tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
+    </div>
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Auto refresh cada 5 minutos -->
     <script>
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -543,12 +573,178 @@
                 });
             });
 
-            // Auto refresh
-            setTimeout(function() {
-                window.location.reload();
-            }, 300000);
         });
 
-    </script>
+
+        function exportToExcel() {
+        // Obtener la tabla original
+        const table = document.querySelector('#modalFlexDetalle table');
+        
+        // Crear una copia profunda de la tabla
+        const tableClone = table.cloneNode(true);
+        
+        // Obtener todos los datos
+        const rows = tableClone.querySelectorAll('tr');
+        
+        // Crear el libro y la hoja
+        const wb = XLSX.utils.book_new();
+        
+        // Convertir la tabla a una matriz de datos
+        const data = [];
+        
+        rows.forEach((row) => {
+            const rowData = [];
+            row.querySelectorAll('th, td').forEach((cell) => {
+                let value = cell.textContent.trim();
+                
+                // Si es una fecha (verificar si tiene el formato dd/mm/yyyy)
+                if (value.match(/^\d{2}\/\d{2}\/\d{4}/)) {
+                    // Convertir de dd/mm/yyyy HH:mm a formato Excel
+                    const [datePart, timePart] = value.split(' ');
+                    const [day, month, year] = datePart.split('/');
+                    const dateStr = `${year}-${month}-${day}`;
+                    if (timePart) {
+                        value = `${dateStr} ${timePart}`;
+                    } else {
+                        value = dateStr;
+                    }
+                }
+                // Si es un valor monetario, remover el símbolo $ y convertir a número
+                else if (value.startsWith('$')) {
+                    value = parseFloat(value.replace('$', '').replace(/,/g, ''));
+                }
+                
+                rowData.push(value);
+            });
+            data.push(rowData);
+        });
+        
+        // Crear la hoja con los datos procesados
+        const ws = XLSX.utils.aoa_to_sheet(data);
+        
+        // Agregar la hoja al libro
+        XLSX.utils.book_append_sheet(wb, ws, "Pedidos Flex");
+        
+        // Guardar el archivo
+        XLSX.writeFile(wb, `pedidos_flex_${new Date().toISOString().slice(0,10)}.xlsx`);
+    }
+
+    function exportToExcelFacturas() {
+    // Obtener la tabla original
+    const table = document.querySelector('#modalFacturasDetalle table');
+    
+    // Crear una copia profunda de la tabla
+    const tableClone = table.cloneNode(true);
+    
+    // Obtener todos los datos
+    const rows = tableClone.querySelectorAll('tr');
+    
+    // Crear el libro y la hoja
+    const wb = XLSX.utils.book_new();
+    
+    // Convertir la tabla a una matriz de datos
+    const data = [];
+    
+    rows.forEach((row) => {
+        const rowData = [];
+        row.querySelectorAll('th, td').forEach((cell) => {
+            let value = cell.textContent.trim();
+            
+            // Si es una fecha (verificar si tiene el formato dd/mm/yyyy)
+            if (value.match(/^\d{2}\/\d{2}\/\d{4}/)) {
+                // Convertir de dd/mm/yyyy a formato Excel
+                const [day, month, year] = value.split('/');
+                value = `${year}-${month}-${day}`;
+            }
+            // Si es un valor numérico con separador de miles, convertir a número
+            else if (value.match(/^[\d,]+$/)) {
+                value = parseFloat(value.replace(/,/g, ''));
+            }
+            
+            rowData.push(value);
+        });
+        data.push(rowData);
+    });
+    
+    // Crear la hoja con los datos procesados
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    
+    // Agregar la hoja al libro
+    XLSX.utils.book_append_sheet(wb, ws, "Facturas sin Remito");
+    
+    // Guardar el archivo
+    XLSX.writeFile(wb, `facturas_sin_remito_${new Date().toISOString().slice(0,10)}.xlsx`);
+    }
+
+        function exportToExcelNcDevoluciones() {
+        const table = document.querySelector('#modalNcDevolucionesDetalle table');
+        const tableClone = table.cloneNode(true);
+        const rows = tableClone.querySelectorAll('tr');
+        const wb = XLSX.utils.book_new();
+        const data = [];
+        
+        rows.forEach((row) => {
+            const rowData = [];
+            row.querySelectorAll('th, td').forEach((cell) => {
+                let value = cell.textContent.trim();
+                
+                // Si es una fecha (verificar si tiene el formato dd/mm/yyyy)
+                if (value.match(/^\d{2}\/\d{2}\/\d{4}/)) {
+                    const [day, month, year] = value.split('/');
+                    value = `${year}-${month}-${day}`;
+                }
+                // Si es un valor monetario, remover el símbolo $ y convertir a número
+                else if (value.startsWith('$')) {
+                    value = parseFloat(value.replace('$', '').replace(/,/g, ''));
+                }
+                
+                rowData.push(value);
+            });
+            data.push(rowData);
+        });
+        
+        const ws = XLSX.utils.aoa_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb, ws, "NC Pendientes Devoluciones");
+        XLSX.writeFile(wb, `nc_pendientes_devoluciones_${new Date().toISOString().slice(0,10)}.xlsx`);
+    }
+
+        function exportToExcelNcPromociones() {
+        const table = document.querySelector('#modalNcPromocionesDetalle table');
+        const tableClone = table.cloneNode(true);
+        const rows = tableClone.querySelectorAll('tr');
+        const wb = XLSX.utils.book_new();
+        const data = [];
+        
+        rows.forEach((row) => {
+            const rowData = [];
+            row.querySelectorAll('th, td').forEach((cell) => {
+                let value = cell.textContent.trim();
+                
+                // Si es una fecha (verificar si tiene el formato dd/mm/yyyy)
+                if (value.match(/^\d{2}\/\d{2}\/\d{4}/)) {
+                    const [day, month, year] = value.split('/');
+                    value = `${year}-${month}-${day}`;
+                }
+                // Si es un valor monetario, remover el símbolo $ y convertir a número
+                else if (value.startsWith('$')) {
+                    value = parseFloat(value.replace('$', '').replace(/,/g, ''));
+                }
+                // Si es un porcentaje, convertir a número
+                else if (value.includes('%')) {
+                    value = parseFloat(value.replace('%', ''));
+                }
+                
+                rowData.push(value);
+            });
+            data.push(rowData);
+        });
+        
+        const ws = XLSX.utils.aoa_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb, ws, "NC Pendientes Promociones");
+        XLSX.writeFile(wb, `nc_pendientes_promociones_${new Date().toISOString().slice(0,10)}.xlsx`);
+    }
+
+</script>
+
 </body>
 </html>
