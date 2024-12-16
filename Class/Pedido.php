@@ -48,7 +48,7 @@ class Pedido{
     public function traerWarehouse(){
 
             
-        $sql = "SELECT * FROM
+        $sql = "SELECT WAREHOUSE FROM
                 (
                 SELECT REPLACE(NOMBRE_SUC, 'RT - SUC - ', '') WAREHOUSE FROM STA22
                 WHERE NOMBRE_SUC LIKE 'RT%'
@@ -82,6 +82,19 @@ class Pedido{
         SET DATEFORMAT YMD
         EXEC RO_SP_ECOMMERCE_PEDIDOS_FLUJO_DETALLE '$desde', '$hasta', '$orden'
 
+        ";
+
+        $array = $this->getDatos($sql);    
+
+        return $array;
+    }
+
+    public function buscarStockArticulo($sucursal){
+            
+        $sql = "SELECT NRO_SUCURSAL, DESC_SUCURSAL, ARTICULO, DESC_CTA_ARTICULO, CANT_STOCK FROM [LAKERBIS].LOCALES_LAKERS.DBO.RO_STOCK_LAKERS A
+                INNER JOIN [LAKERBIS].LOCALES_LAKERS.DBO.CTA_ARTICULO B ON A.ARTICULO = B.COD_ARTICULO
+                WHERE DESC_SUCURSAL = '$sucursal' AND A.ARTICULO LIKE '[XO]%'
+                ORDER BY ARTICULO
         ";
 
         $array = $this->getDatos($sql);    

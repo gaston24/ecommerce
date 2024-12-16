@@ -5,6 +5,11 @@ require_once 'Class/Conexion.php';
 require_once 'Class/Pedido.php';
 $pedidos = new Pedido();
 
+$sucursales = $pedidos->traerWarehouse();
+
+$sucursal = '2';
+$articulos = $pedidos->buscarStockArticulo($sucursal);
+
 ?>
 
 <!DOCTYPE html>
@@ -14,12 +19,17 @@ $pedidos = new Pedido();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seguimiento de Pedidos E-commerce</title>
     <link rel="shortcut icon" href="assets/icono.ico" />
-    <!-- Bootstrap CSS -->
+    <!-- Primero jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- Luego Select2 CSS y JS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <!-- El resto de tus dependencias -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" />
     <link rel="stylesheet" href="style/consultaPedido.css">
   
 </head>
@@ -132,9 +142,9 @@ $pedidos = new Pedido();
                                                 <?php endif; ?>
                                                 <?php if ($pedido->INCOMPLETO == 1): ?>
                                                     <i class="fas fa-exclamation-triangle ms-2 text-warning icon-state" data-bs-toggle="tooltip" title="Pedido Incompleto"></i>
-                                                    <button class="btn btn-sm btn-outline-warning ms-2" data-bs-toggle="modal" data-bs-target="#historialModal">
+                                                    <!-- <button class="btn btn-sm btn-outline-warning ms-2" data-bs-toggle="modal" data-bs-target="#historialModal">
                                                         <i class="fas fa-history"></i> Ver Historial
-                                                    </button>
+                                                    </button> -->
                                                 <?php endif; ?>
                                             </div>
                                         </div>
@@ -268,10 +278,11 @@ $pedidos = new Pedido();
                                         <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <th style="width: 50%">Producto</th>
+                                                    <th style="width: 35%">Producto</th>
                                                     <th style="width: 20%" class="text-end">Precio</th>
                                                     <th style="width: 10%" class="text-end">Cant.</th>
                                                     <th style="width: 20%" class="text-end">Total</th>
+                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -299,20 +310,12 @@ $pedidos = new Pedido();
                                                             <img src="<?php echo $imageUrl ? $imageUrl : '/api/placeholder/50/50'; ?>" 
                                                                 alt="<?php echo $imageUrl ? $item->COD_ARTICU : 'Sin imagen'; ?>"
                                                                 class="product-image me-3"
-                                                                style="width: 50px; height: 50px; object-fit: contain; cursor: pointer;"
-                                                                data-bs-toggle="modal" 
-                                                                data-bs-target="#imageModal<?php echo $imageName; ?>">
-                                                            <div>
+                                                                style="width: 50px; height: 50px; object-fit: contain;">
+                                                            <div class="flex-grow-1">
                                                                 <div class="fw-bold text-primary d-flex align-items-center">
                                                                     <?php echo $description; ?>
                                                                     <?php if ($isSale): ?>
                                                                         <span class="badge bg-danger ms-2">SALE</span>
-                                                                    <?php endif; ?>
-                                                                    <?php if ($item->FALTANTE == 1): ?>
-                                                                        <i class="bi bi-exclamation-diamond-fill ms-2 text-warning" 
-                                                                        data-bs-toggle="tooltip" 
-                                                                        data-bs-placement="right"
-                                                                        title="Artículo faltante"></i>
                                                                     <?php endif; ?>
                                                                 </div>
                                                                 <div class="text-muted">
@@ -324,6 +327,17 @@ $pedidos = new Pedido();
                                                     <td class="text-end">$ <?php echo number_format($item->IMPORTE, 2, ',', '.'); ?></td>
                                                     <td class="text-end"><?php echo $item->CANT_PEDID; ?></td>
                                                     <td class="text-end">$ <?php echo number_format($subtotal, 2, ',', '.'); ?></td>
+                                                    <?php if ($item->FALTANTE == 1): ?>
+                                                    <td>
+                                                        <button type="button" class="btn btn-outline-danger btn ms-2" 
+                                                            onclick="abrirHistorial('<?php echo htmlspecialchars($item->COD_ARTICU); ?>', 
+                                                                                    '<?php echo htmlspecialchars($description); ?>', 
+                                                                                    '<?php echo $item->IMPORTE; ?>', 
+                                                                                    '<?php echo $item->CANT_PEDID; ?>')">
+                                                            <i class="fas fa-history"></i> Ver Historial
+                                                        </button>
+                                                    </td>
+                                                    <?php endif; ?>
                                                 </tr>
                                                 <?php
                                                     }
@@ -374,43 +388,80 @@ $pedidos = new Pedido();
                             ?>
 
                             <!-- Modal Historial -->
-                                <div class="modal fade" id="historialModal" tabindex="-1" aria-labelledby="historialModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="historialModalLabel">
-                                                    <i class="fas fa-clipboard-list me-2"></i>Historial de Reclamo
-                                                </h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <div class="modal fade" id="historialModal" tabindex="-1">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <div class="d-flex align-items-center">
+                                                <i class="fas fa-clipboard me-2"></i>
+                                                <h5 class="modal-title mb-0">Historial de Reclamo</h5>
                                             </div>
-                                            <!-- Estado del Reclamo en la parte superior -->
-                                            <div class="estado-reclamo-header p-3 border-bottom">
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div>
-                                                        <span class="fw-bold me-2">Estado del Reclamo:</span>
-                                                        <span class="estado-badge estado-abierto active">
-                                                            <i class="fas fa-exclamation-circle me-1"></i>Abierto
-                                                        </span>
-                                                        <span class="estado-badge estado-proceso">
-                                                            <i class="fas fa-clock me-1"></i>En Proceso
-                                                        </span>
-                                                        <span class="estado-badge estado-resuelto">
-                                                            <i class="fas fa-check-circle me-1"></i>Resuelto
-                                                        </span>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+
+                                        <!-- Estado del Reclamo -->
+                                        <div class="status-bar p-3 border-bottom">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="me-2">Estado del Reclamo:</span>
+                                                    <span class="badge estado-actual"></span>
+                                                </div>
+                                                <button class="btn btn-outline-success btn-sm" id="btnResolucion">
+                                                    <i class="fas fa-check me-1"></i>Marcar como Resuelto
+                                                </button>
+                                            </div>
+                                            
+                                            <!-- Sección de Resolución (inicialmente oculta) -->
+                                            <div id="seccionResolucion" class="mt-3" style="display: none;">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label class="form-label">Resolución</label>
+                                                        <select class="form-select" id="tipoResolucion">
+                                                            <option value="">Seleccione...</option>
+                                                            <option value="cambio">Cambio</option>
+                                                            <option value="cancelado">Cancelado</option>
+                                                            <option value="completado">Completado</option>
+                                                        </select>
                                                     </div>
-                                                    <button class="btn btn-outline-success btn-sm" id="marcarResuelto">
-                                                        <i class="fas fa-check me-1"></i>Marcar como Resuelto
-                                                    </button>
+                                                    <div class="col-md-4" id="seccionSucursal" style="display: none;">
+                                                        <label class="form-label">Sucursal</label>
+                                                        <select class="form-select" id="selectSucursal"></select>
+                                                    </div>
+                                                </div class="row">
+                                                    <div class="col-12" id="seccionArticulo" style="display: none;">
+                                                        <label class="form-label">Artículo</label>
+                                                        <select class="select2" id="selectArticulo"></select>
+                                                    </div>
+                                                <div>
+
                                                 </div>
                                             </div>
-                                            <div class="modal-body">
-                                            <div class="seccion-historial">
-                                                <div class="row g-3">
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3">
-                                                            <label class="form-label d-flex align-items-center">
-                                                                <i class="fas fa-comments me-2"></i>
-                                                                Tipo de Contacto
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <div class="article-details mb-4 border-bottom pb-3">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <h6 class="mb-2">Artículo</h6>
+                                                        <p id="modalArticulo" class="mb-1"></p>
+                                                        <small id="modalCodigo" class="text-muted"></small>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <h6 class="mb-2">Precio</h6>
+                                                        <p id="modalPrecio"></p>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <h6 class="mb-2">Cantidad</h6>
+                                                        <p id="modalCantidad"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="seccionesHistorial">
+                                                <div class="seccion-historial">
+                                                    <div class="row g-3 mb-3">
+                                                        <div class="col-md-6">
+                                                            <label class="form-label">
+                                                                <i class="fas fa-comments me-2"></i>Tipo de Contacto
                                                             </label>
                                                             <select class="form-select tipo-contacto">
                                                                 <option value="mail">Mail</option>
@@ -419,12 +470,9 @@ $pedidos = new Pedido();
                                                                 <option value="instagram">Instagram</option>
                                                             </select>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3">
-                                                            <label class="form-label d-flex align-items-center">
-                                                                <i class="fas fa-user me-2"></i>
-                                                                Agente
+                                                        <div class="col-md-6">
+                                                            <label class="form-label">
+                                                                <i class="fas fa-user me-2"></i>Agente
                                                             </label>
                                                             <select class="form-select agente">
                                                                 <option value="at">Agustina Taboada</option>
@@ -433,43 +481,42 @@ $pedidos = new Pedido();
                                                                 <option value="ls">Leonel Segovia</option>
                                                             </select>
                                                         </div>
+                                                        <div class="col-12">
+                                                            <label class="form-label">
+                                                                <i class="fas fa-comment me-2"></i>Comentario
+                                                            </label>
+                                                            <textarea class="form-control comentario" rows="4" placeholder="Ingrese su comentario aquí..."></textarea>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                                        <small class="text-muted">
+                                                            <i class="far fa-clock me-1"></i>Creado: <span class="fecha-creacion"></span>
+                                                        </small>
+                                                        <button type="button" class="btn btn-primary btn-guardar-seccion">
+                                                            <i class="fas fa-save me-1"></i>Guardar Sección
+                                                        </button>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
 
-                                                <div class="dropzone-container">
-                                                    <form action="upload.php" class="dropzone" id="dropzone-1">
-                                                        <div class="dz-message">
-                                                            <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i>
-                                                            <p class="mb-0">Arrastra aquí las imágenes o haz clic para seleccionar</p>
-                                                        </div>
-                                                    </form>
-                                                </div>
-
-                                                <div class="timeline-date text-end">
-                                                    <small>
-                                                        <i class="fas fa-clock me-1"></i>
-                                                        Creado: <?php echo date('d/m/Y H:i'); ?>
-                                                    </small>
-                                                </div>
-                                                <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                    <i class="fas fa-times me-1"></i>Cerrar
+                                        <div class="modal-footer">
+                                            <div id="botonesNormales" class="d-flex justify-content-end gap-2">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                <button type="button" class="btn btn-primary" id="agregarSeccion">
+                                                    <i class="fas fa-plus"></i> Agregar seguimiento
                                                 </button>
-                                                <div class="text-end">
-                                                    <button type="button" class="btn btn-primary btn-guardar-seccion">
-                                                        <i class="fas fa-save"></i> Guardar Sección
-                                                    </button>
-                                                </div>
                                             </div>
-                                            </div>
-                                                </div>
-                                                <button type="button" class="btn btn-outline-primary w-100" id="agregarSeccion">
-                                                    <i class="fas fa-plus-circle me-1"></i> Agregar seguimiento
+                                            <div id="botonFinalizar" style="display: none;">
+                                                <button type="button" class="btn btn-success" id="finalizarReclamo">
+                                                    <i class="fas fa-check-circle me-1"></i>Finalizar Reclamo
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
                 <?php
                         }
@@ -485,6 +532,7 @@ $pedidos = new Pedido();
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="js/consultaPedido.js"></script>         
 
 </body>
