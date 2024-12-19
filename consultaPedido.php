@@ -113,7 +113,7 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="info-label">Fecha y Hora</div>
-                                            <div class="info-value">
+                                            <div class="info-value" id= "fechaHora">
                                                 <?php 
                                                 echo $pedido->FECHA_PEDIDO instanceof DateTime ? 
                                                     $pedido->FECHA_PEDIDO->format('d/m/Y') : date('d/m/Y', strtotime($pedido->FECHA_PEDIDO));
@@ -127,7 +127,7 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
                                         </div>
                                         <div class="col-md-4">
                                             <div class="info-label">Nro. Pedido</div>
-                                            <div class="info-value d-flex align-items-center">
+                                            <div class="info-value d-flex align-items-center" id="nroPedido">
                                                 <?php echo $pedido->NRO_PEDIDO; ?>
                                                 <?php if ($pedido->CANCELADO == 1): 
                                                     $tooltipText = "Pedido Cancelado";
@@ -150,7 +150,7 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
                                         </div>
                                         <div class="col-md-4">
                                             <div class="info-label">Nro. Orden</div>
-                                            <div class="info-value"><?php echo $pedido->NRO_ORDEN; ?></div>
+                                            <div class="info-value" id="nroOrden"><?php echo $pedido->NRO_ORDEN; ?></div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="info-label">Nro. Factura</div>
@@ -158,7 +158,7 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
                                         </div>
                                         <div class="col-md-4">
                                             <div class="info-label">Cliente</div>
-                                            <div class="info-value"><?php echo $pedido->CLIENTE; ?></div>
+                                            <div class="info-value" id="cliente"><?php echo $pedido->CLIENTE; ?></div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="info-label">Dirección de Entrega</div>
@@ -170,7 +170,7 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
                                         </div>
                                         <div class="col-md-4">
                                             <div class="info-label">Prepara</div>
-                                            <div class="info-value"><?php echo $pedido->PREPARA; ?></div>
+                                            <div class="info-value" id="prepara"><?php echo $pedido->PREPARA; ?></div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="info-label">Método de Envío</div>
@@ -404,7 +404,7 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div class="d-flex align-items-center">
                                                     <span class="me-2">Estado del Reclamo:</span>
-                                                    <span class="badge estado-actual"></span>
+                                                    <span class="badge estado-actual" id="estado"></span>
                                                 </div>
                                                 <button class="btn btn-outline-success btn-sm" id="btnResolucion">
                                                     <i class="fas fa-check me-1"></i>Marcar como Resuelto
@@ -430,7 +430,7 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
                                                 </div class="row">
                                                     <div class="col-12" id="seccionArticulo" style="display: none;">
                                                         <label class="form-label">Artículo</label>
-                                                        <select class="select2" id="selectArticulo"></select>
+                                                        <select id="selectArticulo" class="form-select"></select>
                                                     </div>
                                                 <div>
 

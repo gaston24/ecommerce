@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function() {
     // Inicializar tooltips
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
@@ -26,35 +25,86 @@ document.addEventListener('DOMContentLoaded', function() {
     // Funciones para formatear los resultados
     function formatArticuloResult(articulo) {
         if (!articulo.id || !articulo.element) return articulo.text;
-        
         const dataset = articulo.element.dataset;
         if (!dataset) return articulo.text;
-    
         return `<div class="select2-result-article">
             <strong>${dataset.codigo || ''}</strong>
             ${dataset.descripcion || ''}<br>
             <small>Stock: ${dataset.stock || '0'}</small>
         </div>`;
     }
-    
+
     function formatArticuloSelection(articulo) {
         if (!articulo.id || !articulo.element) return articulo.text;
-        
         const dataset = articulo.element.dataset;
         if (!dataset) return articulo.text;
-    
+        return `${dataset.codigo || ''} - ${dataset.descripcion || ''}`;
+    }
+
+  
+    const btnFinalizar = document.getElementById('botonFinalizar');
+
+    btnFinalizar?.addEventListener('click', function () {
+        const resolucion = document.getElementById('tipoResolucion')?.value;
+        const sucursal = document.getElementById('selectSucursal')?.value;
+        const articulo = document.getElementById('selectArticulo')?.value;
+
+       
+        if (['cambio', 'completado'].includes(resolucion)) {
+            if (!resolucion || !sucursal || !articulo) {
+                alert('Debe completar los campos de Resolución, Sucursal y Artículo.');
+                return;
+            }
+        } else if (resolucion === 'cancelado') {
+            if (!resolucion) {
+                alert('Debe seleccionar una resolución.');
+                return;
+            }
+        } else {
+            alert('Debe seleccionar una opción válida de resolución.');
+            return;
+        }
+
+       
+        alert('Reclamo finalizado correctamente.');
+        // btnFinalizar.style.display = 'none';
+        document.getElementById('agregarSeccion').style.display = 'none';
+
+        
+        document.getElementById('tipoResolucion').disabled = true;
+        document.getElementById('selectSucursal').disabled = true;
+        document.getElementById('selectArticulo').disabled = true;
+    });
+
+});
+
+
+
+    function formatArticuloResult(articulo) {
+        if (!articulo.id || !articulo.element) return articulo.text;
+        const dataset = articulo.element.dataset;
+        if (!dataset) return articulo.text;
+        return `<div class="select2-result-article">
+            <strong>${dataset.codigo || ''}</strong>
+            ${dataset.descripcion || ''}<br>
+            <small>Stock: ${dataset.stock || '0'}</small>
+        </div>`;
+    }
+
+    function formatArticuloSelection(articulo) {
+        if (!articulo.id || !articulo.element) return articulo.text;
+        const dataset = articulo.element.dataset;
+        if (!dataset) return articulo.text;
         return `${dataset.codigo || ''} - ${dataset.descripcion || ''}`;
     }
 
     // Control de estados
     function actualizarBadgeEstado() {
         const badge = document.querySelector('.estado-actual');
-        if (!badge) return; // Prevenir error si no existe el elemento
-    
-        // Remover clases existentes de bootstrap
+        if (!badge) return;
+
         badge.classList.remove('bg-danger', 'bg-warning', 'bg-success');
-        
-        switch(estadoActual) {
+        switch (estadoActual) {
             case 'abierto':
                 badge.classList.add('bg-danger');
                 badge.textContent = 'Abierto';
@@ -70,18 +120,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Funciones del Spinner
+    // Spinner
     function showSpinner() {
         document.getElementById('spinner').classList.remove('spinner-hidden');
     }
-
     function hideSpinner() {
         document.getElementById('spinner').classList.add('spinner-hidden');
     }
 
-    // Función para abrir el historial
+    // Abrir historial
     window.abrirHistorial = function(codigo, descripcion, precio, cantidad) {
-        // Actualizar información del artículo en el modal
         document.getElementById('modalArticulo').textContent = descripcion;
         document.getElementById('modalCodigo').textContent = `Código: ${codigo}`;
         document.getElementById('modalPrecio').textContent = `$ ${parseFloat(precio).toLocaleString('es-AR', {
@@ -90,75 +138,46 @@ document.addEventListener('DOMContentLoaded', function() {
         })}`;
         document.getElementById('modalCantidad').textContent = cantidad;
 
-        // Reset del estado del modal
         estadoActual = 'abierto';
         actualizarBadgeEstado();
-
-        // Limpiar secciones anteriores
         document.getElementById('seccionesHistorial').innerHTML = '';
         document.getElementById('agregarSeccion').style.display = 'block';
         document.getElementById('seccionResolucion').style.display = 'none';
         document.getElementById('btnResolucion').style.display = 'block';
 
-        // Abrir el modal
         const modal = new bootstrap.Modal(document.getElementById('historialModal'));
         modal.show();
     }
 
-    // Función para guardar sección
+    // Guardar sección
     function guardarSeccion(seccionElement) {
-        // Obtener valores
-        const tipoContacto = seccionElement.querySelector('.tipo-contacto').value;
-        const agente = seccionElement.querySelector('.agente').value;
         const comentario = seccionElement.querySelector('.comentario').value;
-
-        // Validar que haya texto en el comentario
         if (!comentario.trim()) {
             alert('Debe ingresar un comentario');
             return;
         }
-
-        // Marcar sección como guardada
         seccionElement.classList.add('seccion-guardada');
-
-        // Deshabilitar campos
-        seccionElement.querySelectorAll('select, textarea').forEach(elem => {
-            elem.disabled = true;
-        });
-
-        // Ocultar botón guardar
-        const btnGuardar = seccionElement.querySelector('.btn-guardar-seccion');
-        btnGuardar.style.display = 'none';
-
-        // Mostrar botón agregar sección
+        seccionElement.querySelectorAll('select, textarea').forEach(elem => elem.disabled = true);
+        seccionElement.querySelector('.btn-guardar-seccion').style.display = 'none';
         document.getElementById('agregarSeccion').style.display = 'block';
 
-        // Si es la primera sección, cambiar a "en proceso"
         if (estadoActual === 'abierto') {
             estadoActual = 'proceso';
             actualizarBadgeEstado();
-            console.log('Estado cambiado a:', estadoActual); // Debug
         }
 
-        // Actualizar fecha de creación
         const fechaCreacion = seccionElement.querySelector('.fecha-creacion');
-        if (fechaCreacion) {
-            fechaCreacion.textContent = new Date().toLocaleString();
-        }
+        if (fechaCreacion) fechaCreacion.textContent = new Date().toLocaleString();
     }
 
-    // Función para crear nueva sección
+    // Crear nueva sección
     function crearNuevaSeccion() {
         const seccionesContainer = document.getElementById('seccionesHistorial');
-        seccionCounter++;
-
         const nuevaSeccionHTML = `
             <div class="seccion-historial border-start border-4 border-primary ps-3 mt-4">
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
-                        <label class="form-label">
-                            <i class="fas fa-comments me-2"></i>Tipo de Contacto
-                        </label>
+                        <label class="form-label"><i class="fas fa-comments me-2"></i>Tipo de Contacto</label>
                         <select class="form-select tipo-contacto">
                             <option value="mail">Mail</option>
                             <option value="whatsapp">WhatsApp</option>
@@ -167,9 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">
-                            <i class="fas fa-user me-2"></i>Agente
-                        </label>
+                        <label class="form-label"><i class="fas fa-user me-2"></i>Agente</label>
                         <select class="form-select agente">
                             <option value="at">Agustina Taboada</option>
                             <option value="fc">Florencia Consoli</option>
@@ -178,186 +195,217 @@ document.addEventListener('DOMContentLoaded', function() {
                         </select>
                     </div>
                     <div class="col-12">
-                        <label class="form-label">
-                            <i class="fas fa-comment me-2"></i>Comentario
-                        </label>
-                        <textarea class="form-control comentario" rows="4" placeholder="Ingrese su comentario aquí..."></textarea>
+                        <label class="form-label"><i class="fas fa-comment me-2"></i>Comentario</label>
+                        <textarea class="form-control comentario" rows="4"></textarea>
                     </div>
                 </div>
-                
                 <div class="d-flex justify-content-between align-items-center mt-3">
-                    <small class="text-muted">
-                        <i class="far fa-clock me-1"></i>Creado: <span class="fecha-creacion">${new Date().toLocaleString()}</span>
-                    </small>
-                    <button type="button" class="btn btn-primary btn-guardar-seccion">
-                        <i class="fas fa-save me-1"></i>Guardar Sección
-                    </button>
+                    <small class="text-muted"><i class="far fa-clock me-1"></i>Creado: <span class="fecha-creacion">${new Date().toLocaleString()}</span></small>
+                    <button type="button" class="btn btn-primary btn-guardar-seccion"><i class="fas fa-save me-1"></i>Guardar Sección</button>
                 </div>
-            </div>
-        `;
-
+            </div>`;
         seccionesContainer.insertAdjacentHTML('beforeend', nuevaSeccionHTML);
         document.getElementById('agregarSeccion').style.display = 'none';
     }
 
-    // Event Listeners para Resolución
+    // Inicialización del botón Agregar Seguimiento
+    const agregarSeccion = document.getElementById('agregarSeccion');
+
+    // Evento para crear una nueva sección
+    agregarSeccion?.addEventListener('click', function () {
+        crearNuevaSeccion();
+    });
+
+    // Funcionalidad botones
     const btnResolucion = document.getElementById('btnResolucion');
     const seccionResolucion = document.getElementById('seccionResolucion');
-    const tipoResolucion = document.getElementById('tipoResolucion');
-    const seccionSucursal = document.getElementById('seccionSucursal');
-    const selectSucursal = document.getElementById('selectSucursal');
-    const selectArticulo = document.getElementById('selectArticulo');
-
     if (btnResolucion) {
         btnResolucion.addEventListener('click', function() {
             seccionResolucion.style.display = 'block';
-            this.style.display = 'none';
+            btnResolucion.style.display = 'none';
+            document.getElementById('agregarSeccion').style.display = 'none';
+            document.getElementById('botonFinalizar').style.display = '';
         });
     }
 
-    if (tipoResolucion) {
-        tipoResolucion.addEventListener('change', async function() {
-            // Primero manejo de sucursales y artículos
-            seccionSucursal.style.display = 
-                (this.value === 'cambio' || this.value === 'completado') ? 'block' : 'none';
-            
-            if (seccionSucursal.style.display === 'block') {
-                try {
-                    showSpinner();
-                    const response = await fetch('Controller/traerWarehouse.php');
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    const sucursales = await response.json();
-                    console.log('Sucursales recibidas:', sucursales); // Debug
-                    
-                    selectSucursal.innerHTML = '<option value="">Seleccione sucursal...</option>';
-                    if (Array.isArray(sucursales)) {
-                        sucursales.forEach(suc => {
-                            if (suc[0] && suc[0].WAREHOUSE) {
-                                const warehouse = suc[0].WAREHOUSE;
-                                selectSucursal.innerHTML += `
-                                    <option value="${warehouse}">${warehouse}</option>
-                                `;
-                            }
-                        });
-                    }
-                } catch (error) {
-                    console.error('Error cargando sucursales:', error);
-                    alert('Error al cargar las sucursales. Por favor, intente nuevamente.');
-                } finally {
-                    hideSpinner();
+        // Evento tipoResolucion
+        const tipoResolucion = document.getElementById('tipoResolucion');
+        const seccionSucursal = document.getElementById('seccionSucursal');
+        const seccionArticulo = document.getElementById('seccionArticulo');
+        const selectSucursal = document.getElementById('selectSucursal');
+
+        tipoResolucion?.addEventListener('change', async function () {
+            const resolucion = this.value;
+
+    // Mostrar Sucursal y ocultar Artículo por defecto
+    if (['cambio', 'completado'].includes(resolucion)) {
+        seccionSucursal.style.display = 'block';
+        seccionArticulo.style.display = 'none';
+        selectSucursal.innerHTML = '<option value="">Seleccione sucursal...</option>';
+
+        try {
+            showSpinner();
+
+           
+            const response = await fetch('Controller/traerWarehouse.php');
+            const sucursales = await response.json();
+
+            // Poblar selectSucursal
+            sucursales.forEach(suc => {
+                if (suc[0]?.WAREHOUSE) {
+                    selectSucursal.innerHTML += `
+                        <option value="${suc[0].WAREHOUSE}">${suc[0].WAREHOUSE}</option>`;
                 }
-            } else {
-                seccionSucursal.style.display = 'none';
-                seccionArticulo.style.display = 'none';
-            }
-    
-            // Luego manejo de botones
-            const botonesNormales = document.getElementById('botonesNormales');
-            const botonFinalizar = document.getElementById('botonFinalizar');
-    
-            if (this.value === 'completado') {
-                botonesNormales.style.display = 'none';
-                botonFinalizar.style.display = 'block';
-            } else {
-                botonesNormales.style.display = 'block';
-                botonFinalizar.style.display = 'none';
-            }
-        });
-    }
+            });
 
-    if (selectSucursal) {
-        selectSucursal.addEventListener('change', async function() {
-            if (this.value) {
-                try {
-                    showSpinner();
-                    const response = await fetch(`Controller/buscarStock.php?sucursal=${this.value}`);
-                    const data = await response.json();
-    
-                    // Destruir select2 existente
-                    if ($('#selectArticulo').data('select2')) {
-                        $('#selectArticulo').select2('destroy');
-                    }
-    
-                    // Limpiar y agregar nueva opción por defecto
-                    $('#selectArticulo').empty().append(new Option('Seleccione artículo...', ''));
-    
-                    if (Array.isArray(data)) {
-                        data.forEach(art => {
-                            if (art[0]) {
-                                const articulo = art[0];
-                                const option = new Option(
-                                    `${articulo.ARTICULO} - ${articulo.DESC_CTA_ARTICULO}`,
-                                    articulo.ARTICULO
-                                );
-                                
-                                // Establecer los datos como atributos data
-                                option.dataset.codigo = articulo.ARTICULO;
-                                option.dataset.descripcion = articulo.DESC_CTA_ARTICULO;
-                                option.dataset.stock = articulo.CANT_STOCK || '0';
-                                
-                                $('#selectArticulo').append(option);
-                            }
-                        });
-                    }
-    
-                    // Reinicializar select2
-                    $('#selectArticulo').select2({
-                        width: '100%',
-                        placeholder: 'Buscar artículo...',
-                        dropdownParent: $('#historialModal'),
-                        language: 'es',
-                        templateResult: formatArticuloResult,
-                        templateSelection: formatArticuloSelection,
-                        escapeMarkup: function(markup) {
-                            return markup;
-                        }
-                    });
-                    
-                    seccionArticulo.style.display = 'block';
-                } catch (error) {
-                    console.error('Error cargando artículos:', error);
-                    alert('Error al cargar los artículos');
-                } finally {
-                    hideSpinner();
-                }
-            }
-        });
-    }
-
-    // Event Listeners generales
-    document.querySelector('form')?.addEventListener('submit', showSpinner);
-
-    document.addEventListener('click', function(e) {
-        // Listener para botones de guardar sección
-        if (e.target.matches('.btn-guardar-seccion')) {
-            guardarSeccion(e.target.closest('.seccion-historial'));
+        } catch (error) {
+            console.error('Error al cargar sucursales:', error);
+            alert('Error al cargar sucursales.');
+        } finally {
+            hideSpinner();
         }
-
-        // Listener para botón de agregar sección
-        if (e.target.matches('#agregarSeccion')) {
-            crearNuevaSeccion();
-        }
-    });
-
-    // Agregar el evento para el botón finalizar
-    document.getElementById('finalizarReclamo')?.addEventListener('click', function() {
-        // Aquí puedes agregar la lógica para finalizar el reclamo
-        // Por ejemplo, guardar en la base de datos
-
-        // Cerrar el modal
-        const modal = bootstrap.Modal.getInstance(document.getElementById('historialModal'));
-        modal.hide();
-    });
-
-    // Inicialización
-    actualizarBadgeEstado();
-
-    // Manejo del spinner
-    if (document.querySelector('.alert-warning')) {
-        hideSpinner();
+    } else {
+        
+        seccionSucursal.style.display = 'none';
+        seccionArticulo.style.display = 'none';
     }
 
-    window.addEventListener('load', hideSpinner);
 });
+    // Evento para cambio en selectSucursal
+selectSucursal?.addEventListener('change', async function () {
+    const sucursalSeleccionada = this.value;
+
+    if (sucursalSeleccionada) {
+        try {
+            showSpinner();
+
+            // Petición al servidor para cargar artículos según la sucursal seleccionada
+            const response = await fetch(`Controller/buscarStock.php?sucursal=${sucursalSeleccionada}`);
+            const articulos = await response.json();
+
+            // Limpiar y poblar selectArticulo
+            selectArticulo.innerHTML = '<option value="">Seleccione artículo...</option>';
+            articulos.forEach(art => {
+                if (art[0]?.ARTICULO) {
+                    const option = document.createElement('option');
+                    option.value = art[0].ARTICULO;
+                    option.textContent = `${art[0].ARTICULO} - ${art[0].DESC_CTA_ARTICULO}`;
+                    option.dataset.codigo = art[0].ARTICULO;
+                    option.dataset.descripcion = art[0].DESC_CTA_ARTICULO;
+                    option.dataset.stock = art[0].CANT_STOCK || '0';
+                    selectArticulo.appendChild(option);
+                }
+            });
+
+            // Mostrar la sección de artículos
+            seccionArticulo.style.display = 'block';
+
+            // Inicializar Select2 en selectArticulo
+            $('#selectArticulo').select2({
+                width: '100%',
+                placeholder: 'Buscar artículo...',
+                dropdownParent: $('#historialModal'),
+                language: 'es',
+                templateResult: formatArticuloResult,
+                templateSelection: formatArticuloSelection,
+                escapeMarkup: function (markup) {
+                    return markup;
+                }
+            });
+
+        } catch (error) {
+            console.error('Error al cargar artículos:', error);
+            alert('Error al cargar los artículos.');
+        } finally {
+            hideSpinner();
+        }
+    } else {
+        
+        seccionArticulo.style.display = 'none';
+    }
+});
+
+
+document.getElementById('seccionesHistorial').addEventListener('click', function (e) {
+    if (e.target.classList.contains('btn-guardar-seccion')) {
+        const seccionElement = e.target.closest('.seccion-historial');
+        guardarSeccion(seccionElement);
+    }
+
+
+});
+
+
+function guardarReclamo(estado = 'abierto') {
+    const resolucion = $('#tipoResolucion').val();
+    const sucursal = $('#selectSucursal').val();
+    const articulo = $('#selectArticulo').val();
+    const comentario = $('.comentario').val();
+    const tipoContacto = $('.tipo-contacto').val();
+    const agente = $('.agente').val();
+    const nroPedido = $('#nroPedido').text().trim();
+    const fechaHora = $('#fechaHora').text().trim();
+    const nroOrden = $('#nroOrden').text().trim();
+    const cliente = $('#cliente').text().trim();
+    const prepara = $('#prepara').text().trim();
+    const modalCantidad = $('#modalCantidad').text().trim();
+    const modalCodigo = $('#modalCodigo').text().trim().replace('Código:', '').trim();
+
+
+
+    
+    if (!resolucion || !sucursal || !articulo) {
+        alert('Debe completar Resolución, Sucursal y Artículo.');
+        return;
+    }
+
+    
+  
+        $.ajax({
+                url: 'guardarReclamo.php', 
+                method: 'POST',
+                data: {
+                    resolucion: resolucion,
+                    sucursal: sucursal,
+                    articulo: articulo,
+                    comentario: comentario,
+                    tipo_contacto: tipoContacto,
+                    agente: agente,
+                    estado: estado,
+                    nroPedido: nroPedido,
+                    fechaHora: fechaHora,
+                    nroOrden: nroOrden,
+                    cliente: cliente,
+                    prepara: prepara,
+                    modalCantidad: modalCantidad,
+                    estado: estado,
+                    modalCodigo: modalCodigo
+                },
+                success: function(data) {
+            if (response.success) {
+                alert('Reclamo guardado exitosamente.');
+                if (estado === 'resuelto') {
+                    $('#finalizarReclamo').hide();
+                }
+            } else {
+                alert('Error: ' + (response.error || 'No se pudo guardar el reclamo.'));
+                console.error(response.sqlsrv_error); 
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert('Error en la solicitud AJAX.');
+            console.error('AJAX Error:', textStatus, errorThrown);
+        }
+    });
+}
+
+
+$('#finalizarReclamo').on('click', function() {
+    guardarReclamo('resuelto');
+});
+
+// $('.btn-guardar-seccion').on('click', function() {
+//     guardarReclamo();
+// });
+
+
