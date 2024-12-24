@@ -96,6 +96,14 @@ class Control {
         return $this->getDatos($sql);
     }
 
+    public function traerDetalleOrdenesSinIntegrar() {
+        $sql = "SELECT A.FECHA_ULTIMA_SINCRONIZACION FECHA_ORDEN, A.TIENDA, A.ORDER_NRO_TIENDA, A.TOTAL_ORDEN FROM NEXO_PEDIDOS_ORDEN A
+                LEFT JOIN GVA21 B ON A.ORDER_ID_TIENDA = B.ORDER_ID_TIENDA
+                WHERE B.NRO_PEDIDO IS NULL AND A.FECHA_ORDEN >= GETDATE()-90 AND A.ESTADO_ORDEN NOT LIKE 'CANCELADA%'
+                ORDER BY FECHA_ULTIMA_SINCRONIZACION";
+        return $this->getDatosMultiples($sql);
+    }
+
     public function traerPedidosSinFactTiendas() {
         $sql = "SELECT MIN(FECHA_HORA) AS FECHA_PEDI, COUNT(*) AS CANT_PED_SIN_FACT, SUM(TOTAL_PEDI) AS TOTAL_PEDIDOS FROM 
                 (SELECT TRY_CAST(CONCAT(FORMAT(A.FECHA_PEDI, 'yyyy-dd-MM'), ' ', LEFT(A.HORA_INGRESO, 2), ':', SUBSTRING(A.HORA_INGRESO, 3, 2)) AS DATETIME) AS FECHA_HORA,
