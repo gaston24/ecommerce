@@ -163,4 +163,23 @@ class Control {
         return $this->getDatosMultiples($sql);
     }
 
+    public function traerOrdenesPendientesCierre() {
+        $sql = "SELECT MIN(FECHA) FECHA, COUNT(*) CANT_ORDENES, AVG(DIAS_ANTIGUEDAD) PROM_RETRASO FROM
+                (
+                SELECT CAST(A.FECHA_ORDER AS datetime) FECHA, A.ORDER_ID, UPPER(A.NOMBRE_COMPRADOR) CLIENTE, 
+                UPPER(REPLACE(REPLACE(B.DESCRIPCION, 'Franquicia ', ''), 'Cuenta principal ', '')) as SUCURSAL, A.DIAS_ANTIGUEDAD 
+                FROM GC_VIEW_ECOMMERCE_ORDENES_VTEX_PENDIENTES_CIERRE A
+                LEFT JOIN GC_ECOMMERCE_CUENTA B ON A.ID_GC_ECOMMERCE_CUENTA_SELLER = B.ID_GC_ECOMMERCE_CUENTA
+                ) A";
+        return $this->getDatos($sql);
+    }
+
+    public function traerDetalleOrdenesPendientesCierre() {
+        $sql = "SELECT CAST(A.FECHA_ORDER AS datetime) FECHA, A.ORDER_ID, UPPER(A.NOMBRE_COMPRADOR) CLIENTE, 
+                UPPER(REPLACE(REPLACE(B.DESCRIPCION, 'Franquicia ', ''), 'Cuenta principal ', '')) as SUCURSAL, A.DIAS_ANTIGUEDAD 
+                FROM GC_VIEW_ECOMMERCE_ORDENES_VTEX_PENDIENTES_CIERRE A
+                LEFT JOIN GC_ECOMMERCE_CUENTA B ON A.ID_GC_ECOMMERCE_CUENTA_SELLER = B.ID_GC_ECOMMERCE_CUENTA";
+        return $this->getDatosMultiples($sql);
+    }
+
 }

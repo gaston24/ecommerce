@@ -150,3 +150,25 @@ border: 1px solid rgba(255, 193, 7, 0.1);
 .card-facturas .card-icon {
     color: #ffc107;
 }
+
+/* Estilos para Ordenes Pendientes de Cierre (tonos morados) */
+.card-pending-close .card-header {
+    background-color: #f3e5f5; /* Fondo morado suave */
+    border: 1px solid rgba(156, 39, 176, 0.1);
+}
+
+.card-pending-close .card-icon {
+    color: #9c27b0; /* Morado más oscuro para el ícono */
+    font-size: 1.8rem;
+}
+
+.btn-outline-purple {
+    color: #9c27b0;
+    border-color: #9c27b0;
+}
+
+.btn-outline-purple:hover {
+    color: #fff;
+    background-color: #9c27b0;
+    border-color: #9c27b0;
+}
