@@ -44,29 +44,33 @@ document.addEventListener('DOMContentLoaded', function() {
   
     const btnFinalizar = document.getElementById('botonFinalizar');
 
-    btnFinalizar?.addEventListener('click', function () {
+
+});
+
+
+    const checkFinalizar = () => {
         const resolucion = document.getElementById('tipoResolucion')?.value;
         const sucursal = document.getElementById('selectSucursal')?.value;
         const articulo = document.getElementById('selectArticulo')?.value;
 
-       
+    
         if (['cambio', 'completado'].includes(resolucion)) {
             if (!resolucion || !sucursal || !articulo) {
                 alert('Debe completar los campos de Resolución, Sucursal y Artículo.');
-                return;
+                return false;
             }
         } else if (resolucion === 'cancelado') {
             if (!resolucion) {
                 alert('Debe seleccionar una resolución.');
-                return;
+                return false;
             }
         } else {
             alert('Debe seleccionar una opción válida de resolución.');
-            return;
+            return false;
         }
 
-       
-        alert('Reclamo finalizado correctamente.');
+    
+        // alert('Reclamo finalizado correctamente.');
         // btnFinalizar.style.display = 'none';
         document.getElementById('agregarSeccion').style.display = 'none';
 
@@ -74,11 +78,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('tipoResolucion').disabled = true;
         document.getElementById('selectSucursal').disabled = true;
         document.getElementById('selectArticulo').disabled = true;
-    });
 
-});
-
-
+        return true;
+    };
 
     function formatArticuloResult(articulo) {
         if (!articulo.id || !articulo.element) return articulo.text;
@@ -340,9 +342,22 @@ function guardarReclamo(estado = 'abierto') {
     const resolucion = $('#tipoResolucion').val();
     const sucursal = $('#selectSucursal').val();
     const articulo = $('#selectArticulo').val();
-    const comentario = $('.comentario').val();
-    const tipoContacto = $('.tipo-contacto').val();
-    const agente = $('.agente').val();
+    const selectedText = $('#selectArticulo option:selected').text();
+    const textAfterDash = selectedText.split('-')[1]?.trim();
+    const seccion = document.querySelectorAll('.seccion-historial')
+
+    let dataSecciones = [];
+
+    seccion.forEach(element => {
+        dataSecciones.push({
+            comentario: element.querySelector('.comentario').value,
+            tipo_contacto: element.querySelector('.tipo-contacto').value,
+            agente: element.querySelector('.agente').value
+        });
+    });
+      
+    dataSecciones = JSON.stringify(dataSecciones);
+    
     const nroPedido = $('#nroPedido').text().trim();
     const fechaHora = $('#fechaHora').text().trim();
     const nroOrden = $('#nroOrden').text().trim();
@@ -351,7 +366,11 @@ function guardarReclamo(estado = 'abierto') {
     const modalCantidad = $('#modalCantidad').text().trim();
     const modalCodigo = $('#modalCodigo').text().trim().replace('Código:', '').trim();
 
+    let res = checkFinalizar();
 
+    if (!res) {
+        return;
+    }
 
     
     if (!resolucion || !sucursal || !articulo) {
@@ -368,9 +387,8 @@ function guardarReclamo(estado = 'abierto') {
                     resolucion: resolucion,
                     sucursal: sucursal,
                     articulo: articulo,
-                    comentario: comentario,
-                    tipo_contacto: tipoContacto,
-                    agente: agente,
+                    descripcion: textAfterDash,
+                    dataSecciones: dataSecciones,
                     estado: estado,
                     nroPedido: nroPedido,
                     fechaHora: fechaHora,
@@ -381,22 +399,26 @@ function guardarReclamo(estado = 'abierto') {
                     estado: estado,
                     modalCodigo: modalCodigo
                 },
-                success: function(data) {
-            if (response.success) {
-                alert('Reclamo guardado exitosamente.');
-                if (estado === 'resuelto') {
-                    $('#finalizarReclamo').hide();
+                success: function(response) {
+                    response = JSON.parse(response);
+                
+                    if (response.success) {
+                        alert('Reclamo guardado exitosamente.');
+                        if (estado === 'resuelto') {
+                            $('#finalizarReclamo').hide();
+                        }
+                        // redirigir
+                        window.location.href = 'consultaPedido.php';
+                    } else {
+                        alert('Error: ' + (response.error || 'No se pudo guardar el reclamo.'));
+                        console.error(response.sqlsrv_error); 
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert('Error en la solicitud AJAX.');
+                    console.error('AJAX Error:', textStatus, errorThrown);
                 }
-            } else {
-                alert('Error: ' + (response.error || 'No se pudo guardar el reclamo.'));
-                console.error(response.sqlsrv_error); 
-            }
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            alert('Error en la solicitud AJAX.');
-            console.error('AJAX Error:', textStatus, errorThrown);
-        }
-    });
+        });
 }
 
 

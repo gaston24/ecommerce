@@ -7,10 +7,9 @@ require_once 'Class/Pedido.php';
 $resolucion = $_POST['resolucion'];
 $sucursal = $_POST['sucursal'];
 $articulo = $_POST['articulo'];
-$comentario = $_POST['comentario'];
-$tipo_contacto = $_POST['tipo_contacto'];
-$agente = $_POST['agente'];
+$dataSecciones = json_decode($_POST['dataSecciones']);
 $estado = $_POST['estado'];
+$descripcion = $_POST['descripcion'];
 $nro_pedido = $_POST['nroPedido'];
 $fechaHora = $_POST['fechaHora'];
 $nroOrden = $_POST['nroOrden'];
@@ -24,9 +23,7 @@ $data = [
     'resolucion' => $resolucion,
     'sucursal' => $sucursal,
     'articulo' => $articulo,
-    'comentario' => $comentario,
-    'tipo_contacto' => $tipo_contacto,
-    'agente' => $agente,
+    'descripcion' => $descripcion,
     'estado' => $estado,
     'nro_pedido' => $nro_pedido,
     'fechaHora' => $fechaHora,
@@ -39,7 +36,18 @@ $data = [
 ];
 
 $pedido = new Pedido();
+$stringParaSql = "";
+foreach ($dataSecciones as  $value) {
+    $stringParaSql = $stringParaSql . "('" . $nro_pedido . "', '" . $value->comentario . "', '" . $value->tipo_contacto . "', '" . $value->agente . "', GETDATE()),";
+    
+}
+
+$stringParaSql = substr($stringParaSql, 0, -1);
+
+
 $resultado = $pedido->guardarHistorialReclamo($data);
+
+
 
     if (!$resultado) {
         $sqlError = sqlsrv_errors(); // Captura errores específicos de SQL Server
@@ -50,7 +58,7 @@ $resultado = $pedido->guardarHistorialReclamo($data);
         ]);
         exit;
     }
-
+    $pedido->guardarReclamoDetalle($stringParaSql);
     // Respuesta exitosa
     echo json_encode([
         'success' => true,

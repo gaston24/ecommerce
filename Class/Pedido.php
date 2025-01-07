@@ -70,7 +70,6 @@
             EXEC RO_SP_ECOMMERCE_PEDIDOS_FLUJO '$desde', '$hasta', '$orden'
 
             ";
-
             $array = $this->getDatos($sql);    
 
             return $array;
@@ -108,10 +107,22 @@
             $cid_central = $cid->conectarSql('central');
         
             $sql = "INSERT INTO RO_T_ENC_ECOMMERCE_HISTORIAL_FALT (FECHA_PEDIDO, NRO_ORDEN, NRO_PEDIDO, CLIENTE, WAREHOUSE, COD_ARTICULO, DESCRIPCION, CANTIDAD, ESTADO, RESOLUCION, SUC_DESPACHO, COD_ARTICULO_CAMBIO)
-            VALUES ('".$data['fechaHora']."', '".$data['nroOrden']."', '".$data['nro_pedido']."', '".$data['cliente']."', '".$data['sucursal']."', '".$data['articulo']."', '".$data['comentario']."', '".$data['modalCantidad']."', '".$data['estado']."', '".$data['resolucion']."', '".$data['sucursal']."', '".$data['modalCodigo']."')
+            VALUES ('".$data['fechaHora']."', '".$data['nroOrden']."', '".$data['nro_pedido']."', '".$data['cliente']."', '".$data['sucursal']."', '".$data['articulo']."', '".$data['descripcion']."', '".$data['modalCantidad']."', '".$data['estado']."', '".$data['resolucion']."', '".$data['sucursal']."', '".$data['modalCodigo']."')
             ";
 
             
+            $result=sqlsrv_query($cid_central,$sql)or die(exit("Error en sqlsrv_query"));
+
+            return $result;
+
+        }
+
+        public function guardarReclamoDetalle ($stringValues){
+
+            $cid = new Conexion();
+            $cid_central = $cid->conectarSql('central');
+            $sql = "INSERT INTO RO_T_DET_ECOMMERCE_HISTORIAL_FALT (NRO_PEDIDO, COMENTARIOS, TIPO_CONTACTO, AGENTE, FECHA_PEDIDO) VALUES $stringValues";
+
             $result=sqlsrv_query($cid_central,$sql)or die(exit("Error en sqlsrv_query"));
 
             return $result;

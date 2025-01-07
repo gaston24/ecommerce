@@ -508,8 +508,8 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
                                                     <i class="fas fa-plus"></i> Agregar seguimiento
                                                 </button>
                                             </div>
-                                            <div id="botonFinalizar" style="display: none;">
-                                                <button type="button" class="btn btn-success" id="finalizarReclamo">
+                                            <div id="botonFinalizar" style="display: none;margin-top:20px">
+                                                <button type="button" class="btn btn-success" style="margin-top:10px" id="finalizarReclamo">
                                                     <i class="fas fa-check-circle me-1"></i>Finalizar Reclamo
                                                 </button>
                                             </div>
