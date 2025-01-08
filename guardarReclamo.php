@@ -36,14 +36,6 @@ $data = [
 ];
 
 $pedido = new Pedido();
-$stringParaSql = "";
-foreach ($dataSecciones as  $value) {
-    $stringParaSql = $stringParaSql . "('" . $nro_pedido . "', '" . $value->comentario . "', '" . $value->tipo_contacto . "', '" . $value->agente . "', GETDATE()),";
-    
-}
-
-$stringParaSql = substr($stringParaSql, 0, -1);
-
 
 $resultado = $pedido->guardarHistorialReclamo($data);
 
@@ -58,7 +50,6 @@ $resultado = $pedido->guardarHistorialReclamo($data);
         ]);
         exit;
     }
-    $pedido->guardarReclamoDetalle($stringParaSql);
     // Respuesta exitosa
     echo json_encode([
         'success' => true,

@@ -493,7 +493,7 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
                                                         <small class="text-muted">
                                                             <i class="far fa-clock me-1"></i>Creado: <span class="fecha-creacion"></span>
                                                         </small>
-                                                        <button type="button" class="btn btn-primary btn-guardar-seccion">
+                                                        <button type="button" class="btn btn-primary btn-guardar-seccion" onclick="guardarComentario(this)">
                                                             <i class="fas fa-save me-1"></i>Guardar Sección
                                                         </button>
                                                     </div>

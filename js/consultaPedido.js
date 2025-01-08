@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 <div class="d-flex justify-content-between align-items-center mt-3">
                     <small class="text-muted"><i class="far fa-clock me-1"></i>Creado: <span class="fecha-creacion">${new Date().toLocaleString()}</span></small>
-                    <button type="button" class="btn btn-primary btn-guardar-seccion"><i class="fas fa-save me-1"></i>Guardar Sección</button>
+                    <button type="button" class="btn btn-primary btn-guardar-seccion" onclick="guardarComentario(this)"><i class="fas fa-save me-1"></i>Guardar Sección</button>
                 </div>
             </div>`;
         seccionesContainer.insertAdjacentHTML('beforeend', nuevaSeccionHTML);
@@ -336,7 +336,45 @@ document.getElementById('seccionesHistorial').addEventListener('click', function
 
 
 });
+const guardarComentario = (div) => {
+    let seccion = div.parentElement.parentElement
+    const nroPedido = $('#nroPedido').text().trim();
 
+    let dataSecciones = [];
+
+
+    dataSecciones.push({
+        comentario: seccion.querySelector('.comentario').value,
+        tipo_contacto: seccion.querySelector('.tipo-contacto').value,
+        agente: seccion.querySelector('.agente').value
+    });
+  
+      
+    dataSecciones = JSON.stringify(dataSecciones);
+
+    $.ajax({
+        url: 'guardarComentario.php', 
+        method: 'POST',
+        data: {
+            dataSecciones: dataSecciones,
+            nroPedido: nroPedido,
+        },
+        success: function(response) {
+            response = JSON.parse(response);
+        
+            if (response.success) {
+                alert('comentario guardado exitosamente.');
+            } else {
+                alert('Error: ' + (response.error || 'No se pudo guardar el comentario.'));
+                console.error(response.sqlsrv_error); 
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert('Error en la solicitud AJAX.');
+            console.error('AJAX Error:', textStatus, errorThrown);
+        }
+    })
+}
 
 function guardarReclamo(estado = 'abierto') {
     const resolucion = $('#tipoResolucion').val();
