@@ -448,7 +448,15 @@ function guardarReclamo(estado = 'abierto') {
                     response = JSON.parse(response);
                 
                     if (response.success) {
-                        alert('Reclamo guardado exitosamente.');
+                        
+                        Swal.fire({
+                            icon: "success",
+                            title: "Reclamo guardado exitosamente.",
+                            showConfirmButton: true,
+                          }).then(function () {
+                            // console.log('ok')
+                          });
+                          
                         if (estado === 'resuelto') {
                             $('#finalizarReclamo').hide();
                         }
