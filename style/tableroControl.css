@@ -172,3 +172,23 @@ border: 1px solid rgba(255, 193, 7, 0.1);
     background-color: #9c27b0;
     border-color: #9c27b0;
 }
+
+/* Estilos para Pedidos Pendientes de Despacho (tonos cyan) */
+.card-pending-dispatch .card-header {
+    background-color: #e0f7fa; /* Fondo cyan suave */
+    border: 1px solid rgba(0, 188, 212, 0.1);
+}
+.card-pending-dispatch .card-icon {
+    color: #00bcd4; /* Cyan más oscuro para el ícono */
+    font-size: 1.8rem;
+}
+
+.btn-outline-cyan {
+    color: #00bcd4;
+    border-color: #00bcd4;
+}
+.btn-outline-cyan:hover {
+    color: #fff;
+    background-color: #00bcd4;
+    border-color: #00bcd4;
+}

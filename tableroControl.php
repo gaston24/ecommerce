@@ -41,6 +41,7 @@
         $pedidosFlexCentral = $control->traerPedidosFlex();
         $facturasSinRemito = $control->traerFacturasSinRemito();
         $ordenesPendientesCierre = $control->traerOrdenesPendientesCierre();
+        $pedidosPendienteDespacho = $control->traerPedidosPendienteDespacho();
     } catch (Exception $e) {
         $error = $e->getMessage();
     }
@@ -379,7 +380,7 @@
                     <div class="card-header">
                     <i class="fas fa-truck-fast card-icon"></i>
                     <h5 class="card-title mt-2">
-                        Pedidos Pend. de Despacho Flex Central
+                        Pedidos Pend. de Despacho Envío Flex Central
                         <i class="fas fa-info-circle info-icon" 
                         data-bs-toggle="tooltip" 
                         data-bs-placement="top" 
@@ -396,6 +397,35 @@
                             <?php endif; ?>
                             <!-- Botón solo se muestra si hay pendientes -->
                             <button type="button" class="btn btn-outline-primary mt-3 w-100" data-bs-toggle="modal" data-bs-target="#modalFlexDetalle">
+                                <i class="fas fa-list-ul me-2"></i>Ver Detalle
+                            </button>
+                        <?php else: ?>
+                            <p class="no-data">Sin pedidos pendientes</p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card para Pedidos Pendientes de Despacho -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 card-pending-dispatch">
+                    <div class="card-header">
+                        <i class="fas fa-box-open card-icon"></i>
+                        <h5 class="card-title mt-2">
+                            Pedidos Pend. de Despacho Envío Normal Central
+                            <i class="fas fa-info-circle info-icon" 
+                            data-bs-toggle="tooltip" 
+                            data-bs-placement="top" 
+                            title="Pedidos pendientes de despacho en Depósito Central. Para el día actual se consideran los que ingresan antes de las 14 hs.">
+                            </i>
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <?php if ($pedidosPendienteDespacho && !empty($pedidosPendienteDespacho->CANT_PED_PEND)): ?>
+                            <p class="card-value"><?php echo htmlspecialchars($pedidosPendienteDespacho->CANT_PED_PEND); ?></p>
+                            <p class="mb-0">Total: $<?php echo number_format($pedidosPendienteDespacho->TOTAL_PEDIDOS, 2); ?></p>
+                            <p class="date-info">Desde: <?php echo $pedidosPendienteDespacho->FECHA_PEDI->format('d/m/Y H:i'); ?></p>
+                            <button type="button" class="btn btn-outline-cyan mt-3 w-100" data-bs-toggle="modal" data-bs-target="#modalPendingDispatch">
                                 <i class="fas fa-list-ul me-2"></i>Ver Detalle
                             </button>
                         <?php else: ?>
@@ -582,7 +612,7 @@
         </div>
     </div>
 
-    <!-- Modal para el detalle -->
+    <!-- Modal para el detalle de Ordenes Pend. Cierre -->
     <div class="modal fade" id="modalOrdenesPendientesCierre" tabindex="-1">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -625,6 +655,61 @@
                                 else: ?>
                                     <tr>
                                         <td colspan="5" class="text-center">No hay datos para mostrar</td>
+                                    </tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para el detalle -->
+    <div class="modal fade" id="modalPendingDispatch" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header d-flex justify-content-between align-items-center">
+                    <h5 class="modal-title">
+                        <i class="fas fa-box-open"></i> Detalle de Pedidos Pendientes de Despacho
+                    </h5>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-success" onclick="exportToExcelPendingDispatch()">
+                            <i class="fas fa-file-excel me-2"></i>Exportar a Excel
+                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Canal</th>
+                                    <th>Nro. Pedido</th>
+                                    <th>Order ID</th>
+                                    <th>Cliente</th>
+                                    <th class="text-end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php 
+                                $detallePedidos = $control->traerDetallePedidosPendienteDespacho();
+                                if (!empty($detallePedidos)):
+                                    foreach ($detallePedidos as $detalle): ?>
+                                        <tr>
+                                            <td><?php echo $detalle->FECHA_SINCRONIZADO->format('d/m/Y H:i'); ?></td>
+                                            <td><?php echo htmlspecialchars($detalle->CANAL); ?></td>
+                                            <td><?php echo htmlspecialchars($detalle->NRO_PEDIDO); ?></td>
+                                            <td><?php echo htmlspecialchars($detalle->ORDER_ID_TIENDA); ?></td>
+                                            <td><?php echo htmlspecialchars($detalle->CLIENTE); ?></td>
+                                            <td class="text-end">$<?php echo number_format($detalle->TOTAL_PEDI, 2); ?></td>
+                                        </tr>
+                                    <?php endforeach;
+                                else: ?>
+                                    <tr>
+                                        <td colspan="6" class="text-center">No hay pedidos pendientes</td>
                                     </tr>
                                 <?php endif; ?>
                             </tbody>
@@ -942,6 +1027,36 @@
         const ws = XLSX.utils.aoa_to_sheet(data);
         XLSX.utils.book_append_sheet(wb, ws, "Ordenes Pendientes Cierre");
         XLSX.writeFile(wb, `ordenes_pendientes_cierre_${new Date().toISOString().slice(0,10)}.xlsx`);
+    }
+
+        function exportToExcelPendingDispatch() {
+        const table = document.querySelector('#modalPendingDispatch table');
+        const tableClone = table.cloneNode(true);
+        const rows = tableClone.querySelectorAll('tr');
+        const wb = XLSX.utils.book_new();
+        const data = [];
+        
+        rows.forEach((row) => {
+            const rowData = [];
+            row.querySelectorAll('th, td').forEach((cell) => {
+                let value = cell.textContent.trim();
+                
+                if (value.match(/^\d{2}\/\d{2}\/\d{4}/)) {
+                    const [day, month, year] = value.split('/');
+                    value = `${year}-${month}-${day}`;
+                }
+                else if (value.startsWith('$')) {
+                    value = parseFloat(value.replace('$', '').replace(/,/g, ''));
+                }
+                
+                rowData.push(value);
+            });
+            data.push(rowData);
+        });
+        
+        const ws = XLSX.utils.aoa_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb, ws, "Pedidos Pendientes Despacho");
+        XLSX.writeFile(wb, `pedidos_pendientes_despacho_${new Date().toISOString().slice(0,10)}.xlsx`);
     }
 
 </script>
