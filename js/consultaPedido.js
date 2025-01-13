@@ -363,7 +363,14 @@ const guardarComentario = (div) => {
             response = JSON.parse(response);
         
             if (response.success) {
-                alert('comentario guardado exitosamente.');
+            Swal.fire({
+                icon: "success",
+                title: "Comentario guardado exitosamente.",
+                showConfirmButton: true,
+              }).then(function () {
+                // console.log('ok')
+              });
+
             } else {
                 alert('Error: ' + (response.error || 'No se pudo guardar el comentario.'));
                 console.error(response.sqlsrv_error); 

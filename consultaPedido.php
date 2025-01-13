@@ -31,6 +31,9 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="style/consultaPedido.css">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
   
 </head>
 <body>
@@ -106,6 +109,8 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
                     if ($resultado && !empty($resultado)) {
                         foreach($resultado as $row) {
                             $pedido = $row[0]; // Accedemos al objeto dentro del array
+                            $detalleReclamo = $pedidos->listarReclamoDetalle($pedido->NRO_PEDIDO);
+
                 ?>
                             <!-- Información del Pedido -->
                             <div class="card">
@@ -456,6 +461,33 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
                                                     </div>
                                                 </div>
                                             </div>
+                                            <?php 
+                                            if(count($detalleReclamo) != 0){
+                                                foreach ($detalleReclamo as  $comentario) {
+                                
+                                                    echo '<div class="seccion-historial border-start border-4 border-primary ps-3 mt-4 seccion-guardada">
+                                                            <div class="row g-3 mb-3">
+                                                                <div class="col-md-6">
+                                                                    <label class="form-label"><i class="fas fa-comments me-2"></i>Tipo de Contacto</label>
+                                                                    <select class="form-select tipo-contacto">
+                                                                        <option value="mail">'.$comentario[0]->TIPO_CONTACTO.'</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="form-label"><i class="fas fa-user me-2"></i>Agente</label>
+                                                                    <select class="form-select agente">
+                                                                        <option value="at">'.$comentario[0]->AGENTE.'</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <label class="form-label"><i class="fas fa-comment me-2"></i>Comentario</label>
+                                                                    <textarea class="form-control comentario" rows="4">'.$comentario[0]->COMENTARIOS.'</textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>';
+                                                }
+                                            }
+                                            ?>
                                             <div id="seccionesHistorial">
                                                 <div class="seccion-historial">
                                                     <div class="row g-3 mb-3">
@@ -533,6 +565,7 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="js/consultaPedido.js"></script>         
 
 </body>

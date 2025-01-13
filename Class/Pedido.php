@@ -129,5 +129,21 @@
 
         }
         
+        public function listarReclamoDetalle($nro_pedido) {
+
+            $cid = new Conexion();
+            $cid_central = $cid->conectarSql('central');
+            $sql = "SELECT * FROM RO_T_DET_ECOMMERCE_HISTORIAL_FALT WHERE NRO_PEDIDO = '$nro_pedido'";
+
+            $result=sqlsrv_query($cid_central,$sql)or die(exit("Error en sqlsrv_query"));
+
+            $data = [];
+            while($v=sqlsrv_fetch_object($result)){
+                $data[] = array($v);
+            };
+            return $data;
+            
+        }
+        
         
     }
