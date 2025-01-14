@@ -675,7 +675,7 @@
                     </h5>
                     <div class="d-flex gap-2">
                         <button type="button" class="btn btn-success" onclick="exportToExcelPendingDispatch()">
-                            <i class="fas fa-file-excel me-2"></i>Exportar a Excel
+                            <i class="fas fa-file-excel me-2"></i>Exportar
                         </button>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -687,6 +687,8 @@
                                 <tr>
                                     <th>Fecha</th>
                                     <th>Canal</th>
+                                    <th>Suc. Entrega</th>
+                                    <th>Fecha Despacho</th>
                                     <th>Nro. Pedido</th>
                                     <th>Order ID</th>
                                     <th>Cliente</th>
@@ -701,6 +703,8 @@
                                         <tr>
                                             <td><?php echo $detalle->FECHA_SINCRONIZADO->format('d/m/Y H:i'); ?></td>
                                             <td><?php echo htmlspecialchars($detalle->CANAL); ?></td>
+                                            <td><?php echo htmlspecialchars($detalle->SUCURSAL_ENTREGA); ?></td>
+                                            <td><?php echo $detalle->FECHA_DESPACHO ? $detalle->FECHA_DESPACHO->format('d/m/Y') : ''; ?></td>
                                             <td><?php echo htmlspecialchars($detalle->NRO_PEDIDO); ?></td>
                                             <td><?php echo htmlspecialchars($detalle->ORDER_ID_TIENDA); ?></td>
                                             <td><?php echo htmlspecialchars($detalle->CLIENTE); ?></td>
@@ -709,7 +713,7 @@
                                     <?php endforeach;
                                 else: ?>
                                     <tr>
-                                        <td colspan="6" class="text-center">No hay pedidos pendientes</td>
+                                        <td colspan="8" class="text-center">No hay pedidos pendientes</td>
                                     </tr>
                                 <?php endif; ?>
                             </tbody>
