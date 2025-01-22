@@ -2,40 +2,93 @@
 require_once $_SERVER['DOCUMENT_ROOT']. '/ecommerce/Class/Conexion.php';
 
 class Control {
-    private function getDatos($sql) {
-        $cid = new Conexion();
-        $cid_central = $cid->conectarSql('central');
-        
-        ini_set('max_execution_time', 300);
-        $result = sqlsrv_query($cid_central, $sql);
-        
-        if ($result === false) {
-            $errors = sqlsrv_errors();
-            throw new Exception("Error en la consulta: " . $errors[0]['message']);
+
+    public function conectarSql($nameServer = null) {
+        try {
+            $serverDB = $this->servidor($nameServer);
+            $pass = ($nameServer == 'locales') ? $this->pass_locales : $this->pass;
+    
+            $params = array( 
+                "Database" => $serverDB[1], 
+                "UID" => $this->user, 
+                "PWD" => $pass, 
+                "CharacterSet" => $this->character
+            );
+    
+            $cid = sqlsrv_connect($serverDB[0], $params);
+            
+            if ($cid === false) {
+                $errors = sqlsrv_errors();
+                throw new Exception("Error de conexión: " . $errors[0]['message']);
+            }
+    
+            return $cid;
+            
+        } catch (Exception $e) {
+            throw new Exception("Error en la conexión: " . $e->getMessage());
         }
-        
-        $row = sqlsrv_fetch_object($result);
-        return $row ? $row : null;
     }
 
-    private function getDatosMultiples($sql) {
-        $cid = new Conexion();
-        $cid_central = $cid->conectarSql('central');
-        
-        ini_set('max_execution_time', 300);
-        $result = sqlsrv_query($cid_central, $sql);
-        
-        if ($result === false) {
-            $errors = sqlsrv_errors();
-            throw new Exception("Error en la consulta: " . $errors[0]['message']);
+    private function getDatos($sql) {
+        try {
+            $cid = new Conexion();
+            $cid_central = $cid->conectarSql('central');
+            
+            if ($cid_central === false) {
+                throw new Exception("Error de conexión a la base de datos");
+            }
+            
+            ini_set('max_execution_time', 300);
+            $result = sqlsrv_query($cid_central, $sql, array(), array("Scrollable" => "buffered"));
+            
+            if ($result === false) {
+                $errors = sqlsrv_errors();
+                throw new Exception("Error en la consulta: " . $errors[0]['message']);
+            }
+            
+            $row = sqlsrv_fetch_object($result);
+            sqlsrv_free_stmt($result);
+            sqlsrv_close($cid_central);
+            
+            return $row ? $row : null;
+            
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
-        
-        $rows = array();
-        while ($row = sqlsrv_fetch_object($result)) {
-            $rows[] = $row;
-        }
-        return $rows;
     }
+    
+    private function getDatosMultiples($sql) {
+        try {
+            $cid = new Conexion();
+            $cid_central = $cid->conectarSql('central');
+            
+            if ($cid_central === false) {
+                throw new Exception("Error de conexión a la base de datos");
+            }
+            
+            ini_set('max_execution_time', 300);
+            $result = sqlsrv_query($cid_central, $sql, array(), array("Scrollable" => "buffered"));
+            
+            if ($result === false) {
+                $errors = sqlsrv_errors();
+                throw new Exception("Error en la consulta: " . $errors[0]['message']);
+            }
+            
+            $rows = array();
+            while ($row = sqlsrv_fetch_object($result)) {
+                $rows[] = $row;
+            }
+            
+            sqlsrv_free_stmt($result);
+            sqlsrv_close($cid_central);
+            
+            return $rows;
+            
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
 
     public function traerNcPendPromociones() {
         $sql = "SELECT MIN(CAST(FECHA AS DATE)) FECHA, COUNT(*) CANT_NC_PROMO, SUM(NC) IMPORTE_NC FROM SJ_NC_ECOMMERCE_PEND WHERE NUM_NC = 'NO'";
@@ -213,7 +266,7 @@ class Control {
 				LEFT JOIN
 				(
 					SELECT A.COD_CLIENT, B.NRO_SUCURSAL, MAX(A.FECHA_DESPACHO) FECHA_DESPACHO FROM RO_FECHA_DESPACHO_ACTUAL A
-					INNER JOIN (SELECT * FROM LAKERBIS.LOCALES_LAKERS.DBO.SUCURSALES_LAKERS WHERE CANAL = 'FRANQUICIAS' AND HABILITADO = 1 AND NRO_SUC_MADRE IS NULL) B ON A.COD_CLIENT = B.COD_CLIENT
+					INNER JOIN (SELECT * FROM LAKERBIS.LOCALES_LAKERS.DBO.SUCURSALES_LAKERS WHERE CANAL IN ('FRANQUICIAS','PROPIOS') AND HABILITADO = 1 AND NRO_SUC_MADRE IS NULL) B ON A.COD_CLIENT = B.COD_CLIENT
 					GROUP BY A.COD_CLIENT, B.NRO_SUCURSAL
 				) F
 				ON E.NRO_SUCURSAL = F.NRO_SUCURSAL
