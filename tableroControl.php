@@ -580,33 +580,45 @@
                                     <th>Código</th>
                                     <th>Descripción</th>
                                     <th class="text-end">Cantidad</th>
+                                    <th></th> <!-- Nueva columna para el ícono -->
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php 
                                 $detalleFacturas = $control->traerDetalleFacturasSinRemito();
+                                $fechaActual = new DateTime();
+                                
                                 if (!empty($detalleFacturas)):
-                                    foreach ($detalleFacturas as $detalle): ?>
-                                        <tr>
+                                    foreach ($detalleFacturas as $detalle):
+                                        $fechaFactura = clone $detalle->FECHA_FACTURA;
+                                        $diasTranscurridos = $fechaActual->diff($fechaFactura)->days;
+                                        $excedeDias = $diasTranscurridos > 10;
+                                        ?>
+                                        <tr class="<?php echo $excedeDias ? 'text-danger' : ''; ?>">
                                             <td><?php echo htmlspecialchars($detalle->SUCURSAL); ?></td>
                                             <td><?php echo $detalle->FECHA_FACTURA->format('d/m/Y'); ?></td>
                                             <td><?php echo htmlspecialchars($detalle->FACTURA); ?></td>
                                             <td><?php echo htmlspecialchars($detalle->COD_ARTICU); ?></td>
                                             <td><?php echo htmlspecialchars($detalle->DESC_CTA_ARTICULO); ?></td>
                                             <td class="text-end"><?php echo number_format($detalle->CANTIDAD, 0); ?></td>
+                                            <td class="text-center">
+                                                <?php if ($excedeDias): ?>
+                                                    <i class="fas fa-exclamation-circle text-danger" 
+                                                    data-bs-toggle="tooltip" 
+                                                    data-bs-placement="left"
+                                                    title="Excede los 10 días (<?php echo $diasTranscurridos; ?> días)"></i>
+                                                <?php endif; ?>
+                                            </td>
                                         </tr>
                                     <?php endforeach;
                                 else: ?>
                                     <tr>
-                                        <td colspan="6" class="text-center">No hay datos para mostrar</td>
+                                        <td colspan="7" class="text-center">No hay datos para mostrar</td>
                                     </tr>
                                 <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
@@ -622,7 +634,7 @@
                     </h5>
                     <div class="d-flex gap-2">
                         <button type="button" class="btn btn-success" onclick="exportToExcelOrdenesCierre()">
-                            <i class="fas fa-file-excel me-2"></i>Exportar a Excel
+                            <i class="fas fa-file-excel me-2"></i>Exportar
                         </button>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -637,24 +649,34 @@
                                     <th>Cliente</th>
                                     <th>Sucursal</th>
                                     <th class="text-end">Días de Antigüedad</th>
+                                    <th></th> <!-- Nueva columna para el ícono -->
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php 
                                 $detalleOrdenesCierre = $control->traerDetalleOrdenesPendientesCierre();
                                 if (!empty($detalleOrdenesCierre)):
-                                    foreach ($detalleOrdenesCierre as $detalle): ?>
-                                        <tr>
+                                    foreach ($detalleOrdenesCierre as $detalle): 
+                                        $excedeDias = $detalle->DIAS_ANTIGUEDAD > 10;
+                                        ?>
+                                        <tr class="<?php echo $excedeDias ? 'text-danger' : ''; ?>">
                                             <td><?php echo $detalle->FECHA->format('d/m/Y H:i'); ?></td>
                                             <td><?php echo htmlspecialchars($detalle->ORDER_ID); ?></td>
                                             <td><?php echo htmlspecialchars($detalle->CLIENTE); ?></td>
                                             <td><?php echo htmlspecialchars($detalle->SUCURSAL); ?></td>
                                             <td class="text-end"><?php echo number_format($detalle->DIAS_ANTIGUEDAD, 0); ?></td>
+                                            <td class="text-center">
+                                                <?php if ($excedeDias): ?>
+                                                    <i class="fas fa-exclamation-circle text-danger" 
+                                                    data-bs-toggle="tooltip" 
+                                                    title="Excede los 10 días"></i>
+                                                <?php endif; ?>
+                                            </td>
                                         </tr>
                                     <?php endforeach;
                                 else: ?>
                                     <tr>
-                                        <td colspan="5" class="text-center">No hay datos para mostrar</td>
+                                        <td colspan="6" class="text-center">No hay datos para mostrar</td>
                                     </tr>
                                 <?php endif; ?>
                             </tbody>
@@ -856,51 +878,35 @@
         XLSX.writeFile(wb, `pedidos_flex_${new Date().toISOString().slice(0,10)}.xlsx`);
     }
 
-    function exportToExcelFacturas() {
-    // Obtener la tabla original
-    const table = document.querySelector('#modalFacturasDetalle table');
-    
-    // Crear una copia profunda de la tabla
-    const tableClone = table.cloneNode(true);
-    
-    // Obtener todos los datos
-    const rows = tableClone.querySelectorAll('tr');
-    
-    // Crear el libro y la hoja
-    const wb = XLSX.utils.book_new();
-    
-    // Convertir la tabla a una matriz de datos
-    const data = [];
-    
-    rows.forEach((row) => {
-        const rowData = [];
-        row.querySelectorAll('th, td').forEach((cell) => {
-            let value = cell.textContent.trim();
-            
-            // Si es una fecha (verificar si tiene el formato dd/mm/yyyy)
-            if (value.match(/^\d{2}\/\d{2}\/\d{4}/)) {
-                // Convertir de dd/mm/yyyy a formato Excel
-                const [day, month, year] = value.split('/');
-                value = `${year}-${month}-${day}`;
-            }
-            // Si es un valor numérico con separador de miles, convertir a número
-            else if (value.match(/^[\d,]+$/)) {
-                value = parseFloat(value.replace(/,/g, ''));
-            }
-            
-            rowData.push(value);
+        function exportToExcelFacturas() {
+        const table = document.querySelector('#modalFacturasDetalle table');
+        const tableClone = table.cloneNode(true);
+        const rows = tableClone.querySelectorAll('tr');
+        const wb = XLSX.utils.book_new();
+        const data = [];
+        
+        rows.forEach((row) => {
+            const rowData = [];
+            // Obtener todas las celdas excepto la última (ícono)
+            row.querySelectorAll('th:not(:last-child), td:not(:last-child)').forEach((cell) => {
+                let value = cell.textContent.trim();
+                
+                if (value.match(/^\d{2}\/\d{2}\/\d{4}/)) {
+                    const [day, month, year] = value.split('/');
+                    value = `${year}-${month}-${day}`;
+                }
+                else if (value.match(/^[\d,]+$/)) {
+                    value = parseFloat(value.replace(/,/g, ''));
+                }
+                
+                rowData.push(value);
+            });
+            data.push(rowData);
         });
-        data.push(rowData);
-    });
-    
-    // Crear la hoja con los datos procesados
-    const ws = XLSX.utils.aoa_to_sheet(data);
-    
-    // Agregar la hoja al libro
-    XLSX.utils.book_append_sheet(wb, ws, "Facturas sin Remito");
-    
-    // Guardar el archivo
-    XLSX.writeFile(wb, `facturas_sin_remito_${new Date().toISOString().slice(0,10)}.xlsx`);
+        
+        const ws = XLSX.utils.aoa_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb, ws, "Facturas sin Remito");
+        XLSX.writeFile(wb, `facturas_sin_remito_${new Date().toISOString().slice(0,10)}.xlsx`);
     }
 
         function exportToExcelNcDevoluciones() {

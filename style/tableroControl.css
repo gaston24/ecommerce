@@ -192,3 +192,21 @@ border: 1px solid rgba(255, 193, 7, 0.1);
     background-color: #00bcd4;
     border-color: #00bcd4;
 }
+
+.fa-exclamation-circle {
+    font-size: 1.2rem;
+}
+
+.fa-exclamation-circle:hover {
+    opacity: 0.8;
+    cursor: help;
+}
+
+.fa-exclamation-circle:hover {
+    opacity: 0.8;
+    cursor: help;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+}
