@@ -144,6 +144,24 @@
             return $data;
             
         }
+
+        public function consultarEstado ($nroOrden) {
+        
+        $cid = new Conexion();
+        $cid_central = $cid->conectarSql('central');
+        $sql = "SELECT ESTADO FROM RO_T_ENC_ECOMMERCE_HISTORIAL_FALT WHERE NRO_ORDEN = '$nroOrden'";
+
+        $result=sqlsrv_query($cid_central,$sql)or die(exit("Error en sqlsrv_query"));
+
+        $data = '';
+        while($v=sqlsrv_fetch_object($result)){
+            
+            // retorna solo el estado 
+            $data = $v->ESTADO;
+            
+        };
+        return $data;
+        }
         
         
     }

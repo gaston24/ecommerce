@@ -106,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!badge) return;
 
         badge.classList.remove('bg-danger', 'bg-warning', 'bg-success');
+
         switch (estadoActual) {
             case 'abierto':
                 badge.classList.add('bg-danger');
@@ -141,14 +142,49 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('modalCantidad').textContent = cantidad;
 
         estadoActual = 'abierto';
-        actualizarBadgeEstado();
-        document.getElementById('seccionesHistorial').innerHTML = '';
-        document.getElementById('agregarSeccion').style.display = 'block';
-        document.getElementById('seccionResolucion').style.display = 'none';
-        document.getElementById('btnResolucion').style.display = 'block';
+        const nroOrden = document.getElementById('nroOrden').textContent;
 
-        const modal = new bootstrap.Modal(document.getElementById('historialModal'));
-        modal.show();
+        $.ajax({
+            url: 'Controller/consultarEstado.php',
+            method: 'POST',
+            data: {
+                nroOrder: nroOrden
+            },
+            success: function(response) {
+            
+                response = JSON.parse(response);
+               
+                if (response) {
+                    estadoActual = response;
+                    actualizarBadgeEstado();
+                    
+                } else {
+                    console.error('Error al consultar el estado:', response.error);
+                }
+
+                document.getElementById('seccionesHistorial').innerHTML = '';
+                document.getElementById('seccionResolucion').style.display = 'none';
+                document.getElementById('agregarSeccion').style.display = 'block';
+                document.getElementById('btnResolucion').style.display = 'block';
+
+                if(estadoActual == 'resuelto') {
+
+                    document.getElementById('agregarSeccion').style.display = 'none';
+                    document.getElementById('btnResolucion').style.display = 'none';
+        
+        
+                }
+        
+                const modal = new bootstrap.Modal(document.getElementById('historialModal'));
+                modal.show();
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error en la solicitud AJAX:', textStatus, errorThrown);
+            }
+        });
+     
+      
     }
 
     // Guardar sección
