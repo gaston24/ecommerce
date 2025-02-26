@@ -163,12 +163,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 document.getElementById('seccionesHistorial').innerHTML = '';
-                document.getElementById('seccionResolucion').style.display = 'none';
+                document.getElementById('seccionResolucion').style.display = '';
                 document.getElementById('agregarSeccion').style.display = 'block';
                 document.getElementById('btnResolucion').style.display = 'block';
 
                 if(estadoActual == 'resuelto') {
 
+                    const sucursalSeleccionada = document.getElementById('sucursalSeleccionada')?.textContent;
+                    const articuloCambioCod = document.getElementById('articuloCambioCod')?.textContent;
+
+                    const seccionSucursal = document.getElementById('seccionSucursal');
+                    seccionSucursal.style.display = 'block';
+                    selectSucursal.disabled = true;
+                    selectSucursal.innerHTML = `<option value="${sucursalSeleccionada}">${sucursalSeleccionada}</option>`;
+
+                    const seccionArticulo = document.getElementById('seccionArticulo');
+                    seccionArticulo.style.display = 'block';
+                    seccionArticulo.disabled = true;
+
+                    if ($('#selectArticulo').hasClass('select2-hidden-accessible')) {
+                        $('#selectArticulo').select2('destroy');
+                    }  
+                  
+                    const selectArticulo = document.getElementById('selectArticulo');
+                    selectArticulo.innerHTML = `<option value="${articuloCambioCod}">${articuloCambioCod}</option>`;
+                    selectArticulo.disabled = true;
+                    
+
+                    document.getElementById('tipoResolucion').disabled = true;
                     document.getElementById('agregarSeccion').style.display = 'none';
                     document.getElementById('btnResolucion').style.display = 'none';
         
@@ -271,6 +293,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const seccionSucursal = document.getElementById('seccionSucursal');
         const seccionArticulo = document.getElementById('seccionArticulo');
         const selectSucursal = document.getElementById('selectSucursal');
+   
 
         tipoResolucion?.addEventListener('change', async function () {
             const resolucion = this.value;
@@ -281,6 +304,7 @@ document.addEventListener('DOMContentLoaded', function() {
         seccionArticulo.style.display = 'none';
         selectSucursal.innerHTML = '<option value="">Seleccione sucursal...</option>';
 
+
         try {
             showSpinner();
 
@@ -290,7 +314,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Poblar selectSucursal
             sucursales.forEach(suc => {
-                if (suc[0]?.WAREHOUSE) {
+                if (suc[0]?.WAREHOUSE) {  
                     selectSucursal.innerHTML += `
                         <option value="${suc[0].WAREHOUSE}">${suc[0].WAREHOUSE}</option>`;
                 }
