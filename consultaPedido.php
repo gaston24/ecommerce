@@ -31,6 +31,9 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="style/consultaPedido.css">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
   
 </head>
 <body>
@@ -106,6 +109,8 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
                     if ($resultado && !empty($resultado)) {
                         foreach($resultado as $row) {
                             $pedido = $row[0]; // Accedemos al objeto dentro del array
+                            $detalleReclamo = $pedidos->listarReclamoDetalle($pedido->NRO_PEDIDO);
+
                 ?>
                             <!-- Información del Pedido -->
                             <div class="card">
@@ -113,7 +118,7 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="info-label">Fecha y Hora</div>
-                                            <div class="info-value">
+                                            <div class="info-value" id= "fechaHora">
                                                 <?php 
                                                 echo $pedido->FECHA_PEDIDO instanceof DateTime ? 
                                                     $pedido->FECHA_PEDIDO->format('d/m/Y') : date('d/m/Y', strtotime($pedido->FECHA_PEDIDO));
@@ -127,7 +132,7 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
                                         </div>
                                         <div class="col-md-4">
                                             <div class="info-label">Nro. Pedido</div>
-                                            <div class="info-value d-flex align-items-center">
+                                            <div class="info-value d-flex align-items-center" id="nroPedido">
                                                 <?php echo $pedido->NRO_PEDIDO; ?>
                                                 <?php if ($pedido->CANCELADO == 1): 
                                                     $tooltipText = "Pedido Cancelado";
@@ -150,7 +155,7 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
                                         </div>
                                         <div class="col-md-4">
                                             <div class="info-label">Nro. Orden</div>
-                                            <div class="info-value"><?php echo $pedido->NRO_ORDEN; ?></div>
+                                            <div class="info-value" id="nroOrden"><?php echo $pedido->NRO_ORDEN; ?></div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="info-label">Nro. Factura</div>
@@ -158,7 +163,7 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
                                         </div>
                                         <div class="col-md-4">
                                             <div class="info-label">Cliente</div>
-                                            <div class="info-value"><?php echo $pedido->CLIENTE; ?></div>
+                                            <div class="info-value" id="cliente"><?php echo $pedido->CLIENTE; ?></div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="info-label">Dirección de Entrega</div>
@@ -170,7 +175,7 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
                                         </div>
                                         <div class="col-md-4">
                                             <div class="info-label">Prepara</div>
-                                            <div class="info-value"><?php echo $pedido->PREPARA; ?></div>
+                                            <div class="info-value" id="prepara"><?php echo $pedido->PREPARA; ?></div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="info-label">Método de Envío</div>
@@ -404,7 +409,7 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div class="d-flex align-items-center">
                                                     <span class="me-2">Estado del Reclamo:</span>
-                                                    <span class="badge estado-actual"></span>
+                                                    <span class="badge estado-actual" id="estado"></span>
                                                 </div>
                                                 <button class="btn btn-outline-success btn-sm" id="btnResolucion">
                                                     <i class="fas fa-check me-1"></i>Marcar como Resuelto
@@ -430,7 +435,7 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
                                                 </div class="row">
                                                     <div class="col-12" id="seccionArticulo" style="display: none;">
                                                         <label class="form-label">Artículo</label>
-                                                        <select class="select2" id="selectArticulo"></select>
+                                                        <select id="selectArticulo" class="form-select"></select>
                                                     </div>
                                                 <div>
 
@@ -456,6 +461,33 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
                                                     </div>
                                                 </div>
                                             </div>
+                                            <?php 
+                                            if(count($detalleReclamo) != 0){
+                                                foreach ($detalleReclamo as  $comentario) {
+                                
+                                                    echo '<div class="seccion-historial border-start border-4 border-primary ps-3 mt-4 seccion-guardada">
+                                                            <div class="row g-3 mb-3">
+                                                                <div class="col-md-6">
+                                                                    <label class="form-label"><i class="fas fa-comments me-2"></i>Tipo de Contacto</label>
+                                                                    <select class="form-select tipo-contacto">
+                                                                        <option value="mail">'.$comentario[0]->TIPO_CONTACTO.'</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="form-label"><i class="fas fa-user me-2"></i>Agente</label>
+                                                                    <select class="form-select agente">
+                                                                        <option value="at">'.$comentario[0]->AGENTE.'</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <label class="form-label"><i class="fas fa-comment me-2"></i>Comentario</label>
+                                                                    <textarea class="form-control comentario" rows="4">'.$comentario[0]->COMENTARIOS.'</textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>';
+                                                }
+                                            }
+                                            ?>
                                             <div id="seccionesHistorial">
                                                 <div class="seccion-historial">
                                                     <div class="row g-3 mb-3">
@@ -493,7 +525,7 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
                                                         <small class="text-muted">
                                                             <i class="far fa-clock me-1"></i>Creado: <span class="fecha-creacion"></span>
                                                         </small>
-                                                        <button type="button" class="btn btn-primary btn-guardar-seccion">
+                                                        <button type="button" class="btn btn-primary btn-guardar-seccion" onclick="guardarComentario(this)">
                                                             <i class="fas fa-save me-1"></i>Guardar Sección
                                                         </button>
                                                     </div>
@@ -508,8 +540,8 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
                                                     <i class="fas fa-plus"></i> Agregar seguimiento
                                                 </button>
                                             </div>
-                                            <div id="botonFinalizar" style="display: none;">
-                                                <button type="button" class="btn btn-success" id="finalizarReclamo">
+                                            <div id="botonFinalizar" style="display: none;margin-top:20px">
+                                                <button type="button" class="btn btn-success" style="margin-top:10px" id="finalizarReclamo">
                                                     <i class="fas fa-check-circle me-1"></i>Finalizar Reclamo
                                                 </button>
                                             </div>
@@ -533,6 +565,7 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="js/consultaPedido.js"></script>         
 
 </body>
