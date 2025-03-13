@@ -56,7 +56,7 @@ body {
     padding: 0 2rem 2rem;
 }
 
-/* Status Steps Styles - Adaptados para Font Awesome */
+/* Status Steps Styles */
 .status-steps {
     display: flex;
     align-items: center;
@@ -120,47 +120,103 @@ body {
     color: var(--primary-color);
 }
 
+/* Ajustes finales en layout de productos */
 .product-item {
     display: flex;
-    padding: 2rem 0;
+    padding: 1.5rem 0;
     position: relative;
+    border-bottom: 1px solid var(--border-color);
+    flex-direction: row;
+    align-items: flex-start;
 }
 
+.product-item:last-child {
+    border-bottom: none;
+}
+
+/* Contenedor de imagen más grande */
 .product-image {
-    width: 4rem;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.product-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
 }
 
 .product-details {
-    padding-left: 0.5rem;
     flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
+/* Ajuste de tamaño de fuente a 12px para el nombre del producto */
 .product-name {
     font-weight: 600;
-    font-size: 0.75rem;
-    line-height: 1.25;
+    font-size: 12px;
+    line-height: 1.2;
     color: #060410;
+    margin-bottom: 3px; /* Menos margen entre filas */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Colocar el número de orden en la misma fila que el nombre */
+.order-id-tag {
+    font-family: 'Avenir LT Std', sans-serif;
+    font-weight: 350;
+    font-size: 12px;
+    color: #5f5f5f;
+    margin: 0;
+    text-align: right;
+}
+
+.order-id-value {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: #000;
 }
 
 .product-meta {
-    margin-top: 6px;
-    font-size: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3px; /* Menos margen entre filas */
+    margin-bottom: 3px; /* Menos margen entre filas */
+    font-size: 12px;
     color: #4c4a5e;
+    width: 100%;
+}
+
+.product-quantity {
+    font-weight: normal;
 }
 
 .product-price {
-    float: right;
     font-weight: 600;
-    font-size: 0.875rem;
+    font-size: 14px;
     color: #060410;
+    text-align: right;
 }
 
+/* Color en negrita */
 .product-color {
     font-family: Avenir, sans-serif; 
     font-size: 12px; 
-    font-weight: 900; 
+    font-weight: 700; /* En negrita */
     line-height: 16px;
-    margin-top: 5px;
+    margin-top: 3px; /* Menos margen entre filas */
+    display: flex;
 }
 
 .product-color span {
@@ -168,6 +224,7 @@ body {
     font-size: 12px; 
     font-weight: 400; 
     line-height: 16px;
+    margin-left: 5px;
 }
 
 .order-info {
@@ -175,26 +232,7 @@ body {
     font-size: 12px;
     font-weight: 300;
     color: #5F5F5F;
-    margin-top: 4px;
-}
-
-.order-id-tag {
-    position: absolute;
-    top: -30px;
-    right: 0;
-    font-family: 'Avenir LT Std', sans-serif;
-    font-weight: 350;
-    font-size: 14px;
-    line-height: 16px;
-    color: #5f5f5f;
-    margin: 0;
-}
-
-.order-id-value {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-    font-size: 14px;
-    color: #000;
+    margin-top: 10px;
 }
 
 .payment-section {
@@ -252,11 +290,6 @@ body {
 }
 
 @media (max-width: 600px) {
-    img {
-        max-width: 100% !important;
-        height: auto !important;
-    }
-    
     .status-steps {
         flex-wrap: wrap;
     }
@@ -287,5 +320,21 @@ body {
     
     .shipping-row span:last-child, .payment-row span:last-child {
         margin-top: 5px;
+    }
+    
+    .product-item {
+        flex-direction: column;
+    }
+    
+    .product-image {
+        width: 100%;
+        height: auto;
+        margin-bottom: 15px;
+        margin-right: 0;
+    }
+    
+    .product-image img {
+        max-width: 180px;
+        margin: 0 auto;
     }
 }

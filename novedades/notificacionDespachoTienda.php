@@ -59,7 +59,44 @@
             <h2 class="section-title">Detalles del pedido</h2>
             
             <div id="productList">
-                <!-- Product Item Template - Will be populated by JavaScript -->
+                <!-- Estructura mejorada para productos -->
+                <div class="product-item">
+                    <div class="product-image">
+                        <img src="http://192.168.0.143:8080/Imagenes/XV5WDC14C1701.jpg" alt="ERAS CARTERA BANDOLERA">
+                    </div>
+                    <div class="product-details">
+                        <div class="product-name">
+                            ERAS CARTERA BANDOLERA
+                            <span class="order-id-tag">Order: <span class="order-id-value">#1515301341830-01</span></span>
+                        </div>
+                        <div class="product-meta">
+                            <div class="product-quantity">Cantidad 1</div>
+                            <div class="product-price">$45.435</div>
+                        </div>
+                        <div class="product-color">
+                            Color: <span>Negro</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-item">
+                    <div class="product-image">
+                        <img src="http://192.168.0.143:8080/Imagenes/XV5WDC07C0901.jpg" alt="CORALINE TOTE GRANDE">
+                    </div>
+                    <div class="product-details">
+                        <div class="product-name">
+                            CORALINE TOTE GRANDE
+                            <span class="order-id-tag">Order: <span class="order-id-value">#1515301341830-01</span></span>
+                        </div>
+                        <div class="product-meta">
+                            <div class="product-quantity">Cantidad 1</div>
+                            <div class="product-price">$15.499</div>
+                        </div>
+                        <div class="product-color">
+                            Color: <span>Beige</span>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <p class="order-info">Pedido Realizado el <span id="orderDateInfo">01/03/2025</span></p>
@@ -73,7 +110,7 @@
                 <div id="paymentDetails">
                     <div class="payment-row">
                         <span>Tarjeta de crédito</span>
-                        <span>**** **** **** 1234</span>
+                        <span>**** **** **** 4321</span>
                     </div>
                     <div class="payment-row">
                         <span>Cuotas</span>
@@ -113,7 +150,7 @@
                         <li>Próximamente recibirás un mail confirmando que el pedido se encuentra listo para retirar.</li>
                         <li>Por consultas enviar un e-mail a info@xl.com.ar.</li>
                         <li>Horarios de atención Lunes a Viernes de 8:30 a 17:30hs.</li>
-                        <li>Tenga en cuenta que el pedido deberá ser retirado por una persona mayor de 18 años.</li>
+                        <li>Tené en cuenta que: Deberá presentarse la persona que realizó la compra con Identificación y la tarjeta con la que realizó la compra e informarle al asesor el n° de pedido.</li>
                     </ul>
                 </div>
             </span>

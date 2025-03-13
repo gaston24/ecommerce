@@ -2,23 +2,23 @@
 // Datos de ejemplo del pedido
 const orderData = {
     orderId: '1515301341830-01',
-    clientName: 'Juan Pérez',
-    orderDate: '13/03/2025',
+    clientName: 'Mercedes Ramella',
+    orderDate: '05/03/2025',
     deliveryType: 'pickup-in-point',
     products: [
         {
-            name: 'Camisa Oxford Azul',
-            imageUrl: 'https://via.placeholder.com/80',
-            quantity: 2,
-            price: 5999,
-            color: 'Azul'
+            name: 'ERAS CARTERA BANDOLERA',
+            imageUrl: 'http://192.168.0.143:8080/Imagenes/XV5WDC14C1701.jpg',
+            quantity: 1,
+            price: 12999,
+            color: 'Negro'
         },
         {
-            name: 'Pantalón Chino Negro',
-            imageUrl: 'https://via.placeholder.com/80',
+            name: 'CORALINE TOTE GRANDE',
+            imageUrl: 'http://192.168.0.143:8080/Imagenes/XV5WDC07C0901.jpg',
             quantity: 1,
-            price: 7599,
-            color: 'Negro'
+            price: 15499,
+            color: 'Beige'
         }
     ],
     payment: {
@@ -53,9 +53,14 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('orderDateInfo').textContent = orderData.orderDate;
     
     // Actualizar lista de productos
-    const productListContainer = document.getElementById('productList');
-    productListContainer.innerHTML = ''; // Limpiar plantilla
+    // Nota: Ya los hemos incluido directamente en el HTML, pero este código funciona
+    // si necesitas generarlos dinámicamente en lugar de codificarlos de forma estática
     
+    const productListContainer = document.getElementById('productList');
+    // Comentamos esta línea para no sobrescribir los productos ya incluidos en el HTML
+    // productListContainer.innerHTML = ''; 
+    
+    /* Este código está comentado porque ya incluimos los productos en el HTML
     orderData.products.forEach(product => {
         const productElement = document.createElement('div');
         productElement.className = 'product-item';
@@ -79,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         productListContainer.appendChild(productElement);
     });
+    */
     
     // Actualizar detalles de pago
     const installmentsText = orderData.payment.installments === 1 ? 'de contado' : `${orderData.payment.installments}x sin interés`;
@@ -115,7 +121,7 @@ function updateOrderStatusTracker() {
         { id: 'received', label: 'Pedido Realizado', icon: icons.pedidoRealizado },
         { id: 'processed', label: 'Pago Confirmado', icon: icons.pagoConfirmado },
         { id: 'dispatched', label: 'Pedido Facturado', icon: icons.pedidoFacturado },
-        { id: 'ready', label: 'Pedido Despachado', icon: icons.pedidoEnviado },
+        { id: 'ready', label: 'Pedido Enviado', icon: icons.pedidoEnviado },
         { id: 'delivered', label: 'Pedido Entregado', icon: icons.pedidoEntregado }
     ];
     
