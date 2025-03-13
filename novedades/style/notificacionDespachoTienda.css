@@ -1,0 +1,291 @@
+
+:root {
+    --primary-color: #000;
+    --secondary-color: #373535;
+    --light-color: #fff;
+    --border-color: #E5E5E5;
+    --link-color: #2c5577;
+    --completed-color: #000;
+    --pending-color: #ccc;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #1e1e1e !important;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+    color: var(--secondary-color);
+}
+
+.email-container {
+    max-width: 40rem;
+    margin: 2rem auto;
+    background-color: var(--light-color);
+}
+
+.email-header {
+    padding: 25px 0;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.email-header img {
+    max-height: 47.63px;
+}
+
+.email-title {
+    padding: 0.5rem 2rem;
+    font-weight: 600;
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.email-subtitle {
+    padding: 0 2rem 2rem;
+    font-size: 0.75rem;
+    line-height: 1.25;
+}
+
+.order-number {
+    font-weight: 600;
+}
+
+.email-banner {
+    text-align: center;
+    padding: 0 2rem 2rem;
+}
+
+/* Status Steps Styles - Adaptados para Font Awesome */
+.status-steps {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 15px 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.status-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    width: 20%;
+    background-color: transparent;
+}
+
+.step-label {
+    font-size: 11px;
+    text-align: center;
+    color: #333;
+    font-weight: 400;
+    max-width: 80px;
+    margin-top: 8px;
+}
+
+/* Estilos de los círculos con iconos de Font Awesome */
+.step-icon-circle {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background-color: var(--pending-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.step-icon-circle.completed {
+    background-color: var(--completed-color);
+}
+
+.step-icon-circle i {
+    color: white;
+    font-size: 24px;
+}
+
+.email-content {
+    padding: 1rem 2rem;
+    font-size: 0.75rem;
+}
+
+.section-title {
+    font-weight: 600;
+    font-size: 1rem;
+    margin: 1rem 0;
+    color: var(--primary-color);
+}
+
+.product-item {
+    display: flex;
+    padding: 2rem 0;
+    position: relative;
+}
+
+.product-image {
+    width: 4rem;
+}
+
+.product-details {
+    padding-left: 0.5rem;
+    flex: 1;
+}
+
+.product-name {
+    font-weight: 600;
+    font-size: 0.75rem;
+    line-height: 1.25;
+    color: #060410;
+}
+
+.product-meta {
+    margin-top: 6px;
+    font-size: 0.75rem;
+    color: #4c4a5e;
+}
+
+.product-price {
+    float: right;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: #060410;
+}
+
+.product-color {
+    font-family: Avenir, sans-serif; 
+    font-size: 12px; 
+    font-weight: 900; 
+    line-height: 16px;
+    margin-top: 5px;
+}
+
+.product-color span {
+    font-family: Avenir, sans-serif; 
+    font-size: 12px; 
+    font-weight: 400; 
+    line-height: 16px;
+}
+
+.order-info {
+    font-family: 'Avenir', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    color: #5F5F5F;
+    margin-top: 4px;
+}
+
+.order-id-tag {
+    position: absolute;
+    top: -30px;
+    right: 0;
+    font-family: 'Avenir LT Std', sans-serif;
+    font-weight: 350;
+    font-size: 14px;
+    line-height: 16px;
+    color: #5f5f5f;
+    margin: 0;
+}
+
+.order-id-value {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #000;
+}
+
+.payment-section {
+    padding: 22px 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.payment-row {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+    font-size: 0.75rem;
+}
+
+.shipping-section {
+    padding: 22px 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.shipping-row {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+    font-size: 0.75rem;
+}
+
+.divider {
+    border-top: 1px solid var(--border-color);
+    margin: 1rem 0;
+}
+
+.alert-section {
+    margin-bottom: 40px;
+}
+
+.alert-title {
+    text-align: center;
+    font-size: 14px;
+    color: var(--secondary-color);
+}
+
+.email-footer {
+    background-color: var(--primary-color);
+    padding: 17px 0;
+    text-align: center;
+}
+
+.social-links a {
+    text-decoration: none;
+    padding-right: 16px;
+}
+
+.social-links a:last-child {
+    padding-right: 0;
+}
+
+@media (max-width: 600px) {
+    img {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+    
+    .status-steps {
+        flex-wrap: wrap;
+    }
+    
+    .status-step {
+        width: 33%;
+        margin-bottom: 15px;
+    }
+    
+    .status-step:last-child {
+        width: 33%;
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 425px) {
+    .db-mob {
+        display: block !important;
+    }
+    
+    .mb2-mob {
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .shipping-row, .payment-row {
+        flex-direction: column;
+    }
+    
+    .shipping-row span:last-child, .payment-row span:last-child {
+        margin-top: 5px;
+    }
+}
