@@ -65,17 +65,30 @@
                         <img src="http://192.168.0.143:8080/Imagenes/XV5WDC14C1701.jpg" alt="ERAS CARTERA BANDOLERA">
                     </div>
                     <div class="product-details">
+                        <!-- Nombre y Número de Orden (arriba) -->
+                         <div class="order-id-tag">
+                            <span>Order: <span class="order-id-value">#1515301341830-01</span></span>
+                         </div>
                         <div class="product-name">
                             ERAS CARTERA BANDOLERA
-                            <span class="order-id-tag">Order: <span class="order-id-value">#1515301341830-01</span></span>
                         </div>
-                        <div class="product-meta">
-                            <div class="product-quantity">Cantidad 1</div>
-                            <div class="product-price">$45.435</div>
+                        
+                        <!-- Contenedor central para cantidad y color (centro) -->
+                        <div class="product-info-container">
+                            <!-- Cantidad y Precio -->
+                            <div class="product-meta">
+                                <div class="product-quantity">Cantidad 1</div>
+                                <div class="product-price">$45.435</div>
+                            </div>
+                            
+                            <!-- Color -->
+                            <div class="product-color">
+                                Color: <span>Negro</span>
+                            </div>
                         </div>
-                        <div class="product-color">
-                            Color: <span>Negro</span>
-                        </div>
+                        
+                        <!-- Espacio en blanco para mantener alineación (no visible) -->
+                        <div style="height: 1px;"></div>
                     </div>
                 </div>
                 
@@ -84,17 +97,30 @@
                         <img src="http://192.168.0.143:8080/Imagenes/XV5WDC07C0901.jpg" alt="CORALINE TOTE GRANDE">
                     </div>
                     <div class="product-details">
+                        <!-- Nombre y Número de Orden (arriba) -->
+                         <div class="order-id-tag">
+                            <span>Order: <span class="order-id-value">#1515301341830-01</span></span>
+                         </div>
                         <div class="product-name">
                             CORALINE TOTE GRANDE
-                            <span class="order-id-tag">Order: <span class="order-id-value">#1515301341830-01</span></span>
                         </div>
-                        <div class="product-meta">
-                            <div class="product-quantity">Cantidad 1</div>
-                            <div class="product-price">$15.499</div>
+                        
+                        <!-- Contenedor central para cantidad y color (centro) -->
+                        <div class="product-info-container">
+                            <!-- Cantidad y Precio -->
+                            <div class="product-meta">
+                                <div class="product-quantity">Cantidad 1</div>
+                                <div class="product-price">$15.499</div>
+                            </div>
+                            
+                            <!-- Color -->
+                            <div class="product-color">
+                                Color: <span>Beige</span>
+                            </div>
                         </div>
-                        <div class="product-color">
-                            Color: <span>Beige</span>
-                        </div>
+                        
+                        <!-- Espacio en blanco para mantener alineación (no visible) -->
+                        <div style="height: 1px;"></div>
                     </div>
                 </div>
             </div>
@@ -127,11 +153,11 @@
                 
                 <div id="shippingDetails">
                     <div class="shipping-row">
-                        <span>Tipo de entrega</span>
+                        <strong><span>Tipo de entrega</span></strong>
                         <span id="deliveryType">Retiro en tienda</span>
                     </div>
                     <div class="shipping-row">
-                        <span>Dirección de entrega</span>
+                        <strong><span>Dirección de entrega</span></strong>
                         <span id="deliveryAddress">XL Villa Ballester - Independencia, 4741 - Villa Ballester - Buenos Aires - CEP 1653</span>
                     </div>
                 </div>
@@ -150,7 +176,7 @@
                         <li>Próximamente recibirás un mail confirmando que el pedido se encuentra listo para retirar.</li>
                         <li>Por consultas enviar un e-mail a info@xl.com.ar.</li>
                         <li>Horarios de atención Lunes a Viernes de 8:30 a 17:30hs.</li>
-                        <li>Tené en cuenta que: Deberá presentarse la persona que realizó la compra con Identificación y la tarjeta con la que realizó la compra e informarle al asesor el n° de pedido.</li>
+                        <li>Tené en cuenta que: Deberá presentarse la persona que realizó la compra con DNI y la tarjeta con la que realizó la compra e informarle al vendedor n° de pedido.</li>
                     </ul>
                 </div>
             </span>

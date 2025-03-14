@@ -53,18 +53,19 @@ body {
 
 .email-banner {
     text-align: center;
-    padding: 0 2rem 2rem;
+    padding: 0 1rem 2rem;
+    width: 100%;
 }
 
-/* Status Steps Styles */
 .status-steps {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     width: 100%;
-    padding: 15px 10px;
+    padding: 15px 5px;
     background-color: #f9f9f9;
     border-radius: 8px;
+    margin: 0 auto;
 }
 
 .status-step {
@@ -76,6 +77,7 @@ body {
     z-index: 2;
     width: 20%;
     background-color: transparent;
+    padding: 0 2px;
 }
 
 .step-label {
@@ -83,14 +85,20 @@ body {
     text-align: center;
     color: #333;
     font-weight: 400;
-    max-width: 80px;
+    width: 100%;
     margin-top: 8px;
+    line-height: 1.2;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: normal;
 }
 
-/* Estilos de los círculos con iconos de Font Awesome */
 .step-icon-circle {
-    width: 55px;
-    height: 55px;
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
     border-radius: 50%;
     background-color: var(--pending-color);
     display: flex;
@@ -105,7 +113,7 @@ body {
 
 .step-icon-circle i {
     color: white;
-    font-size: 24px;
+    font-size: 22px;
 }
 
 .email-content {
@@ -120,7 +128,7 @@ body {
     color: var(--primary-color);
 }
 
-/* Ajustes finales en layout de productos */
+/* Layout de productos */
 .product-item {
     display: flex;
     padding: 1.5rem 0;
@@ -134,7 +142,6 @@ body {
     border-bottom: none;
 }
 
-/* Contenedor de imagen más grande */
 .product-image {
     width: 120px;
     height: 120px;
@@ -152,32 +159,24 @@ body {
     object-fit: contain;
 }
 
+/* Estructura para alineación vertical */
 .product-details {
     flex: 1;
     display: flex;
     flex-direction: column;
-}
-
-/* Ajuste de tamaño de fuente a 12px para el nombre del producto */
-.product-name {
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 1.2;
-    color: #060410;
-    margin-bottom: 3px; /* Menos margen entre filas */
-    display: flex;
     justify-content: space-between;
-    align-items: center;
+    height: 120px; /* Misma altura que la imagen */
 }
 
-/* Colocar el número de orden en la misma fila que el nombre */
+/* COMPLETAMENTE MODIFICADO: Alineación de número de orden */
 .order-id-tag {
+    display: block;
+    text-align: right;
+    margin-bottom: 5px;
     font-family: 'Avenir LT Std', sans-serif;
     font-weight: 350;
     font-size: 12px;
     color: #5f5f5f;
-    margin: 0;
-    text-align: right;
 }
 
 .order-id-value {
@@ -187,36 +186,56 @@ body {
     color: #000;
 }
 
+/* Nombre del producto */
+.product-name {
+    font-weight: 600;
+    font-size: 12px;
+    color: #060410;
+    width: 100%;
+    margin-bottom: 0;
+}
+
+/* Contenedor central para datos de cantidad */
+.product-info-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Estructura para cantidad y precio */
 .product-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 3px; /* Menos margen entre filas */
-    margin-bottom: 3px; /* Menos margen entre filas */
     font-size: 12px;
     color: #4c4a5e;
     width: 100%;
+    margin: 8px 0;
 }
 
 .product-quantity {
     font-weight: normal;
 }
 
+/* COMPLETAMENTE MODIFICADO: Precio alineado a la derecha */
 .product-price {
     font-weight: 600;
     font-size: 14px;
     color: #060410;
     text-align: right;
+    min-width: 70px;
 }
 
-/* Color en negrita */
+/* Ajuste para color */
 .product-color {
     font-family: Avenir, sans-serif; 
     font-size: 12px; 
-    font-weight: 700; /* En negrita */
+    font-weight: 700;
     line-height: 16px;
-    margin-top: 3px; /* Menos margen entre filas */
     display: flex;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .product-color span {
@@ -290,21 +309,31 @@ body {
 }
 
 @media (max-width: 600px) {
+    .email-banner {
+        padding: 0 0.5rem 1.5rem;
+    }
+    
     .status-steps {
-        flex-wrap: wrap;
+        padding: 10px 2px;
     }
     
-    .status-step {
-        width: 33%;
-        margin-bottom: 15px;
+    .step-icon-circle {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
     }
     
-    .status-step:last-child {
-        width: 33%;
-        margin-left: 0;
+    .step-icon-circle i {
+        font-size: 18px;
+    }
+    
+    .step-label {
+        font-size: 10px;
+        height: 28px;
     }
 }
 
+/* COMPLETAMENTE REESCRITO: CSS para dispositivos móviles */
 @media (max-width: 425px) {
     .db-mob {
         display: block !important;
@@ -322,6 +351,7 @@ body {
         margin-top: 5px;
     }
     
+    /* Estructura vertical para móviles */
     .product-item {
         flex-direction: column;
     }
@@ -336,5 +366,58 @@ body {
     .product-image img {
         max-width: 180px;
         margin: 0 auto;
+    }
+    
+    /* Estructura completamente diferente para móviles */
+    .product-details {
+        height: auto;
+        width: 100%;
+    }
+    
+    /* IMPORTANTE: Esto elimina flex para móviles y usa block */
+    .order-id-tag {
+        display: block;
+        width: 100%;
+        text-align: right;
+    }
+    
+    /* Ajustes específicos para la meta info en móviles */
+    .product-meta {
+        display: flex;
+        width: 100%;
+    }
+    
+    /* Fijar el ancho máximo de cantidad para dejar espacio para el precio */
+    .product-quantity {
+        flex: 1;
+        max-width: 60%;
+        text-align: left;
+    }
+    
+    /* IMPORTANTE: Forzar precio a la derecha */
+    .product-price {
+        min-width: 80px;
+        text-align: right;
+    }
+    
+    .product-info-container {
+        margin: 10px 0;
+    }
+}
+
+/* Para dispositivos muy pequeños, como iPhone SE */
+@media (max-width: 350px) {
+    .product-meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .product-quantity, .product-price {
+        width: 100%;
+        margin-bottom: 4px;
+    }
+    
+    .product-price {
+        text-align: left;
     }
 }

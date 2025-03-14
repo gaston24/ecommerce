@@ -102,7 +102,8 @@ document.addEventListener('DOMContentLoaded', function() {
     updateOrderStatusTracker();
 });
 
-// Función para actualizar el rastreador de estado del pedido con iconos de Font Awesome
+// Función para actualizar el rastreador de estado del pedido con iconos 
+// y textos en dos líneas
 function updateOrderStatusTracker() {
     const statusStepsContainer = document.querySelector('.status-steps');
     if (!statusStepsContainer) return;
@@ -111,18 +112,28 @@ function updateOrderStatusTracker() {
     const icons = {
         pedidoRealizado: 'fa-solid fa-check',
         pagoConfirmado: 'fa fa-credit-card',
-        pedidoFacturado: 'bi bi-box-seam',  // Icono de caja
+        pedidoFacturado: 'bi bi-box-seam',
         pedidoEnviado: 'bi bi-truck',
-        pedidoEntregado: 'fa-solid fa-user'  // Icono de persona
+        pedidoEntregado: 'fa-solid fa-user'
+    };
+    
+    // Etiquetas para cada estado (con saltos de línea para visualización en dos líneas)
+    // Insertamos un <br> para forzar el salto de línea
+    const labels = {
+        pedidoRealizado: 'Pedido<br>Realizado',
+        pagoConfirmado: 'Pago<br>Confirmado',
+        pedidoFacturado: 'Pedido<br>Facturado',
+        pedidoEnviado: 'Pedido<br>Despachado',
+        pedidoEntregado: 'Pedido<br>Entregado'
     };
     
     // Configurar los pasos de estado
     const steps = [
-        { id: 'received', label: 'Pedido Realizado', icon: icons.pedidoRealizado },
-        { id: 'processed', label: 'Pago Confirmado', icon: icons.pagoConfirmado },
-        { id: 'dispatched', label: 'Pedido Facturado', icon: icons.pedidoFacturado },
-        { id: 'ready', label: 'Pedido Enviado', icon: icons.pedidoEnviado },
-        { id: 'delivered', label: 'Pedido Entregado', icon: icons.pedidoEntregado }
+        { id: 'received', labelKey: 'pedidoRealizado', icon: icons.pedidoRealizado },
+        { id: 'processed', labelKey: 'pagoConfirmado', icon: icons.pagoConfirmado },
+        { id: 'dispatched', labelKey: 'pedidoFacturado', icon: icons.pedidoFacturado },
+        { id: 'ready', labelKey: 'pedidoEnviado', icon: icons.pedidoEnviado },
+        { id: 'delivered', labelKey: 'pedidoEntregado', icon: icons.pedidoEntregado }
     ];
     
     // Construir el HTML para los iconos de estado
@@ -134,7 +145,7 @@ function updateOrderStatusTracker() {
                 <div class="step-icon-circle ${isCompleted}">
                     <i class="${step.icon}"></i>
                 </div>
-                <div class="step-label">${step.label}</div>
+                <div class="step-label">${labels[step.labelKey]}</div>
             </div>
         `;
     });
