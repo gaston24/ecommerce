@@ -124,7 +124,7 @@ function updateOrderStatusTracker() {
         pagoConfirmado: 'Pago<br>Confirmado',
         pedidoFacturado: 'Pedido<br>Facturado',
         pedidoEnviado: 'Pedido<br>Despachado',
-        pedidoEntregado: 'Pedido<br>Entregado'
+        pedidoEntregado: 'Pedido<br>Listo para Retirar'
     };
     
     // Configurar los pasos de estado

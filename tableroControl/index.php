@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -13,12 +12,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style/tableroControl.css" class="rel css">
+    <link rel="stylesheet" href="css/style.css" class="rel css">
     
 </head>
+
 <body>
     <?php
-    require_once 'Class/Control.php';
+
+    require_once '../Class/Control.php';
 
     date_default_timezone_set('America/Argentina/Buenos_Aires');
 
@@ -29,6 +30,7 @@
     $pedidosSinFacturar = null;
     $pedidosFlexCentral = null;
     $facturasSinRemito = null;
+    $productosMlFull = null;
     $ultimaActualizacion = new DateTime();
     $error = null;
     
@@ -42,6 +44,7 @@
         $facturasSinRemito = $control->traerFacturasSinRemito();
         $ordenesPendientesCierre = $control->traerOrdenesPendientesCierre();
         $pedidosPendienteDespacho = $control->traerPedidosPendienteDespacho();
+        $productosMlFull = $control->traerResumenProductosMlFull();
     } catch (Exception $e) {
         $error = $e->getMessage();
     }
@@ -314,7 +317,40 @@
                     </div>
                 </div>
             </div>
-        </div> <!-- Cierre de segunda fila de cards -->    
+        </div> <!-- Cierre de segunda fila de cards -->
+        
+        <!-- Tercera fila para otras cards -->
+        <div class="row mt-3">
+            <!-- Card para Productos ML Full -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 card-ml">
+                    <div class="card-header">
+                        <i class="fas fa-shopping-bag card-icon"></i>
+                        <h5 class="card-title mt-2">
+                            Productos Pausados en ML Normal
+                            <i class="fas fa-info-circle info-icon" 
+                            data-bs-toggle="tooltip" 
+                            data-bs-placement="top" 
+                            title="Productos que tienen stock en Central pero están pausados en Mercado Libre">
+                            </i>
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <?php if ($productosMlFull && !empty($productosMlFull->CANTIDAD_PRODUCTOS)): ?>
+                            <p class="card-value"><?php echo htmlspecialchars($productosMlFull->CANTIDAD_PRODUCTOS); ?></p>
+                            <p class="mb-0">Stock total: <?php echo number_format($productosMlFull->PROMEDIO_STOCK, 0); ?> unidades</p>
+                            <button type="button" class="btn btn-outline-info mt-3 w-100" data-bs-toggle="modal" data-bs-target="#modalProductosMlFull">
+                                <i class="fas fa-list-ul me-2"></i>Ver Detalle
+                            </button>
+                        <?php else: ?>
+                            <p class="no-data">Sin productos pausados</p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Otras cards en la tercera fila -->
+        </div>
     </div>
 
     <!-- Bootstrap Bundle with Popper -->
@@ -322,325 +358,31 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/chart-config.js"></script>
+    <script src="js/export-functions.js"></script>
 
     <script>
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // Datos para el gráfico
-            const chartData = {
-                labels: [<?php 
-                    $ncrData = $control->traerNcrRealizadas();
-                    if (!empty($ncrData)) {
-                        echo implode(',', array_map(function($row) {
-                            return "'" . $row->FECHA_EMIS->format('d/m/Y') . "'";
-                        }, $ncrData));
-                    }
-                ?>],
-                values: [<?php 
-                    if (!empty($ncrData)) {
-                        echo implode(',', array_map(function($row) {
-                            return $row->CANT_NCR;
-                        }, $ncrData));
-                    }
-                ?>]
-            };
+        // Definir chartData como variable global para que esté disponible en chart-config.js
+        const chartData = {
+            labels: [<?php 
+                $ncrData = $control->traerNcrRealizadas();
+                if (!empty($ncrData)) {
+                    echo implode(',', array_map(function($row) {
+                        return "'" . $row->FECHA_EMIS->format('d/m/Y') . "'";
+                    }, $ncrData));
+                }
+            ?>],
+            values: [<?php 
+                if (!empty($ncrData)) {
+                    echo implode(',', array_map(function($row) {
+                        return $row->CANT_NCR;
+                    }, $ncrData));
+                }
+            ?>]
+        };
 
-            // Inicializar tooltips
-            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            tooltipTriggerList.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-
-            // Inicializar el gráfico cuando se abre el modal
-            const modalNcr = document.getElementById('modalNcr');
-            modalNcr.addEventListener('shown.bs.modal', function () {
-                const ctx = document.getElementById('ncrChart').getContext('2d');
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: chartData.labels,
-                        datasets: [{
-                            label: 'Cantidad de NC',
-                            data: chartData.values,
-                            backgroundColor: '#e91e63',
-                            borderColor: '#c2185b',
-                            borderWidth: 1,
-                            barPercentage: 0.5
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            title: {
-                                display: true,
-                                text: 'Notas de Crédito realizadas en los últimos 7 días',
-                                font: { size: 16 }
-                            },
-                            legend: {
-                                position: 'top'
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: { stepSize: 1 }
-                            }
-                        }
-                    }
-                });
-            });
-
-        });
-
-
-        function exportToExcel() {
-        // Obtener la tabla original
-        const table = document.querySelector('#modalFlexDetalle table');
-        
-        // Crear una copia profunda de la tabla
-        const tableClone = table.cloneNode(true);
-        
-        // Obtener todos los datos
-        const rows = tableClone.querySelectorAll('tr');
-        
-        // Crear el libro y la hoja
-        const wb = XLSX.utils.book_new();
-        
-        // Convertir la tabla a una matriz de datos
-        const data = [];
-        
-        rows.forEach((row) => {
-            const rowData = [];
-            row.querySelectorAll('th, td').forEach((cell) => {
-                let value = cell.textContent.trim();
-                
-                // Si es una fecha (verificar si tiene el formato dd/mm/yyyy)
-                if (value.match(/^\d{2}\/\d{2}\/\d{4}/)) {
-                    // Convertir de dd/mm/yyyy HH:mm a formato Excel
-                    const [datePart, timePart] = value.split(' ');
-                    const [day, month, year] = datePart.split('/');
-                    const dateStr = `${year}-${month}-${day}`;
-                    if (timePart) {
-                        value = `${dateStr} ${timePart}`;
-                    } else {
-                        value = dateStr;
-                    }
-                }
-                // Si es un valor monetario, remover el símbolo $ y convertir a número
-                else if (value.startsWith('$')) {
-                    value = parseFloat(value.replace('$', '').replace(/,/g, ''));
-                }
-                
-                rowData.push(value);
-            });
-            data.push(rowData);
-        });
-        
-        // Crear la hoja con los datos procesados
-        const ws = XLSX.utils.aoa_to_sheet(data);
-        
-        // Agregar la hoja al libro
-        XLSX.utils.book_append_sheet(wb, ws, "Pedidos Flex");
-        
-        // Guardar el archivo
-        XLSX.writeFile(wb, `pedidos_flex_${new Date().toISOString().slice(0,10)}.xlsx`);
-    }
-
-        function exportToExcelFacturas() {
-        const table = document.querySelector('#modalFacturasDetalle table');
-        const tableClone = table.cloneNode(true);
-        const rows = tableClone.querySelectorAll('tr');
-        const wb = XLSX.utils.book_new();
-        const data = [];
-        
-        rows.forEach((row) => {
-            const rowData = [];
-            // Obtener todas las celdas excepto la última (ícono)
-            row.querySelectorAll('th:not(:last-child), td:not(:last-child)').forEach((cell) => {
-                let value = cell.textContent.trim();
-                
-                if (value.match(/^\d{2}\/\d{2}\/\d{4}/)) {
-                    const [day, month, year] = value.split('/');
-                    value = `${year}-${month}-${day}`;
-                }
-                else if (value.match(/^[\d,]+$/)) {
-                    value = parseFloat(value.replace(/,/g, ''));
-                }
-                
-                rowData.push(value);
-            });
-            data.push(rowData);
-        });
-        
-        const ws = XLSX.utils.aoa_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb, ws, "Facturas sin Remito");
-        XLSX.writeFile(wb, `facturas_sin_remito_${new Date().toISOString().slice(0,10)}.xlsx`);
-    }
-
-        function exportToExcelNcDevoluciones() {
-        const table = document.querySelector('#modalNcDevolucionesDetalle table');
-        const tableClone = table.cloneNode(true);
-        const rows = tableClone.querySelectorAll('tr');
-        const wb = XLSX.utils.book_new();
-        const data = [];
-        
-        rows.forEach((row) => {
-            const rowData = [];
-            row.querySelectorAll('th, td').forEach((cell) => {
-                let value = cell.textContent.trim();
-                
-                // Si es una fecha (verificar si tiene el formato dd/mm/yyyy)
-                if (value.match(/^\d{2}\/\d{2}\/\d{4}/)) {
-                    const [day, month, year] = value.split('/');
-                    value = `${year}-${month}-${day}`;
-                }
-                // Si es un valor monetario, remover el símbolo $ y convertir a número
-                else if (value.startsWith('$')) {
-                    value = parseFloat(value.replace('$', '').replace(/,/g, ''));
-                }
-                
-                rowData.push(value);
-            });
-            data.push(rowData);
-        });
-        
-        const ws = XLSX.utils.aoa_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb, ws, "NC Pendientes Devoluciones");
-        XLSX.writeFile(wb, `nc_pendientes_devoluciones_${new Date().toISOString().slice(0,10)}.xlsx`);
-    }
-
-        function exportToExcelNcPromociones() {
-        const table = document.querySelector('#modalNcPromocionesDetalle table');
-        const tableClone = table.cloneNode(true);
-        const rows = tableClone.querySelectorAll('tr');
-        const wb = XLSX.utils.book_new();
-        const data = [];
-        
-        rows.forEach((row) => {
-            const rowData = [];
-            row.querySelectorAll('th, td').forEach((cell) => {
-                let value = cell.textContent.trim();
-                
-                // Si es una fecha (verificar si tiene el formato dd/mm/yyyy)
-                if (value.match(/^\d{2}\/\d{2}\/\d{4}/)) {
-                    const [day, month, year] = value.split('/');
-                    value = `${year}-${month}-${day}`;
-                }
-                // Si es un valor monetario, remover el símbolo $ y convertir a número
-                else if (value.startsWith('$')) {
-                    value = parseFloat(value.replace('$', '').replace(/,/g, ''));
-                }
-                // Si es un porcentaje, convertir a número
-                else if (value.includes('%')) {
-                    value = parseFloat(value.replace('%', ''));
-                }
-                
-                rowData.push(value);
-            });
-            data.push(rowData);
-        });
-        
-        const ws = XLSX.utils.aoa_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb, ws, "NC Pendientes Promociones");
-        XLSX.writeFile(wb, `nc_pendientes_promociones_${new Date().toISOString().slice(0,10)}.xlsx`);
-    }
-
-    function exportToExcelOrdenes() {
-        const table = document.querySelector('#modalOrdenesSinIntegrar table');
-        const tableClone = table.cloneNode(true);
-        const rows = tableClone.querySelectorAll('tr');
-        const wb = XLSX.utils.book_new();
-        const data = [];
-        
-        rows.forEach((row) => {
-            const rowData = [];
-            row.querySelectorAll('th, td').forEach((cell) => {
-                let value = cell.textContent.trim();
-                
-                if (value.match(/^\d{2}\/\d{2}\/\d{4}/)) {
-                    const [day, month, year] = value.split('/');
-                    value = `${year}-${month}-${day}`;
-                }
-                else if (value.startsWith('$')) {
-                    value = parseFloat(value.replace('$', '').replace(/,/g, ''));
-                }
-                
-                rowData.push(value);
-            });
-            data.push(rowData);
-        });
-        
-        const ws = XLSX.utils.aoa_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb, ws, "Ordenes sin Integrar");
-        XLSX.writeFile(wb, `ordenes_sin_integrar_${new Date().toISOString().slice(0,10)}.xlsx`);
-    }
-
-        function exportToExcelOrdenesCierre() {
-        const table = document.querySelector('#modalOrdenesPendientesCierre table');
-        const tableClone = table.cloneNode(true);
-        const rows = tableClone.querySelectorAll('tr');
-        const wb = XLSX.utils.book_new();
-        const data = [];
-        
-        rows.forEach((row) => {
-            const rowData = [];
-            row.querySelectorAll('th, td').forEach((cell) => {
-                let value = cell.textContent.trim();
-                
-                // Si es una fecha (verificar si tiene el formato dd/mm/yyyy)
-                if (value.match(/^\d{2}\/\d{2}\/\d{4}/)) {
-                    const [day, month, year] = value.split('/');
-                    value = `${year}-${month}-${day}`;
-                }
-                // Si es un número, convertir a número
-                else if (value.match(/^[\d,.]+$/)) {
-                    value = parseFloat(value.replace(/,/g, ''));
-                }
-                
-                rowData.push(value);
-            });
-            data.push(rowData);
-        });
-        
-        const ws = XLSX.utils.aoa_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb, ws, "Ordenes Pendientes Cierre");
-        XLSX.writeFile(wb, `ordenes_pendientes_cierre_${new Date().toISOString().slice(0,10)}.xlsx`);
-    }
-
-        function exportToExcelPendingDispatch() {
-        const table = document.querySelector('#modalPendingDispatch table');
-        const tableClone = table.cloneNode(true);
-        const rows = tableClone.querySelectorAll('tr');
-        const wb = XLSX.utils.book_new();
-        const data = [];
-        
-        rows.forEach((row) => {
-            const rowData = [];
-            row.querySelectorAll('th, td').forEach((cell) => {
-                let value = cell.textContent.trim();
-                
-                if (value.match(/^\d{2}\/\d{2}\/\d{4}/)) {
-                    const [day, month, year] = value.split('/');
-                    value = `${year}-${month}-${day}`;
-                }
-                else if (value.startsWith('$')) {
-                    value = parseFloat(value.replace('$', '').replace(/,/g, ''));
-                }
-                
-                rowData.push(value);
-            });
-            data.push(rowData);
-        });
-        
-        const ws = XLSX.utils.aoa_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb, ws, "Pedidos Pendientes Despacho");
-        XLSX.writeFile(wb, `pedidos_pendientes_despacho_${new Date().toISOString().slice(0,10)}.xlsx`);
-    }
-
-</script>
+    </script>
 
 <?php
 

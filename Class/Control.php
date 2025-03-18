@@ -279,4 +279,26 @@ class Control {
         return $this->getDatosMultiples($sql);
     }
 
+    // Función para obtener el resumen de productos sin stock en ML Full
+    public function traerResumenProductosMlFull() {
+        $sql = "SELECT COUNT(*) AS CANTIDAD_PRODUCTOS, 
+                    AVG(C.STOCK_DISPONIBLE) AS PROMEDIO_STOCK 
+                FROM [192.168.0.143].emsys_XLEXTRALARGE.DBO.RO_V_ML_PUBLICACIONES_PAUSADAS A
+                INNER JOIN STA11 B ON A.CODIGO = B.COD_ARTICU COLLATE Latin1_General_BIN
+                INNER JOIN (SELECT COD_ARTICU, STOCK_DISPONIBLE FROM STOCK_CENTRAL WHERE COD_DEPOSI = '01' AND STOCK_DISPONIBLE > 0) C 
+                    ON A.CODIGO = C.COD_ARTICU";
+        return $this->getDatos($sql);
+    }
+
+    // Función para obtener el detalle de los productos
+    public function traerDetalleProductosMlFull() {
+        $sql = "SELECT A.CODIGO, B.DESCRIPCIO, C.STOCK_DISPONIBLE STOCK_CENTRAL, 
+                    A.ESTADO_FULL, A.URL_FULL, A.URL_CENTRAL 
+                FROM [192.168.0.143].emsys_XLEXTRALARGE.DBO.RO_V_ML_PUBLICACIONES_PAUSADAS A
+                INNER JOIN STA11 B ON A.CODIGO = B.COD_ARTICU COLLATE Latin1_General_BIN
+                INNER JOIN (SELECT COD_ARTICU, STOCK_DISPONIBLE FROM STOCK_CENTRAL WHERE COD_DEPOSI = '01' AND STOCK_DISPONIBLE > 0) C 
+                    ON A.CODIGO = C.COD_ARTICU";
+        return $this->getDatosMultiples($sql);
+    }
+
 }
