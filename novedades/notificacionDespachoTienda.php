@@ -53,6 +53,21 @@
                 </span>
             </div>
         </div>
+
+        <!-- Alert Section -->
+        <div class="px-4 alert-section">
+            <hr class="divider">
+            <h3 class="alert-title">ATENCIÓN:</h3>
+            <span style="color: #373535; font-size: 14px;">
+                <div id="deliveryInstructions">
+                    <ul>
+                        <li>Tu pedido fue despachado, y esta en camino al local de retiro. Estara disponible para retirar despues de 24hs habiles (72hs para NOA). No acercarse antes.</li>
+                        <!-- <li>Tu pedido fue despachado, y esta en camino al local de retiro. Recibiras un correo cuando esta listo para retirar. No acercarse antes</li> -->
+                        <li>Tené en cuenta que: Deberá presentarse la persona que realizó la compra con DNI y la tarjeta con la que realizó la compra e informarle al asesor el n° de pedido</li>
+                    </ul>
+                </div>
+            </span>
+        </div>
         
         <!-- Product Details -->
         <div class="px-4">
@@ -62,7 +77,7 @@
                 <!-- Estructura mejorada para productos -->
                 <div class="product-item">
                     <div class="product-image">
-                        <img src="http://192.168.0.143:8080/Imagenes/XV5WDC14C1701.jpg" alt="ERAS CARTERA BANDOLERA">
+                        <img src="http://app.xl.com.ar:8080/Imagenes/XV5WDC14C1701.jpg" alt="ERAS CARTERA BANDOLERA">
                     </div>
                     <div class="product-details">
                         <!-- Nombre y Número de Orden (arriba) -->
@@ -94,7 +109,7 @@
                 
                 <div class="product-item">
                     <div class="product-image">
-                        <img src="http://192.168.0.143:8080/Imagenes/XV5WDC07C0901.jpg" alt="CORALINE TOTE GRANDE">
+                        <img src="http://app.xl.com.ar:8080/Imagenes/XV5WDC07C0901.jpg" alt="CORALINE TOTE GRANDE">
                     </div>
                     <div class="product-details">
                         <!-- Nombre y Número de Orden (arriba) -->
@@ -162,24 +177,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- Alert Section -->
-        <div class="px-4 alert-section">
-            <hr class="divider">
-            <h3 class="alert-title">ATENCIÓN:</h3>
-            <span style="color: #373535; font-size: 14px;">
-                El plazo de entrega comienza a regir a partir de ahora.
-                
-                <div id="deliveryInstructions">
-                    <ul>
-                        <li>Próximamente recibirás un mail confirmando que el pedido se encuentra listo para retirar.</li>
-                        <li>Por consultas enviar un e-mail a info@xl.com.ar.</li>
-                        <li>Horarios de atención Lunes a Viernes de 8:30 a 17:30hs.</li>
-                        <li>Tené en cuenta que: Deberá presentarse la persona que realizó la compra con DNI y la tarjeta con la que realizó la compra e informarle al vendedor n° de pedido.</li>
-                    </ul>
-                </div>
-            </span>
         </div>
         
         <!-- Footer -->
