@@ -7,8 +7,10 @@
  * @param {string} sheetName - Nombre de la hoja en Excel
  * @param {string} fileName - Nombre del archivo a generar
  * @param {boolean} skipLastColumn - Si debe omitir la última columna (ej. para íconos)
+ * @param {Object} options - Opciones adicionales
+ * @param {Array} options.textColumns - Índices de columnas que deben mantenerse como texto (0-based)
  */
-function exportTableToExcel(tableSelector, sheetName, fileName, skipLastColumn = false) {
+function exportTableToExcel(tableSelector, sheetName, fileName, skipLastColumn = false, options = {}) {
     const table = document.querySelector(tableSelector);
     if (!table) return;
     
@@ -17,12 +19,21 @@ function exportTableToExcel(tableSelector, sheetName, fileName, skipLastColumn =
     const wb = XLSX.utils.book_new();
     const data = [];
     
-    rows.forEach((row) => {
+    // Determinar qué columnas deben ser tratadas como texto
+    const textColumns = options.textColumns || [];
+    
+    rows.forEach((row, rowIndex) => {
         const rowData = [];
         // Seleccionar las celdas, omitiendo la última columna si es necesario
         let selector = skipLastColumn ? 'th:not(:last-child), td:not(:last-child)' : 'th, td';
-        row.querySelectorAll(selector).forEach((cell) => {
+        row.querySelectorAll(selector).forEach((cell, colIndex) => {
             let value = cell.textContent.trim();
+            
+            // Si esta columna debe mantenerse como texto, simplemente almacenar el valor
+            if (textColumns.includes(colIndex)) {
+                rowData.push(value);
+                return;
+            }
             
             // Convertir fechas (dd/mm/yyyy)
             if (value.match(/^\d{2}\/\d{2}\/\d{4}/)) {
@@ -50,6 +61,24 @@ function exportTableToExcel(tableSelector, sheetName, fileName, skipLastColumn =
     });
     
     const ws = XLSX.utils.aoa_to_sheet(data);
+    
+    // Configurar formato de columnas de texto
+    if (textColumns.length > 0) {
+        if (!ws['!cols']) ws['!cols'] = [];
+        textColumns.forEach(colIndex => {
+            // Convertir el índice de columna al formato de letras de Excel (A, B, C, ...)
+            const colLetter = String.fromCharCode(65 + colIndex);
+            
+            // Establecer el formato de celda como texto para toda la columna
+            for (let i = 0; i < data.length; i++) {
+                const cellRef = `${colLetter}${i+1}`;
+                if (!ws[cellRef]) continue;
+                
+                if (!ws[cellRef].t) ws[cellRef].t = 's'; // Establecer el tipo de celda como texto (string)
+            }
+        });
+    }
+    
     XLSX.utils.book_append_sheet(wb, ws, sheetName);
     
     // Generar nombre de archivo con fecha actual
@@ -59,7 +88,10 @@ function exportTableToExcel(tableSelector, sheetName, fileName, skipLastColumn =
 
 // Funciones específicas para cada tipo de exportación
 function exportToExcel() {
-    exportTableToExcel('#modalFlexDetalle table', "Pedidos Flex", "pedidos_flex");
+    // En la tabla de Pedidos Flex, la columna "Order ID" es la columna 3 (índice 3, 0-based)
+    exportTableToExcel('#modalFlexDetalle table', "Pedidos Flex", "pedidos_flex", false, {
+        textColumns: [3] // El índice 3 corresponde a la columna "Order ID"
+    });
 }
 
 function exportToExcelFacturas() {
@@ -75,15 +107,24 @@ function exportToExcelNcPromociones() {
 }
 
 function exportToExcelOrdenes() {
-    exportTableToExcel('#modalOrdenesSinIntegrar table', "Ordenes sin Integrar", "ordenes_sin_integrar");
+    // En caso de que la tabla tenga una columna de ID similar
+    exportTableToExcel('#modalOrdenesSinIntegrar table', "Ordenes sin Integrar", "ordenes_sin_integrar", false, {
+        textColumns: [3] // Ajusta este índice según la posición de la columna Order ID
+    });
 }
 
 function exportToExcelOrdenesCierre() {
-    exportTableToExcel('#modalOrdenesPendientesCierre table', "Ordenes Pendientes Cierre", "ordenes_pendientes_cierre", true);
+    // En caso de que la tabla tenga una columna de ID similar
+    exportTableToExcel('#modalOrdenesPendientesCierre table', "Ordenes Pendientes Cierre", "ordenes_pendientes_cierre", true, {
+        textColumns: [3] // Ajusta este índice según la posición de la columna Order ID
+    });
 }
 
 function exportToExcelPendingDispatch() {
-    exportTableToExcel('#modalPendingDispatch table', "Pedidos Pendientes Despacho", "pedidos_pendientes_despacho");
+    // En la tabla de Pedidos Pendientes Despacho, suponiendo que la columna "Order ID" también es la columna 3
+    exportTableToExcel('#modalPendingDispatch table', "Pedidos Pendientes Despacho", "pedidos_pendientes_despacho", false, {
+        textColumns: [3] // Ajusta este índice según la posición de la columna Order ID
+    });
 }
 
 function exportToExcelMlFull() {
@@ -101,23 +142,58 @@ function exportToExcelMlFull() {
     const wb = XLSX.utils.book_new();
     const data = [];
     
+    // Identificar columnas que podrían contener IDs largos o alfanuméricos
+    const textColumnIndices = [];
+    const headerRow = tableClone.querySelector('thead tr');
+    if (headerRow) {
+        headerRow.querySelectorAll('th:not(:nth-child(5)):not(:nth-child(6))').forEach((cell, index) => {
+            if (cell.textContent.includes('ID')) {
+                textColumnIndices.push(index);
+            }
+        });
+    }
+    
     rows.forEach((row) => {
         const rowData = [];
+        let colIndex = 0;
+        
         // Omitir las columnas de enlaces al exportar
         row.querySelectorAll('th:not(:nth-child(5)):not(:nth-child(6)), td:not(:nth-child(5)):not(:nth-child(6))').forEach((cell) => {
             let value = cell.textContent.trim();
             
+            // Mantener como texto si es una columna de ID
+            if (textColumnIndices.includes(colIndex)) {
+                rowData.push(value);
+            }
             // Convertir valores numéricos con comas
-            if (value.match(/^[\d,]+$/)) {
+            else if (value.match(/^[\d,]+$/)) {
                 value = parseFloat(value.replace(/,/g, ''));
+                rowData.push(value);
+            }
+            else {
+                rowData.push(value);
             }
             
-            rowData.push(value);
+            colIndex++;
         });
         data.push(rowData);
     });
     
     const ws = XLSX.utils.aoa_to_sheet(data);
+    
+    // Configurar formato de columnas de texto
+    if (textColumnIndices.length > 0) {
+        if (!ws['!cols']) ws['!cols'] = [];
+        textColumnIndices.forEach(colIndex => {
+            // Establecer el formato de celda como texto para toda la columna
+            for (let i = 0; i < data.length; i++) {
+                const cellRef = `${String.fromCharCode(65 + colIndex)}${i+1}`;
+                if (!ws[cellRef]) continue;
+                if (!ws[cellRef].t) ws[cellRef].t = 's'; // Establecer el tipo como texto
+            }
+        });
+    }
+    
     XLSX.utils.book_append_sheet(wb, ws, "Productos ML Full");
     
     // Generar nombre de archivo con fecha actual
