@@ -143,12 +143,12 @@ max-width: 70%;
 }
 
 .card-facturas .card-header {
-background-color: #fff8e1;
-border: 1px solid rgba(255, 193, 7, 0.1);
+    background-color: #E8EAF6;
+    border: 1px solid rgba(63, 81, 181, 0.1);
 }
 
 .card-facturas .card-icon {
-    color: #ffc107;
+    color: #3F51B5;
 }
 
 /* Estilos para Ordenes Pendientes de Cierre (tonos morados) */
@@ -191,4 +191,43 @@ border: 1px solid rgba(255, 193, 7, 0.1);
     color: #fff;
     background-color: #00bcd4;
     border-color: #00bcd4;
+}
+
+.fa-exclamation-circle {
+    font-size: 1.2rem;
+}
+
+.fa-exclamation-circle:hover {
+    opacity: 0.8;
+    cursor: help;
+}
+
+.fa-exclamation-circle:hover {
+    opacity: 0.8;
+    cursor: help;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+}
+
+/* Estilos para productos ML Full - Verde Azulado */
+.card-ml .card-header {
+    background-color: #E0F2F1; /* Fondo verde azulado suave */
+    border: 1px solid rgba(0, 150, 136, 0.1);
+}
+.card-ml .card-icon {
+    color: #009688; /* Color verde azulado (teal) */
+    font-size: 1.8rem;
+}
+
+/* Botón a juego con la card */
+.btn-outline-teal {
+    color: #009688;
+    border-color: #009688;
+}
+.btn-outline-teal:hover {
+    color: #fff;
+    background-color: #009688;
+    border-color: #009688;
 }
