@@ -419,7 +419,7 @@ $articulos = $pedidos->buscarStockArticulo($sucursal);
                                             </div>
                                             
                                             <!-- Sección de Resolución (inicialmente oculta) -->
-                                            <div id="seccionResolucion" class="mt-3" style="">
+                                            <div id="seccionResolucion" class="mt-3" style="display:none">
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <label class="form-label">Resolución</label>

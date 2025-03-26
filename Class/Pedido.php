@@ -129,6 +129,9 @@
             while($v=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)){
                 $data[] = array($v);
             };
+            if(count($data) == 0){
+                return false;
+            }
             return $data[0];
 
         }

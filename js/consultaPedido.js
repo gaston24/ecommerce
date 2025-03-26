@@ -156,19 +156,16 @@ document.addEventListener('DOMContentLoaded', function() {
                
                 if (response) {
                     estadoActual = response;
-                    actualizarBadgeEstado();
-                    
-                } else {
-                    console.error('Error al consultar el estado:', response.error);
-                }
+                } 
+                actualizarBadgeEstado();
 
                 document.getElementById('seccionesHistorial').innerHTML = '';
-                document.getElementById('seccionResolucion').style.display = '';
+                // document.getElementById('seccionResolucion').style.display = '';
                 document.getElementById('agregarSeccion').style.display = 'block';
                 document.getElementById('btnResolucion').style.display = 'block';
 
                 if(estadoActual == 'resuelto') {
-
+                    document.getElementById('seccionResolucion').style.display = ''
                     const sucursalSeleccionada = document.getElementById('sucursalSeleccionada')?.textContent;
                     const articuloCambioCod = document.getElementById('articuloCambioCod')?.textContent;
 
