@@ -106,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!badge) return;
 
         badge.classList.remove('bg-danger', 'bg-warning', 'bg-success');
+
         switch (estadoActual) {
             case 'abierto':
                 badge.classList.add('bg-danger');
@@ -141,14 +142,68 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('modalCantidad').textContent = cantidad;
 
         estadoActual = 'abierto';
-        actualizarBadgeEstado();
-        document.getElementById('seccionesHistorial').innerHTML = '';
-        document.getElementById('agregarSeccion').style.display = 'block';
-        document.getElementById('seccionResolucion').style.display = 'none';
-        document.getElementById('btnResolucion').style.display = 'block';
+        const nroOrden = document.getElementById('nroOrden').textContent;
 
-        const modal = new bootstrap.Modal(document.getElementById('historialModal'));
-        modal.show();
+        $.ajax({
+            url: 'Controller/consultarEstado.php',
+            method: 'POST',
+            data: {
+                nroOrder: nroOrden
+            },
+            success: function(response) {
+            
+                response = JSON.parse(response);
+               
+                if (response) {
+                    estadoActual = response;
+                } 
+                actualizarBadgeEstado();
+
+                document.getElementById('seccionesHistorial').innerHTML = '';
+                // document.getElementById('seccionResolucion').style.display = '';
+                document.getElementById('agregarSeccion').style.display = 'block';
+                document.getElementById('btnResolucion').style.display = 'block';
+
+                if(estadoActual == 'resuelto') {
+                    document.getElementById('seccionResolucion').style.display = ''
+                    const sucursalSeleccionada = document.getElementById('sucursalSeleccionada')?.textContent;
+                    const articuloCambioCod = document.getElementById('articuloCambioCod')?.textContent;
+
+                    const seccionSucursal = document.getElementById('seccionSucursal');
+                    seccionSucursal.style.display = 'block';
+                    selectSucursal.disabled = true;
+                    selectSucursal.innerHTML = `<option value="${sucursalSeleccionada}">${sucursalSeleccionada}</option>`;
+
+                    const seccionArticulo = document.getElementById('seccionArticulo');
+                    seccionArticulo.style.display = 'block';
+                    seccionArticulo.disabled = true;
+
+                    if ($('#selectArticulo').hasClass('select2-hidden-accessible')) {
+                        $('#selectArticulo').select2('destroy');
+                    }  
+                  
+                    const selectArticulo = document.getElementById('selectArticulo');
+                    selectArticulo.innerHTML = `<option value="${articuloCambioCod}">${articuloCambioCod}</option>`;
+                    selectArticulo.disabled = true;
+                    
+
+                    document.getElementById('tipoResolucion').disabled = true;
+                    document.getElementById('agregarSeccion').style.display = 'none';
+                    document.getElementById('btnResolucion').style.display = 'none';
+        
+        
+                }
+        
+                const modal = new bootstrap.Modal(document.getElementById('historialModal'));
+                modal.show();
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error en la solicitud AJAX:', textStatus, errorThrown);
+            }
+        });
+     
+      
     }
 
     // Guardar sección
@@ -235,6 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const seccionSucursal = document.getElementById('seccionSucursal');
         const seccionArticulo = document.getElementById('seccionArticulo');
         const selectSucursal = document.getElementById('selectSucursal');
+   
 
         tipoResolucion?.addEventListener('change', async function () {
             const resolucion = this.value;
@@ -245,6 +301,7 @@ document.addEventListener('DOMContentLoaded', function() {
         seccionArticulo.style.display = 'none';
         selectSucursal.innerHTML = '<option value="">Seleccione sucursal...</option>';
 
+
         try {
             showSpinner();
 
@@ -254,7 +311,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Poblar selectSucursal
             sucursales.forEach(suc => {
-                if (suc[0]?.WAREHOUSE) {
+                if (suc[0]?.WAREHOUSE) {  
                     selectSucursal.innerHTML += `
                         <option value="${suc[0].WAREHOUSE}">${suc[0].WAREHOUSE}</option>`;
                 }
