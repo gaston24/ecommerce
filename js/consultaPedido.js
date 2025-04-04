@@ -319,11 +319,33 @@ selectSucursal?.addEventListener('change', async function () {
                     option => option.dataset.codigo === articuloReclamado.codigo
                 );
                 
+                
                 if (articuloEncontrado) {
                     articuloEncontrado.selected = true;
                     $('#selectArticulo').trigger('change');
                 } else {
-                    console.log('El artículo reclamado no está disponible en esta sucursal');
+                    // setear articulo reclamado igualmente
+                    const option = document.createElement('option');
+                    option.value = articuloReclamado.codigo;
+                    option.textContent = `${articuloReclamado.codigo} - ${articuloReclamado.descripcion}`;
+                    option.dataset.codigo = articuloReclamado.codigo;
+                    option.dataset.descripcion = articuloReclamado.descripcion;
+                    option.dataset.stock = articuloReclamado.stock || '1';
+                    selectArticulo.appendChild(option);
+                    selectArticulo.value = articuloReclamado.codigo;
+                    $('#selectArticulo').trigger('change');
+
+                    // Mostrar el artículo reclamado en el modal
+                    document.getElementById('modalArticulo').textContent = articuloReclamado.descripcion;
+                    document.getElementById('modalCodigo').textContent = `Código: ${articuloReclamado.codigo}`;
+                    document.getElementById('modalPrecio').textContent = `$ ${parseFloat(articuloReclamado.precio).toLocaleString('es-AR', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })}`;
+
+                    document.getElementById('modalCantidad').textContent = articuloReclamado.cantidad;
+        
+
                 }
             }
 
