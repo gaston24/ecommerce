@@ -53,10 +53,22 @@ document.addEventListener('DOMContentLoaded', function() {
         const sucursal = document.getElementById('selectSucursal')?.value;
         const articulo = document.getElementById('selectArticulo')?.value;
 
-    
+        // Debug: mostrar valores actuales
+        console.log('Resolución:', resolucion);
+        console.log('Sucursal:', sucursal);
+        console.log('Artículo:', articulo);
+
         if (['cambio', 'completado'].includes(resolucion)) {
-            if (!resolucion || !sucursal || !articulo) {
-                alert('Debe completar los campos de Resolución, Sucursal y Artículo.');
+            if (!resolucion) {
+                alert('Debe seleccionar una Resolución.');
+                return false;
+            }
+            if (!sucursal) {
+                alert('Debe seleccionar una Sucursal.');
+                return false;
+            }
+            if (!articulo) {
+                alert('Debe seleccionar un Artículo.');
                 return false;
             }
         } else if (resolucion === 'cancelado') {
@@ -69,12 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return false;
         }
 
-    
-        // alert('Reclamo finalizado correctamente.');
-        // btnFinalizar.style.display = 'none';
         document.getElementById('agregarSeccion').style.display = 'none';
-
-        
         document.getElementById('tipoResolucion').disabled = true;
         document.getElementById('selectSucursal').disabled = true;
         document.getElementById('selectArticulo').disabled = true;
@@ -469,66 +476,58 @@ function guardarReclamo(estado = 'abierto') {
     const modalCodigo = $('#modalCodigo').text().trim().replace('Código:', '').trim();
 
     let res = checkFinalizar();
-
     if (!res) {
         return;
     }
 
     
-    if (!resolucion || !sucursal || !articulo) {
-        alert('Debe completar Resolución, Sucursal y Artículo.');
-        return;
-    }
-
-    
-  
-        $.ajax({
-                url: 'guardarReclamo.php', 
-                method: 'POST',
-                data: {
-                    resolucion: resolucion,
-                    sucursal: sucursal,
-                    articulo: articulo,
-                    descripcion: textAfterDash,
-                    dataSecciones: dataSecciones,
-                    estado: estado,
-                    nroPedido: nroPedido,
-                    fechaHora: fechaHora,
-                    nroOrden: nroOrden,
-                    cliente: cliente,
-                    prepara: prepara,
-                    modalCantidad: modalCantidad,
-                    estado: estado,
-                    modalCodigo: modalCodigo
-                },
-                success: function(response) {
-                    response = JSON.parse(response);
-                
-                    if (response.success) {
-                        
-                        Swal.fire({
-                            icon: "success",
-                            title: "Reclamo guardado exitosamente.",
-                            showConfirmButton: true,
-                          }).then(function () {
-                            // console.log('ok')
-                          });
-                          
-                        if (estado === 'resuelto') {
-                            $('#finalizarReclamo').hide();
-                        }
-                        // redirigir
-                        window.location.href = 'consultaPedido.php';
-                    } else {
-                        alert('Error: ' + (response.error || 'No se pudo guardar el reclamo.'));
-                        console.error(response.sqlsrv_error); 
+    $.ajax({
+            url: 'guardarReclamo.php', 
+            method: 'POST',
+            data: {
+                resolucion: resolucion,
+                sucursal: sucursal,
+                articulo: articulo,
+                descripcion: textAfterDash,
+                dataSecciones: dataSecciones,
+                estado: estado,
+                nroPedido: nroPedido,
+                fechaHora: fechaHora,
+                nroOrden: nroOrden,
+                cliente: cliente,
+                prepara: prepara,
+                modalCantidad: modalCantidad,
+                estado: estado,
+                modalCodigo: modalCodigo
+            },
+            success: function(response) {
+                response = JSON.parse(response);
+            
+                if (response.success) {
+                    
+                    Swal.fire({
+                        icon: "success",
+                        title: "Reclamo guardado exitosamente.",
+                        showConfirmButton: true,
+                      }).then(function () {
+                        // console.log('ok')
+                      });
+                      
+                    if (estado === 'resuelto') {
+                        $('#finalizarReclamo').hide();
                     }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert('Error en la solicitud AJAX.');
-                    console.error('AJAX Error:', textStatus, errorThrown);
+                    // redirigir
+                    window.location.href = 'consultaPedido.php';
+                } else {
+                    alert('Error: ' + (response.error || 'No se pudo guardar el reclamo.'));
+                    console.error(response.sqlsrv_error); 
                 }
-        });
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Error en la solicitud AJAX.');
+                console.error('AJAX Error:', textStatus, errorThrown);
+            }
+    });
 }
 
 
